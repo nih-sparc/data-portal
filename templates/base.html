@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>My Webpage</title>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'css/_base.css') }}">
+
+</head>
+<body>
+    <div class="portal_nav">
+        <div><a href="/">Dashboard</a></div>
+        <div><a href="/browse">Browse</a></div>
+        <div><a href="/map">SPARC Maps</a></div>
+        <div><a href="/sim">SPARC Sim</a></div>
+    </div>
+    {% block app %}{% endblock %}
+</body>
+</html>
