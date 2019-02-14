@@ -12,17 +12,14 @@ from logger import logger
 #### config ####
 ################
  
-dat_core_blueprint = Blueprint('dat_core', __name__, template_folder='templates')
+dat_core_blueprint = Blueprint('dat_core', __name__, template_folder='templates', url_prefix='/browse')
 
 ################
 #### routes ####
 ################
- 
-@dat_core_blueprint.route('/')
-def index():
-    return render_template('index.html')
 
-@dat_core_blueprint.route('/browse')
+@dat_core_blueprint.route('/')
 def browse():
     return render_template('browse/browse_dat.html')
+
 

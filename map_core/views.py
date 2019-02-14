@@ -12,12 +12,12 @@ from logger import logger
 #### config ####
 ################
  
-map_core_blueprint = Blueprint('map_core', __name__, template_folder='templates')
+map_core_blueprint = Blueprint('map_core', __name__, template_folder='templates', url_prefix='/map')
 
 ################
 #### routes ####
 ################
  
-@map_core_blueprint.route('/map')
+@map_core_blueprint.route('/')
 def index():
     return render_template('map_core.html')

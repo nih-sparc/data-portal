@@ -12,7 +12,7 @@ from logger import logger
 #### config ####
 ################
  
-dashboard_blueprint = Blueprint('dashboard', __name__, template_folder='templates')
+dashboard_blueprint = Blueprint('dashboard', __name__, template_folder='templates', url_prefix='')
  
 ################
 #### routes ####
