@@ -6,41 +6,29 @@
     {% endblock %}
     <meta charset="UTF-8">
     <!-- import CSS -->
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'css/_base.css') }}">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
+
 <body>
-    <div id="app">
-        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" >
-            <el-menu-item index=""><a href="/">Dashboard</a></el-menu-item>
-            <el-menu-item index="browse"><a href="/browse">Browse</a></el-menu-item>
-            <el-menu-item index="map" ><a href="/map">SPARC Map</a></el-menu-item>
-            <el-menu-item index="sim"><a href="/sim">SPARC Sim</a></el-menu-item>
-        </el-menu>
+    <div id="portal_nav">
+        <div id="logo">
+            NIH SPARC
+        </div>
+        <div id="portal_modules">
+            <div class="module_option"><a href="/">Dashboard</a></div>
+            <div class="module_option"><a href="/browse">Browse</a></div>
+            <div class="module_option"><a href="/map">SPARC Map</a></div>
+            <div class="module_option"><a href="/sim">SPARC Sim</a></div>
+        </div>
+        <div id="help_button">
+                <a href="https://docs.sparc.science"><i class="fa fa-question-circle-o" style="font-size:36px; color:white"></i></a>
+        </div>
     </div>
     {% block app %}{% endblock %}
 </body>
 
-<!-- import Vue before Element -->
-<script src="{{ url_for('static', filename = 'node_modules/vue/dist/vue.js') }}"></script>
-
-<!-- import JavaScript -->
-<script type = "text/javascript" 
-src = "{{ url_for('static', filename = 'node_modules/element-ui/lib/index.js') }}" ></script>
-
-<script>
-
-  url = window.location.pathname.split('/')[1]
-  new Vue({
-    el: '#app',
-    data: function() {
-      return { visible: false, activeIndex: url }
-    }
-  })
-</script>
-
-
-
+{% block javascript %}
+{% endblock %}
 </html>
