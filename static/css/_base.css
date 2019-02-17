@@ -3,10 +3,42 @@ body {
     margin: 0;
 }
 
-.portal_nav {
-    height: 30px;
+#logo {
+    align-self: center;
+    margin: 0 50px 0 15px;
+    font-weight: 700;
+}
+
+#portal_modules {
+    display: flex;
+    flex:1;
+    flex-direction: row;
+    justify-content: left;
+}
+
+#help_button {
+    display: flex;
+    align-items: center;
+    justify-items: flex-end;
+    flex: 0;
+    margin: 0 15px;
+}
+
+.module_option {
+    color: white;
+    align-self: center;
+    margin: 10px;
+}
+
+#portal_modules a {
+    color: white;
+}
+
+#portal_nav {
+    height: 50px;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
-    background-color: aquamarine;
+    justify-content: left;
+    background-color: rgb(59,9,199);
+    color: white
 }
