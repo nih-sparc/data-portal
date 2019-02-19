@@ -7,6 +7,7 @@ from flask_marshmallow import Marshmallow
 from flask_cors import CORS
 from config import Config
 from blackfynn import Blackfynn
+import os
  
 ################
 #### config ####
@@ -54,3 +55,7 @@ app.register_blueprint(map_core_blueprint)
 app.register_blueprint(dat_core_blueprint)
 app.register_blueprint(sim_core_blueprint)
 app.register_blueprint(dashboard_blueprint)
+
+# don't cache static assets in jinja templates
+if (os.environ.get('FLASK_ENV') == 'development'):
+    app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
