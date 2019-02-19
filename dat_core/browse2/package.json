@@ -9,7 +9,9 @@
     "build2": "webpack --config webpack.config.js"
   },
   "dependencies": {
+    "extract-text-webpack-plugin": "^3.0.2",
     "html-webpack-plugin": "^3.2.0",
+    "vega-embed": "^3.29.0",
     "vue": "^2.5.22"
   },
   "devDependencies": {

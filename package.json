@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "npm --prefix ./static install"
+    "heroku-postbuild": "npm --prefix ./static install && cd dat_core/browse2 && npm run build2"
   },
   "repository": {
     "type": "git",
@@ -16,5 +16,7 @@
   "bugs": {
     "url": "https://github.com/nih-sparc/data-portal/issues"
   },
-  "homepage": "https://github.com/nih-sparc/data-portal#readme"
+  "homepage": "https://github.com/nih-sparc/data-portal#readme",
+  "dependencies": {
+  }
 }
