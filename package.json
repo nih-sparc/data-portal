@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "npm --prefix ./static install && npm --prefix ./dat_core/vue_app install && npm --prefix ./dat_core/vue_app --only=dev install && npm --prefix ./dat_core/vue_app run build"
+    "heroku-postbuild": "npm --prefix ./static install && npm --prefix ./dat_core/vue_app install && npm --prefix ./dat_core/vue_app --only=dev install && npm --prefix ./dat_core/vue_app run build-prod"
   },
   "repository": {
     "type": "git",
