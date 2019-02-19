@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "11.6.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-postbuild": "npm --prefix ./static install && cd dat_core/vue_app && npm run build"
