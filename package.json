@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "npm --prefix ./static install && cd dat_core/browse2 && npm run build2"
+    "heroku-postbuild": "npm --prefix ./static install && cd dat_core/vue_app && npm run build2"
   },
   "repository": {
     "type": "git",

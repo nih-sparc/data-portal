@@ -23,7 +23,6 @@ class CustomFlask(Flask):
 
 app = CustomFlask(__name__, static_folder="./static", template_folder="./templates")  # This replaces your existing "app = Flask(__name__)"
 
-# app = Flask(__name__, static_folder="./static", template_folder="./templates")
 ma = Marshmallow(app)
 bf = None
 

@@ -1,5 +1,4 @@
 .DS_Store
-static/node_modules
 dat_core/static/dist
 .vscode/
 node_modules

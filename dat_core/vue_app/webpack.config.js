@@ -26,7 +26,7 @@ module.exports = {
               // enable CSS Modules
               modules: true,
               // customize generated class names
-              localIdentName: '[local]_[hash:base64:8]'
+              localIdentName: '[local]'
             }
           },
           'sass-loader'
@@ -39,9 +39,10 @@ module.exports = {
   plugins: [
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
-        'template': 'public/index.html',
-        'filename': 'browse.html', 
-        'inject': false}),
+      'template': 'public/index.html',
+      'filename': 'browse.html',
+      'chunks': ['browse'],
+      'inject': false}),
     new filewatcherPlugin({
       watchFileRegex: [
         './src/**/*.vue',
