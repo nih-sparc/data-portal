@@ -7,7 +7,7 @@
     "node": "11.6.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev-build": "npm --prefix ./static install && npm --prefix ./dat_core/vue_app install && npm --prefix ./dat_core/vue_app run build",
     "heroku-postbuild": "npm --prefix ./static install && npm --prefix ./dat_core/vue_app install && npm --prefix ./dat_core/vue_app --only=dev install && npm --prefix ./dat_core/vue_app run build-prod"
   },
   "repository": {
