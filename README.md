@@ -6,12 +6,15 @@ The Sparc Data Portal is an open source web application that provides insight in
 
 ----
 
-## Install Dependencies
+## Install Flask Dependencies
 `pip install -r requirements.txt`
 
 ## Run in Development Mode
+In separate terminal windows, run:
+
 ```
-npm run build-dev
+npm run dev-build-dashboard
+npm run dev-build-browse
 make serve
 ```
 
