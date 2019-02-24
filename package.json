@@ -9,7 +9,7 @@
   "scripts": {
     "dev-build-dashboard": "npm --prefix ./dashboard/vue_app install && npm --prefix ./dashboard/vue_app run build",
     "dev-build-browse": "npm --prefix ./dat_core/vue_app install && npm --prefix ./dat_core/vue_app run build",
-    "heroku-postbuild": "npm --prefix ./static install && npm --prefix ./dat_core/vue_app install && npm --prefix ./dat_core/vue_app --only=dev install && npm --prefix ./dat_core/vue_app run build-prod && npm --prefix ./dashboard/vue_app install && npm --prefix ./dashboard/vue_app --only=dev install && npm --prefix ./dashboard/vue_app run build-prod"
+    "heroku-postbuild": "npm --prefix ./dat_core/vue_app install && npm --prefix ./dat_core/vue_app --only=dev install && npm --prefix ./dat_core/vue_app run build-prod && npm --prefix ./dashboard/vue_app install && npm --prefix ./dashboard/vue_app --only=dev install && npm --prefix ./dashboard/vue_app run build-prod"
   },
   "repository": {
     "type": "git",
