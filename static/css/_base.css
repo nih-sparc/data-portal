@@ -1,5 +1,7 @@
 body {
-    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    background-color: #FBFBFD;
+    /* font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif; */
+   font-family: Asap,serif;
     margin: 0;
 }
 
@@ -25,13 +27,14 @@ body {
 }
 
 .module_option {
-    color: white;
+    color: #5D6478;
     align-self: center;
     margin: 10px;
 }
 
 #portal_modules a {
-    color: white;
+    color: #5D6478;
+    text-decoration: none;
 }
 
 #portal_nav {
@@ -39,6 +42,6 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: left;
-    background-color: rgb(59,9,199);
-    color: white
+    background-color: #e8edfb;
+    color: #1a1489;
 }

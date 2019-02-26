@@ -1,5 +1,6 @@
 <template>
   <div id="dashboard">
+    <sprc-stats />
     <sparc-welcome />
 
   </div>
@@ -8,12 +9,14 @@
 <script>
 import BfVega from './components/bf-vega/BfVega.vue'
 import SparcWelcome from './components/sparc-welcome/SparcWelcome.vue'
+import SprcStats from './components/SprcStats/SprcStats.vue'
 
 export default {
   name: 'dashboard',
   components: {
     BfVega,
-    SparcWelcome
+    SparcWelcome,
+    SprcStats
   }
 }
 </script>
