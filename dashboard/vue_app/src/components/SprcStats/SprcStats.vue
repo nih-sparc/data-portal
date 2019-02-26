@@ -6,7 +6,7 @@
         <div
           class="pt-histograms__box-value large-text"
           v-loading="isLoading">
-          <span v-if="!isLoading">14</span>
+          <span v-if="!isLoading">-</span>
         </div>
       </div>
     </div>
@@ -16,7 +16,7 @@
         <div
           class="pt-histograms__box-value large-text"
           v-loading="isLoading">
-          <span v-if="!isLoading">14</span>
+          <span v-if="!isLoading">-</span>
         </div>
       </div>
     </div>
@@ -26,7 +26,7 @@
         <div
           class="pt-histograms__box-value large-text"
           v-loading="isLoading">
-          <span v-if="!isLoading">14</span>
+          <span v-if="!isLoading">-</span>
         </div>
       </div>
     </div>
@@ -144,15 +144,15 @@ export default {
      * Returns number of subjects
      * @returns {Number}
      */
-    subject_count: function () {
-      return this.subjects.length
+    contributor_count: function () {
+      return 15
     },
     /**
      * Returns is loading status
      * @returns {Boolean}
      */
     isLoading: function() {
-      return this.status !== 'done'
+      return false /** this.status !== 'done'*/
     }
   },
 

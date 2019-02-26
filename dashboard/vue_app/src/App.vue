@@ -1,6 +1,7 @@
 <template>
   <div id="dashboard">
     <sprc-stats />
+    <sparc-welcome />
 
   </div>
 </template>
