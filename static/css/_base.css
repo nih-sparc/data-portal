@@ -44,4 +44,5 @@ body {
     justify-content: left;
     background-color: #e8edfb;
     color: #1a1489;
+    border-bottom: 1px solid lightgray
 }

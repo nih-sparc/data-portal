@@ -34,14 +34,43 @@ def connect_to_blackfynn():
        concepts_api_host=Config.BLACKFYNN_CONCEPTS_API_HOST
     )
 
-################
-#### routes ####
-################
- 
-# This is a demo endpoint -- 
-@api_blueprint.route('/dat/datasetname')
-def dsname():
-    ds = bf.get_dataset('N:dataset:941cba6b-a713-4712-bb6f-0c72302ce6ad')
-    return json.dumps(ds.name)
+#########################
+#### Classes ############
+#########################
 
-    
+# class PublishedDataset(Model):
+#     name = Column(String)
+#     password = Column(String)
+#     date_created = Column(DateTime, auto_now_add=True)
+
+# class PublishedDatasetSchema(ma.Schema):
+#     class Meta:
+#         # Fields to expose
+#         fields = ('name', 'date_created', '_links')
+#     # Smart hyperlinking
+#     _links = ma.Hyperlinks({
+#         'self': ma.URLFor('user_detail', id='<id>'),
+#         'collection': ma.URLFor('users')
+#     })
+
+# user_schema = UserSchema()
+# users_schema = UserSchema(many=True)
+
+#########################
+#### DAT-CORE routes ####
+#########################
+
+# Returns a list of public datasets from 
+@api_blueprint.route('/datasets')
+def discover():
+    resp = bf._api._get('/consortiums/1/datasets')
+    return json.dumps(resp)
+
+#########################
+#### MAP-CORE routes ####
+#########################
+
+
+#########################
+#### SIM-CORE routes ####
+#########################
