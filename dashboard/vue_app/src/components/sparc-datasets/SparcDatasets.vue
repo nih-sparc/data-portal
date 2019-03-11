@@ -51,7 +51,7 @@ export default {
             currentDate: new Date(),
             datasets: [],
             currentPage: 1,
-            pageSize:5,
+            pageSize:4,
             datasetFilter: null,
             uniqueContributors: [],
             uniqueTags: []
