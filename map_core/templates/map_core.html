@@ -1,3 +1,7 @@
 {% extends "base.html" %}
 {% block header %}<title>Browse SPARC Maps</title>{% endblock %}
-{% block app %}MAP-CORE visualizations will be available soon!{% endblock %}
+{% block app %}<div id="MAPcorePortalArea" style="height:90%;width:100%;position: absolute;"></div>{% endblock %}
+{% block javascript %}
+  <!-- Place additional Javascript here -->
+  <script type="text/javascript" src="./scaffoldmaker_webapp.js"></script>
+{% endblock %}

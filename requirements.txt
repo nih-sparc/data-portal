@@ -32,3 +32,4 @@ six==1.12.0
 urllib3==1.24.1
 Werkzeug==0.14.1
 wrapt==1.11.1
+-e git://github.com/alan-wu/scaffoldmaker-webapp.git#egg=scaffoldmaker_webapp
