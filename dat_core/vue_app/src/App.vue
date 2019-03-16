@@ -8,6 +8,7 @@
 <script>
 import BfVega from './components/bf-vega/BfVega.vue'
 import SparcWelcome from './components/sparc-welcome/SparcWelcome.vue'
+import SparcBrowse from './components/sparc-browse/SparcBrowse.vue'
 
 export default {
   name: 'browse',
