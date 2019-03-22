@@ -5,7 +5,7 @@
 #################
  
 from app import app
-from flask import render_template, Blueprint
+from flask import render_template, Blueprint, request
 from logger import logger
 from blackfynn import Blackfynn
 from config import Config
@@ -26,6 +26,7 @@ ma = Marshmallow(app)
 @app.before_first_request
 def connect_to_blackfynn():
     global bf
+
     bf = Blackfynn(
        api_token=Config.BLACKFYNN_API_TOKEN,
        api_secret=Config.BLACKFYNN_API_SECRET,
@@ -42,35 +43,27 @@ def connect_to_graphenedb():
     graphenedb_pass = Config.GRAPHENEDB_BOLT_PASSWORD
     gp = GraphDatabase.driver(graphenedb_url, auth=basic_auth(graphenedb_user, graphenedb_pass))
 
-
-#########################
-#### Classes ############
-#########################
-
-# class PublishedDataset(Model):
-#     name = Column(String)
-#     password = Column(String)
-#     date_created = Column(DateTime, auto_now_add=True)
-
-# class PublishedDatasetSchema(ma.Schema):
-#     class Meta:
-#         # Fields to expose
-#         fields = ('name', 'date_created', '_links')
-#     # Smart hyperlinking
-#     _links = ma.Hyperlinks({
-#         'self': ma.URLFor('user_detail', id='<id>'),
-#         'collection': ma.URLFor('users')
-#     })
-
-# user_schema = UserSchema()
-# users_schema = UserSchema(many=True)
-
 #########################
 #### GRAPHDB  routes ####
 #########################
+
 @api_blueprint.route('/db/model/<model>')
 def model(model):
-    cmd = 'MATCH (n:{}) RETURN n LIMIT 25'.format(model)
+    
+    # Provide support for pagination
+    offset = request.args.get('offset')
+    limit = request.args.get('limit')
+    order_by = request.args.get('orderby')
+    descending = request.args.get('desc')
+
+    offset = offset if offset != None else 0
+    limit = limit if limit != None else 100
+    descending = 'DESC' if descending == 'descending' else ''
+    
+    if order_by != None:
+        cmd = 'MATCH (n:{}) RETURN n ORDER BY n.{} {} SKIP {} LIMIT {}'.format(model, order_by, descending, offset, limit)
+    else:
+        cmd = 'MATCH (n:{}) RETURN n SKIP {} LIMIT {}'.format(model, offset, limit)
 
     resp = list()
     with gp.session() as session:
@@ -83,7 +76,36 @@ def model(model):
 
             resp.append(item)                
 
+    
     return json.dumps(resp)
+
+# TODO: make sure we store nodes for labels so we have more robust way of getting those
+
+@api_blueprint.route('/db/model/<model>/props')
+def getLabelProps(model):
+    cmd = 'MATCH (n:{}) RETURN n LIMIT 1'.format(model)
+
+    resp = []
+    with gp.session() as session:
+        result = session.run(cmd) 
+        for k in result:
+            resp = k['n'].keys()
+
+    # print(resp)
+    return json.dumps(resp)
+
+@api_blueprint.route('/db/labels')
+def getLabel():
+    cmd = 'MATCH (n) RETURN DISTINCT LABELS(n)'
+    resp = list()
+    with gp.session() as session:
+        result = session.run(cmd)  
+        for record in result:
+            resp.append(record['LABELS(n)'][1])
+    
+    return json.dumps(resp)
+
+
 
 #########################
 #### DAT-CORE routes ####

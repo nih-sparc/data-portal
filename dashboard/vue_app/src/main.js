@@ -1,22 +1,17 @@
 import Vue from 'vue'
-import Browse from './App.vue'
+import Dashboard from './App.vue'
 import axios from 'axios';
 import VueAxios from 'vue-axios'
 import ElementUI from 'element-ui';
 
 Vue.config.productionTip = false
-Vue.config.devtools = 
-
+Vue.config.devtools = true
 
 Vue.use(ElementUI);
 Vue.use(VueAxios, axios)
 
 new Vue({
-  render: h => h(Browse),
+  render: h => h(Dashboard),
   mounted () {
-    // Axios.get('/api/datasets')
-    //   .then(function (response) {
-    //     console.log(response)
-    //   })
   }
 }).$mount('#dashboard')

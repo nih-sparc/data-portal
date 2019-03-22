@@ -18,8 +18,7 @@ dat_core_blueprint = Blueprint('dat_core', __name__, static_folder='./static/dis
 ################
 #### routes ####
 ################
- 
+
 @dat_core_blueprint.route('/')
 def index():
-    print(current_app.root_path)
     return render_template('browse.html')
