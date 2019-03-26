@@ -12,6 +12,7 @@ from config import Config
 from flask_marshmallow import Marshmallow
 from neo4j import GraphDatabase, basic_auth
 import json
+import urllib
 
 ################
 #### config ####
@@ -50,21 +51,34 @@ def connect_to_graphenedb():
 @api_blueprint.route('/db/model/<model>')
 def model(model):
     
+    # Get Request parameters and stage Cypher cmd
+    args = request.args
+
     # Provide support for pagination
-    offset = request.args.get('offset')
-    limit = request.args.get('limit')
-    order_by = request.args.get('orderby')
-    descending = request.args.get('desc')
+    offset = args.get('offset')
+    limit = args.get('limit')
+    order_by = args.get('orderby')
+    descending = args.get('desc')
 
     offset = offset if offset != None else 0
     limit = limit if limit != None else 100
     descending = 'DESC' if descending == 'descending' else ''
     
-    if order_by != None:
-        cmd = 'MATCH (n:{}) RETURN n ORDER BY n.{} {} SKIP {} LIMIT {}'.format(model, order_by, descending, offset, limit)
-    else:
-        cmd = 'MATCH (n:{}) RETURN n SKIP {} LIMIT {}'.format(model, offset, limit)
+    filters = json.loads(urllib.unquote(args.get('filters')).decode('utf8'))
+    print(filters)
 
+    if filters:
+        cmd = queryForModel(model, filters )
+
+        cmd += ' ORDER BY n.{} {} SKIP {} LIMIT {}'.format(order_by, descending, offset, limit)
+
+        print('filter CMD {}'.format(cmd))
+    else:
+        if order_by != None:
+            cmd = 'MATCH (n:{}) RETURN n ORDER BY n.{} {} SKIP {} LIMIT {}'.format(model, order_by, descending, offset, limit)
+        else:
+            cmd = 'MATCH (n:{}) RETURN n SKIP {} LIMIT {}'.format(model, offset, limit)
+        
     resp = list()
     with gp.session() as session:
         result = session.run(cmd)    
@@ -83,15 +97,21 @@ def model(model):
 
 @api_blueprint.route('/db/model/<model>/props')
 def getLabelProps(model):
-    cmd = 'MATCH (n:{}) RETURN n LIMIT 1'.format(model)
+    cmd = 'MATCH (a:{}) UNWIND keys(a) AS key RETURN collect(distinct key)'.format(model)
+
+    # cmd = 'MATCH (n:{}) RETURN n LIMIT 1'.format(model)
+    print(cmd)
 
     resp = []
     with gp.session() as session:
         result = session.run(cmd) 
+        # print(result)
         for k in result:
-            resp = k['n'].keys()
+            col = k['collect(distinct key)']
+            for item in col:
+                resp.append(item)
 
-    # print(resp)
+    print(resp)
     return json.dumps(resp)
 
 @api_blueprint.route('/db/labels')
@@ -106,6 +126,30 @@ def getLabel():
     return json.dumps(resp)
 
 
+def queryForModel(model, filters):
+    print ('-------- ------ -- - - - -')
+    print(filters)
+    print( '----------')
+    filter = filters[0]
+    propComponents = filter['m'].split(':')
+    propModel = propComponents[0]
+    propProperty = propComponents[1]
+
+    cmd = 'MATCH (n:{})-[*1]-(m:{}) WHERE m.{}{}{} RETURN n'.format(model, propModel, propProperty, filter['o'], filter['v'])
+    return cmd
+    # # cmd = 'MATCH (n) RETURN DISTINCT LABELS(n)'
+    # resp = list()
+    # with gp.session() as session:
+    #     result = session.run(cmd)    
+    #     for record in result:
+    #         keys = record['n'].keys()
+    #         item = {}
+    #         for key in keys:
+    #             item[key] = record['n'][key]
+
+    #         resp.append(item)    
+    
+    # return json.dumps(resp)
 
 #########################
 #### DAT-CORE routes ####

@@ -19,6 +19,8 @@ dat_core_blueprint = Blueprint('dat_core', __name__, static_folder='./static/dis
 #### routes ####
 ################
 
+
+# Need 'v' because <path> after root is interpreted as static asset
 @dat_core_blueprint.route('/')
 def index():
     return render_template('browse.html')

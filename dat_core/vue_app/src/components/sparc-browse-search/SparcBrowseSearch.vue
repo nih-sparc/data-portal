@@ -1,8 +1,8 @@
 <template>
   <div class="sparc-browse-search">
-    <el-select v-model="value8" filterable placeholder="Select" @change="handleSelect">
+    <el-select v-model="activeModel" filterable placeholder="Select" @change="handleSelect">
         <el-option
-        v-for="item in options"
+        v-for="item in modelOptions"
         :key="item.value"
         :label="item.label"
         :value="item.value">
@@ -16,48 +16,39 @@
         name: 'sparc-browse-search',
 
         props: {
+            models: {
+                type: Array
+            }
+        },
+        watch: {
+            // Set initial value after retrieving models from parent
+            models (newVal, oldVal) {
+                this.activeModel = newVal[0]
+                this.$emit('labelChanged', { value: this.activeModel})
+            }
         },
 
         data() {
             return {
-                options: [],
-                value8: '',  
-                input: '',
-                select: 'content',
-                ev:[]
+                activeModel: '',  
             }
         },
         computed: {
-            placeHolder() {
-                if (this.select == 'content') {
-                return 'Find dataset...'  
-                } else if (this.select == 'authors') {
-                return 'Find dataset by author...' 
+            modelOptions() {
+                var modelOpts = []
+                for (var item in this.models) {
+                    modelOpts.push({
+                        value: this.models[item],
+                        label: this.models[item]
+                    })
                 }
+                return modelOpts
             }
-        },
-        mounted () {
-            this.axios
-                .get('../api/db/labels ')
-                .then(response => {
-                    const resp = response.data
-                    this.value8 = response.data[0]
-                    for (var item in resp) {
-                        this.options.push({
-                            value: resp[item],
-                            label: resp[item]
-                        })
-                    }
-                })
-                .catch(e => {
-                    console.log(e)
-                })
         },
         methods: {
             handleSelect(ev) {
-                this.$emit('labelChanged', { value: ev})
-                this.ev = ev
-                console.log(ev)
+                console.log('Handle Select')
+                this.$emit('labelChanged', { value: this.activeModel})
             }
         }
     }   
