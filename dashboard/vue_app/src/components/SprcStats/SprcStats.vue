@@ -195,6 +195,7 @@ export default {
   display: flex;
   padding: 0 50px;
   justify-content: space-between;
+  margin-top:8px;
 
   .pt-histograms__box {
     align-items: center;
@@ -203,7 +204,6 @@ export default {
     display: flex;
     flex: 1;
     height: 110px;
-    margin: 20px 8px;
     max-width: 30%;
     padding: 8px 16px 0;
 
@@ -240,6 +240,7 @@ export default {
       }
 
       .pt-histograms__box-value {
+        margin-top: 5px;
         font-size: 12px;
         line-height: 15px;
         min-height: 80px;
