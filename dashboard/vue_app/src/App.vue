@@ -10,7 +10,7 @@
         <sparc-datasets />
       </el-col>
     </el-row>
-    <sprc-stats />
+    <!-- <sprc-stats /> -->
   </div>
 </template>
 
@@ -49,7 +49,6 @@ export default {
       min-height: 700px;
       color: $text-color;
       padding: 8px 20px;
-      border-right: 1px solid lightgray;
 
       .content-container__info__title {
         text-align: center;

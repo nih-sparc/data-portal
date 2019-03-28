@@ -47,6 +47,16 @@ def connect_to_graphenedb():
 #########################
 #### GRAPHDB  routes ####
 #########################
+@api_blueprint.route('/db/graph/properties')
+def graph_props():
+    cmd = 'MATCH (n:GraphModel)-[*1]-(m:GraphModelProp) RETURN n.name, m.name'
+    with gp.session() as session:
+        result = session.run(cmd)
+        items = []
+        for record in result:
+            items.append({'model': record['n.name'], 'prop': record['m.name']})
+
+    return json.dumps(items)
 
 @api_blueprint.route('/db/model/<model>')
 def model(model):
@@ -59,26 +69,60 @@ def model(model):
     limit = args.get('limit')
     order_by = args.get('orderby')
     descending = args.get('desc')
+    hops = args.get('hops')
 
     offset = offset if offset != None else 0
     limit = limit if limit != None else 100
+    hops = hops if hops != None else 1
     descending = 'DESC' if descending == 'descending' else ''
     
     filters = json.loads(urllib.unquote(args.get('filters')).decode('utf8'))
     print(filters)
 
     if filters:
-        cmd = queryForModel(model, filters )
+        cmd = ''
+        # Add MATCH statements 
+        for idx, f in enumerate(filters):
+            propComponents = f['m'].split(':')
+            propModel = propComponents[0]
+            propProperty = propComponents[1]
+            if model != propModel:
+                cmd += 'MATCH (n:{})-[*0..{}]-(m{}:{}) '.format(model,hops,idx,propModel)
+            elif idx == 0:
+                cmd += 'MATCH (n:{}) '.format(model)
 
-        cmd += ' ORDER BY n.{} {} SKIP {} LIMIT {}'.format(order_by, descending, offset, limit)
+        # Add WHERE statements
+        for idx, f in enumerate(filters):
+            if idx > 0:
+                cmd += 'AND '
+            else :
+                cmd += 'WHERE '
 
-        print('filter CMD {}'.format(cmd))
+            propComponents = f['m'].split(':')
+            propModel = propComponents[0]
+            propProperty = propComponents[1]
+            if model == propModel:
+                cmd += 'n.{} {} {} '.format(propProperty, f['o'], f['v'])
+            else:
+                cmd += 'm{}.{} {} {} '.format(idx, propProperty, f['o'], f['v'])
+
+        # Add RETURN
+        cmd += 'RETURN distinct n'
+
+        # Set Order Info
+        if order_by:
+            cmd += ' ORDER BY n.{} {}'.format(order_by, descending)
+
+        # Set Pagination Info
+        cmd += ' SKIP {} LIMIT {}'.format( offset, limit)
+
     else:
-        if order_by != None:
+        if order_by:
             cmd = 'MATCH (n:{}) RETURN n ORDER BY n.{} {} SKIP {} LIMIT {}'.format(model, order_by, descending, offset, limit)
         else:
             cmd = 'MATCH (n:{}) RETURN n SKIP {} LIMIT {}'.format(model, offset, limit)
         
+    print('requesting: {}'.format(cmd))    
     resp = list()
     with gp.session() as session:
         result = session.run(cmd)    
@@ -92,8 +136,6 @@ def model(model):
 
     
     return json.dumps(resp)
-
-# TODO: make sure we store nodes for labels so we have more robust way of getting those
 
 @api_blueprint.route('/db/model/<model>/props')
 def getLabelProps(model):
@@ -111,12 +153,11 @@ def getLabelProps(model):
             for item in col:
                 resp.append(item)
 
-    print(resp)
     return json.dumps(resp)
 
 @api_blueprint.route('/db/labels')
 def getLabel():
-    cmd = 'MATCH (n) RETURN DISTINCT LABELS(n)'
+    cmd = 'MATCH (n:Node) RETURN DISTINCT LABELS(n)'
     resp = list()
     with gp.session() as session:
         result = session.run(cmd)  
@@ -125,31 +166,18 @@ def getLabel():
     
     return json.dumps(resp)
 
+@api_blueprint.route('/db/graph/model/<model>/hops/<hops>')
+def getNeighborModels(model, hops):
 
-def queryForModel(model, filters):
-    print ('-------- ------ -- - - - -')
-    print(filters)
-    print( '----------')
-    filter = filters[0]
-    propComponents = filter['m'].split(':')
-    propModel = propComponents[0]
-    propProperty = propComponents[1]
+    cmd = 'MATCH (n:GraphModel) -[*0..{}]- (m:GraphModel {{name:"{}"}}) RETURN DISTINCT n.name'.format(hops, model)
+    resp = list()
+    with gp.session() as session:
+        result = session.run(cmd)         
+        for k in result:
+            resp.append(k['n.name'])
+        
 
-    cmd = 'MATCH (n:{})-[*1]-(m:{}) WHERE m.{}{}{} RETURN n'.format(model, propModel, propProperty, filter['o'], filter['v'])
-    return cmd
-    # # cmd = 'MATCH (n) RETURN DISTINCT LABELS(n)'
-    # resp = list()
-    # with gp.session() as session:
-    #     result = session.run(cmd)    
-    #     for record in result:
-    #         keys = record['n'].keys()
-    #         item = {}
-    #         for key in keys:
-    #             item[key] = record['n'][key]
-
-    #         resp.append(item)    
-    
-    # return json.dumps(resp)
+    return json.dumps(resp)
 
 #########################
 #### DAT-CORE routes ####

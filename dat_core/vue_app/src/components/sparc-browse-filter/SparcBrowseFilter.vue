@@ -1,6 +1,6 @@
 <template>
   <div class="sparc-browse-filter">
-    <el-select v-model="propValue" filterable placeholder="Select" @change="handleSelectProp">
+    <el-select class="propSelect" v-model="propValue" filterable placeholder="Filter on..." @change="handleSelectProp">
         <el-option
         v-for="item in propOptions"
         :key="item.value"
@@ -8,7 +8,7 @@
         :value="item.value">
         </el-option>
     </el-select>
-    <el-select v-model="matchValue" filterable placeholder="Select" @change="handleSelectMatch">
+    <el-select class="operandSelect" v-model="matchValue" filterable placeholder="Select..." @change="handleSelectMatch">
         <el-option
         v-for="item in matchOptions"
         :key="item.value"
@@ -16,7 +16,7 @@
         :value="item.value">
         </el-option>
     </el-select>
-    <el-input placeholder="Please input" v-model="input"></el-input>
+    <el-input placeholder="Property value..." v-model="input"></el-input>
     <el-button class="add-button" type="primary" icon="el-icon-plus" circle @click="addFilter"></el-button>
 
   </div>
@@ -27,20 +27,28 @@
         name: 'sparc-browse-filter',
 
         props: {
+            activeModel: {
+                type: String
+            },
+            hops: {
+                type: Number
+            }
         },
-
+        watch: {
+            // Set initial value after retrieving models from parent
+            activeModel (newVal, oldVal) {
+                this.axios
+                .get('../api/db/graph/model/' + this.activeModel + '/hops/' + this.hops)
+                .then(response => {
+                    this.activeNeighbors = response.data
+                })
+                .catch(e => {
+                    console.log(e)
+            })    
+            }
+        },
         data() {
             return {
-                propOptions: [{
-                    value: 'patient:age_at_baseline',
-                    label: 'patient:age_at_baseline'
-                    }, {
-                    value: 'something',
-                    label: 'something'
-                    }, {
-                    value: 'else',
-                    label: 'else'
-                    }],
                 matchOptions: [{
                     value: 'STARTS WITH',
                     label: 'Starts With'
@@ -64,7 +72,30 @@
                 matchValue:'',
                 input: '',
                 select: 'content',
-                filters: {}
+                filters: {},
+                propObjects: [],
+                activeNeighbors: []
+            }
+        },
+        computed: {
+            propOptions () {
+                var propObjs = []
+
+                for (var i in this.propObjects) {
+                    if (this.activeNeighbors.includes(this.propObjects[i]['model'])) {
+                        const str = this.propObjects[i]['model'] + ':' + this.propObjects[i]['prop']
+                        propObjs.push( {'value': str, 'label':str.substring(0, 50)} )
+                    }
+                }
+                // let matchedProps = this.propObjects.find(obj => obj.name in this.activeNeighbors);
+
+
+                // for (var item in matchedProps) {
+                //     console.log(item)
+                //     const str = this.matchedProps[item]['model'] + ':' + this.matchedProps[item]['prop']
+                //     propObjs.push( {'value': str, 'label':str.substring(0, 50)})
+                // }
+                return propObjs
             }
         },
         methods: {
@@ -81,9 +112,26 @@
             addFilter(ev) {
                 console.log('Added filter')
                 // Update query in URL which will trigger reload of data
-                this.$emit('addFilter', { model: this.propValue, operand: this.matchValue, value: this.input})
+                var valueStr = this.input
+                if (['CONTAINS','STARTS WITH','ENDS WITH'].includes(this.matchValue)) {
+                    valueStr = '"' + valueStr + '"'
+                }
+
+                this.$emit('addFilter', { model: this.propValue, operand: this.matchValue, value: valueStr})
 
             }
+        },
+        
+        mounted () {
+            this.axios
+                .get('../api/db/graph/properties ')
+                .then(response => {
+                    this.propObjects = response.data
+                })
+                .catch(e => {
+                    console.log(e)
+            })
+
         }
     }   
 </script>
@@ -98,5 +146,13 @@
 
     .add-button {
         margin-left: 20px;
+    }
+
+    .propSelect {
+        min-width: 300px;
+    }
+
+    .operandSelect {
+        min-width: 150px;
     }
 </style>
