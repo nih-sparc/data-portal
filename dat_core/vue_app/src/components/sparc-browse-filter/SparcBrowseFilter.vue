@@ -10,7 +10,7 @@
     </el-select>
     <el-select class="operandSelect" v-model="matchValue" filterable placeholder="Select..." @change="handleSelectMatch">
         <el-option
-        v-for="item in matchOptions"
+        v-for="item in operantOptions"
         :key="item.value"
         :label="item.label"
         :value="item.value">
@@ -51,24 +51,39 @@
             return {
                 matchOptions: [{
                     value: 'STARTS WITH',
-                    label: 'Starts With'
+                    label: 'Starts With',
+                    type: ['String','','Date']
                     }, {
                     value: 'ENDS WITH',
-                    label: 'Ends With'
+                    label: 'Ends With',
+                    type: ['String','','Date']
                     }, {
                     value: 'CONTAINS',
-                    label: 'Contains'
+                    label: 'Contains',
+                    type: ['String','','Date']
                     }, {
                     value: '<',
-                    label: '<'
+                    label: '<',
+                    type: ['Number', 'Float', 'Integer', 'Long']
                     }, {
                     value: '>',
-                    label: '>'
+                    label: '>',
+                    type: ['Number', 'Float', 'Integer','Long']
                     }, {
                     value: '=',
-                    label: '='
-                    }],
-                propValue: '',  
+                    label: '=',
+                    type: ['Number', 'Float', 'Integer','Long']
+                    }, {
+                    value: '=',
+                    label: 'IS',
+                    type: ['Boolean']
+                    }, {
+                    value: '<>',
+                    label: 'IS NOT',
+                    type: ['Boolean']
+                    }
+                    ],
+                propValue: {'value': {'name':'', 'type':'String'}, 'label':''},  
                 matchValue:'',
                 input: '',
                 select: 'content',
@@ -84,18 +99,31 @@
                 for (var i in this.propObjects) {
                     if (this.activeNeighbors.includes(this.propObjects[i]['model'])) {
                         const str = this.propObjects[i]['model'] + ':' + this.propObjects[i]['prop']
-                        propObjs.push( {'value': str, 'label':str.substring(0, 50)} )
+                        propObjs.push( {'value': i, 'type':this.propObjects[i]['type'], 'label':str.substring(0, 50)} )
                     }
                 }
-                // let matchedProps = this.propObjects.find(obj => obj.name in this.activeNeighbors);
-
-
-                // for (var item in matchedProps) {
-                //     console.log(item)
-                //     const str = this.matchedProps[item]['model'] + ':' + this.matchedProps[item]['prop']
-                //     propObjs.push( {'value': str, 'label':str.substring(0, 50)})
-                // }
                 return propObjs
+            },
+            operantOptions () {
+                let curType
+                if (this.propObjects[this.propValue]) {
+                    curType = this.propObjects[this.propValue]['type']
+                } else {
+                    return []
+                }
+                console.log('Curtype: ' + curType)
+                var opObjs = []
+                for (var option in this.matchOptions) {
+                    const curOption = this.matchOptions[option]
+                    if (curOption['type'].includes(curType)) {
+                        opObjs.push( {
+                            value: curOption['value'],
+                            label: curOption['label']
+
+                        })
+                    }
+                }
+                return opObjs
             }
         },
         methods: {
@@ -116,17 +144,17 @@
                 if (['CONTAINS','STARTS WITH','ENDS WITH'].includes(this.matchValue)) {
                     valueStr = '"' + valueStr + '"'
                 }
-
-                this.$emit('addFilter', { model: this.propValue, operand: this.matchValue, value: valueStr})
+                const curProp = this.propObjects[this.propValue]['model'] + ':' + this.propObjects[this.propValue]['prop']
+                this.$emit('addFilter', { model: curProp, operand: this.matchValue, value: valueStr})
 
             }
         },
-        
         mounted () {
             this.axios
                 .get('../api/db/graph/properties ')
                 .then(response => {
                     this.propObjects = response.data
+                    console.log(this.propObjects)
                 })
                 .catch(e => {
                     console.log(e)

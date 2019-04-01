@@ -49,12 +49,13 @@ def connect_to_graphenedb():
 #########################
 @api_blueprint.route('/db/graph/properties')
 def graph_props():
-    cmd = 'MATCH (n:GraphModel)-[*1]-(m:GraphModelProp) RETURN n.name, m.name'
+    cmd = 'MATCH (n:GraphModel)-[*1]-(m:GraphModelProp) RETURN n.name, m.name, m.type'
+    print 'Get Properties: {}'.format(cmd)
     with gp.session() as session:
         result = session.run(cmd)
         items = []
         for record in result:
-            items.append({'model': record['n.name'], 'prop': record['m.name']})
+            items.append({'model': record['n.name'], 'prop': record['m.name'], 'type': record['m.type']})
 
     return json.dumps(items)
 
