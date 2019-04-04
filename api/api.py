@@ -24,15 +24,15 @@ ma = Marshmallow(app)
 @app.before_first_request
 def connect_to_blackfynn():
     global bf
-    print(Config.BLACKFYNN_API_TOKEN)
+#    print(Config.BLACKFYNN_API_TOKEN)
 
-    bf = Blackfynn(
-       api_token=Config.BLACKFYNN_API_TOKEN,
-       api_secret=Config.BLACKFYNN_API_SECRET,
-       env_override=False,
-       host=Config.BLACKFYNN_API_HOST,
-       concepts_api_host=Config.BLACKFYNN_CONCEPTS_API_HOST
-    )
+#    bf = Blackfynn(
+#       api_token=Config.BLACKFYNN_API_TOKEN,
+#       api_secret=Config.BLACKFYNN_API_SECRET,
+#       env_override=False,
+#       host=Config.BLACKFYNN_API_HOST,
+#       concepts_api_host=Config.BLACKFYNN_CONCEPTS_API_HOST
+#    )
 
 ################
 #### routes ####
