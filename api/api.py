@@ -47,6 +47,9 @@ def connect_to_graphenedb():
 #########################
 #### GRAPHDB  routes ####
 #########################
+
+# API Endpoint which returns all the names of the properties that are available
+# in the database.
 @api_blueprint.route('/db/graph/properties')
 def graph_props():
     cmd = 'MATCH (n:GraphModel)-[*1]-(m:GraphModelProp) RETURN n.name, m.name, m.type'
@@ -59,37 +62,80 @@ def graph_props():
 
     return json.dumps(items)
 
+# API endpoint to query the graph and return a filtered set of records for a particular model
 @api_blueprint.route('/db/model/<model>')
 def model(model):
     
     # Get Request parameters and stage Cypher cmd
     args = request.args
 
-    # Provide support for pagination
+    # Get arguments for pagination
     offset = args.get('offset')
     limit = args.get('limit')
+
+    # Get arguments for ordering of results
     order_by = args.get('orderby')
     descending = args.get('desc')
+
+    # Get argument specifying how many hops the search should limit to
     hops = args.get('hops')
 
+    # Get arguments that describer the filter settings
+    filters = args.get('filters')
+
+    # Get argument that optionally restricts the returned properties for a query.
+    responseProps = args.get('responseProps')
+
+    # Parse arguments
+    filters = json.loads(urllib.unquote(filters)) if filters !=None else None
+    responseProps = json.loads(urllib.unquote(responseProps)) if responseProps != None else None
     offset = offset if offset != None else 0
     limit = limit if limit != None else 100
     hops = hops if hops != None else 1
     descending = 'DESC' if descending == 'descending' else ''
-    
-    filters = json.loads(urllib.unquote(args.get('filters')).decode('utf8'))
-    print(filters)
+    doReturnObjects = True
+
+    response_str = ''
+    if responseProps !=None:
+        doReturnObjects = False
+        for item in responseProps:
+            response_str += 'n.{},'.format(item)
+        
+        response_str = response_str[:-1]
+    else:
+        response_str = 'n'
 
     if filters:
         cmd = ''
-        # Add MATCH statements 
+        # # Add MATCH statements 
         for idx, f in enumerate(filters):
             propComponents = f['m'].split(':')
             propModel = propComponents[0]
             propProperty = propComponents[1]
+
             if model != propModel:
-                cmd += 'MATCH (n:{})-[*0..{}]-(m{}:{}) '.format(model,hops,idx,propModel)
+                # Start MATCH query where filter-model does not equal output model
+                cmd += 'MATCH '
+
+                # Get path between source and target model
+                path_cmd = 'MATCH (n:GraphModel {{name: "{}"}}), (m:GraphModel {{name: "{}"}}), p = shortestPath( (n)-[*]-(m)) return p'.format(model, propModel)
+                cur_path = {}
+                with gp.session() as session:
+                    result = session.run(path_cmd)    
+                    for record in result:
+                        cur_path = record['p'].nodes
+                
+                # Parse resulting path into CYPHER query
+                for idx2, item in enumerate(cur_path):
+                    if idx2 == 0:
+                        cmd += '(n:{}) '.format(item['name'])
+                    elif idx2 < (len(cur_path) - 1):
+                        cmd += '-- (:{}) '.format(item['name'])
+                    else:
+                        cmd += '-- (m{}:{}) '.format(idx, item['name'])                    
+
             elif idx == 0:
+                # Start MATCH query where filter-model equals output model (no hops).
                 cmd += 'MATCH (n:{}) '.format(model)
 
         # Add WHERE statements
@@ -99,16 +145,27 @@ def model(model):
             else :
                 cmd += 'WHERE '
 
+            valueStr = f['v']
+            print(f['o'])
+            if f['o'] in ['STARTS WITH', 'ENDS WITH', 'CONTAINS']:
+                print(f['o'])
+                valueStr = "'{}'".format(f['v'])
+            elif f['o'] == 'IS':
+                f['o'] = '='
+                valueStr = "'{}'".format(f['v'])
+
+            print('filter: {} + {} + {}'.format(f['m'],f['o'],valueStr))
+
             propComponents = f['m'].split(':')
             propModel = propComponents[0]
             propProperty = propComponents[1]
             if model == propModel:
-                cmd += 'n.{} {} {} '.format(propProperty, f['o'], f['v'])
+                cmd += 'n.{} {} {} '.format(propProperty, f['o'], valueStr)
             else:
-                cmd += 'm{}.{} {} {} '.format(idx, propProperty, f['o'], f['v'])
+                cmd += 'm{}.{} {} {} '.format(idx, propProperty, f['o'], valueStr)
 
         # Add RETURN
-        cmd += 'RETURN distinct n'
+        cmd += 'RETURN distinct {}'.format(response_str)
 
         # Set Order Info
         if order_by:
@@ -124,18 +181,29 @@ def model(model):
             cmd = 'MATCH (n:{}) RETURN n SKIP {} LIMIT {}'.format(model, offset, limit)
         
     print('requesting: {}'.format(cmd))    
-    resp = list()
+    resp = []
     with gp.session() as session:
         result = session.run(cmd)    
-        for record in result:
-            keys = record['n'].keys()
-            item = {}
-            for key in keys:
-                item[key] = record['n'][key]
+        if doReturnObjects:
+            # Return records
+            for record in result:
+                keys = record['n'].keys()
+                item = {}
+                for key in keys:
+                    item[key] = record['n'][key]
 
-            resp.append(item)                
+                resp.append(item)       
+        else:       
+            # Return list of propValues
+            resp = {}
+            for record in result:
+                keys = record.keys()
+                for key in keys:
+                    if key not in resp:
+                        resp[key] = list()
 
-    
+                    resp[key].append(record[key])
+
     return json.dumps(resp)
 
 @api_blueprint.route('/db/model/<model>/props')
@@ -167,6 +235,24 @@ def getLabel():
     
     return json.dumps(resp)
 
+# API Endpoint which returns the range of the values for a particular property if the 
+# property is a numeric.
+@api_blueprint.route('/db/graph/<model>/<prop>/range')
+def getNumericPropRange(model, prop):
+    cmd = 'MATCH (n:{}) RETURN max(n.{}) as max, min(n.{}) as min'.format(model,prop,prop)
+    resp = {}
+    with gp.session() as session:
+        result = session.run(cmd)
+        for k in result:
+            resp['min'] = k['min']
+            resp['max'] = k['max']
+    
+    return json.dumps(resp)
+
+
+# API Endpoint to return neighbouring models at n hops away from active model
+# This endpoint leverages the fact that we store the graph topology in the 
+# Graph database using the 'GraphModel' labels.
 @api_blueprint.route('/db/graph/model/<model>/hops/<hops>')
 def getNeighborModels(model, hops):
 
@@ -176,7 +262,6 @@ def getNeighborModels(model, hops):
         result = session.run(cmd)         
         for k in result:
             resp.append(k['n.name'])
-        
 
     return json.dumps(resp)
 

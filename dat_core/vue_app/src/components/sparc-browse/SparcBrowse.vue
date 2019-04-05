@@ -19,8 +19,8 @@
                             v-bind:activeModel="activeModel"
                             v-bind:hops="hops"/>
                     </div>
-                    <div class="browse-filter-labels">
-                        <sparc-filter-list
+                    <div class="browse-filter-labels" id="filter-labels" >
+                        <sparc-filter-list ref="filterLabels"
                             v-bind:filters="filters"
                             @filterRemoved="onFilterRemoved"/>
                     </div>
@@ -30,7 +30,7 @@
                         :data="tableData"
                         @sort-change="sortChange"
                         style="width: 100%"
-                        height="calc(100vh - 130px)">
+                        v-bind:height="calcHeight">
                         <el-table-column v-for="tableColumn in tableColumns" :key="tableColumn.name"
                             v-bind:prop="tableColumn.prop"
                             v-bind:label="tableColumn.name"
@@ -75,12 +75,27 @@ export default {
         activeModel: '',
         filters: [],
         hops: 2,
-        ev:{}
+        ev:{},
+        hideProps:['label','updatedAt','createdAt',
+            'updatedBy','createdBy', 'deleted',
+            'organizationId','datasetId'],
+        calcHeight: "calc(100vh - " + 140 + "px)"
       }
     },
     computed: {
         visibleRecords() {
             return this.tableData.slice((this.currentPage-1)*this.pageSize, this.currentPage*this.pageSize )
+        },
+    },
+    watch: {
+        filters: function(val){
+            clearTimeout(this.timeout);
+            this.timeout = setTimeout(() => {
+                if (this.$refs.filterLabels){
+                    const filterHeight = this.$refs.filterLabels.$el.clientHeight + 120;
+                    this.calcHeight = "calc(100vh - " + filterHeight + "px)"
+                }
+            }, 400 );
         }
     },
 
@@ -95,7 +110,6 @@ export default {
             this.requestData(0, 50)
         },
         onLabelChanged(ev) {
-            console.log("on lable changed")
             this.activeModel = ev.value
             
             if (this.scrollState) {
@@ -105,6 +119,7 @@ export default {
             this.updateColumnHeaders()
             this.updateURI()
             this.requestData(0, 50)
+
         },
         updateURI() {
             const m = encodeURI(this.activeModel)
@@ -129,10 +144,12 @@ export default {
             .then(response => {
                 var columnHeaders = []
                 for(var k in response.data) {
-                    columnHeaders.push({
-                       name: response.data[k],
-                       prop: response.data[k] 
-                    })
+                    if (!(this.hideProps.includes(response.data[k]))) {
+                        columnHeaders.push({
+                            name: response.data[k],
+                            prop: response.data[k] 
+                        })
+                    }
                 }
                 this.tableColumns = columnHeaders
             })
@@ -157,20 +174,18 @@ export default {
             this.requestData(0, 50)
 
         },
-        onRemoveFilter(ev) {
-            console.log('remove filter')
-        },
         requestData(offset, limit, append) {
-            const orderby = encodeURI(this.filterOptions['prop'])
-            const descend = encodeURI(this.filterOptions['order'])
-            const activeModel = encodeURI(this.activeModel)
+            const orderby = encodeURIComponent(this.filterOptions['prop'])
+            const descend = encodeURIComponent(this.filterOptions['order'])
+            const activeModel = encodeURIComponent(this.activeModel)
             
             var req_str = '../api/db/model/' + activeModel + '?offset=' + offset + '&limit=' + limit + '&hops=' + this.hops
             if (orderby) {
                 req_str += '&orderby=' + orderby + '&desc=' + descend
             }
             if (this.filters) {
-                const filters = encodeURI(JSON.stringify(this.filters))
+                const filters = encodeURIComponent(JSON.stringify(this.filters))
+                console.log('Request Filters: ' + filters)
                 req_str += '&filters=' + filters
             }
 
@@ -214,6 +229,7 @@ export default {
         },
     },
     mounted () {
+        console.log('---' + this.$refs.filterLabels.$el.clientHeight)
         this.axios
             .get('../api/db/labels ')
             .then(response => {
@@ -222,6 +238,16 @@ export default {
             .catch(e => {
                 console.log(e)
             })
+        
+        // clearTimeout(this.timeout);
+        // this.timeout = setTimeout(() => {
+        //     console.log('---' + this.$refs.filterLabels.$el.clientHeight)
+        //     if (this.$refs.filterLabels){
+        //         const filterHeight = this.$refs.filterLabels.$el.clientHeight + 120;
+        //         console.log('FilterHeight: ' + filterHeight)
+        //         this.calcHeight = "calc(100vh - " + filterHeight + "px)"
+        //     }
+        // }, 100 );
 
         
     },

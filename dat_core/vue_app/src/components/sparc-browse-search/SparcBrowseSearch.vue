@@ -57,6 +57,10 @@
 <style lang="scss" scoped>
     @import '../../../../../static/css/_variables.scss';
 
+    .el-select {
+        min-width: 200px;
+    }
+
     .sparc-dataset-filter {
     margin-bottom: 8px;
     }
