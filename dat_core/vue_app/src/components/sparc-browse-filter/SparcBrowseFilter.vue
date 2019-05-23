@@ -206,7 +206,7 @@
                 }
 
                 const curProp = this.propObjects[this.propValue]['model'] + ':' + this.propObjects[this.propValue]['prop']
-                this.$emit('addFilter', { model: curProp, operand: this.matchValue, value: valueStr})
+                this.$emit('addFilter', { model: this.propObjects[this.propValue]['model'], prop: curProp, operand: this.matchValue, value: valueStr})
                 
                 this.input = ''
                 this.matchValue = ''
@@ -249,7 +249,7 @@
                 clearTimeout(this.timeout);
                 this.timeout = setTimeout(() => {
                     cb(res);
-                }, 3000 * Math.random());
+                }, 500 * Math.random());
             },
             createFilter(queryString) {
                 return (link) => {
@@ -288,7 +288,7 @@
     }
 
     .propSelect {
-        min-width: 350px;
+        min-width: 300px;
     }
 
     .operandSelect {
@@ -296,6 +296,6 @@
     }
 
     .stringInput {
-        min-width: 500px;
+        min-width: 300px;
     }
 </style>

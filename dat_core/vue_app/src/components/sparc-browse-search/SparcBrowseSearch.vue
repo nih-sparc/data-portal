@@ -1,6 +1,6 @@
 <template>
   <div class="sparc-browse-search">
-    <el-select v-model="activeModel" filterable placeholder="Select" @change="handleSelect">
+    <el-select v-model="selectedModel" filterable placeholder="Select" @change="handleSelect">
         <el-option
         v-for="item in modelOptions"
         :key="item.value"
@@ -18,19 +18,28 @@
         props: {
             models: {
                 type: Array
+            },
+            activeModel: {
+                type: String
             }
         },
         watch: {
             // Set initial value after retrieving models from parent
             models (newVal, oldVal) {
-                this.activeModel = newVal[0]
-                this.$emit('labelChanged', { value: this.activeModel})
+                this.selectedModel = newVal[0]
+                this.$emit('labelChanged', { value: this.selectedModel})
+            },
+            activeModel (newVal, oldVal) {
+                if (newVal != this.selectedModel) {
+                    this.selectedModel = this.activeModel
+                    this.$emit('labelChanged', { value: this.selectedModel})
+                }
             }
         },
 
         data() {
             return {
-                activeModel: '',  
+                selectedModel: '',  
             }
         },
         computed: {
@@ -48,7 +57,7 @@
         methods: {
             handleSelect(ev) {
                 console.log('Handle Select')
-                this.$emit('labelChanged', { value: this.activeModel})
+                this.$emit('labelChanged', { value: this.selectedModel})
             }
         }
     }   
