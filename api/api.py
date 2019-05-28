@@ -13,6 +13,7 @@ from flask_marshmallow import Marshmallow
 from neo4j import GraphDatabase, basic_auth
 import json
 import urllib
+from .simcore import init_sim_db
 
 ################
 #### config ####
@@ -43,6 +44,8 @@ def connect_to_graphenedb():
     graphenedb_user = Config.GRAPHENEDB_BOLT_USER
     graphenedb_pass = Config.GRAPHENEDB_BOLT_PASSWORD
     gp = GraphDatabase.driver(graphenedb_url, auth=basic_auth(graphenedb_user, graphenedb_pass))
+
+    init_sim_db(gp)
 
 #########################
 #### GRAPHDB  routes ####
