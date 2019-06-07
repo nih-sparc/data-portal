@@ -39,7 +39,7 @@ module.exports = {
   plugins: [
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
-      'template': 'public/dashboard.html',
+      'template': 'public/home.html',
       'filename': 'dashboard.html',
       'chunks': ['dashboard'],
       'inject': false}),

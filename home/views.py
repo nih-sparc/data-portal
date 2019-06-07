@@ -12,12 +12,12 @@ from logger import logger
 #### config ####
 ################
  
-dashboard_blueprint = Blueprint('dashboard', __name__, static_folder='./static/dist', template_folder='./static/dist',url_prefix='',static_url_path="")
+home_blueprint = Blueprint('home', __name__, static_folder='./static/dist', template_folder='./static/dist',url_prefix='',static_url_path="")
  
 ################
 #### routes ####
 ################
  
-@dashboard_blueprint.route('/')
+@home_blueprint.route('/')
 def index():
-    return render_template('dashboard.html')
+    return render_template('home.html')

@@ -21,7 +21,7 @@ import SprcStats from './components/SprcStats/SprcStats.vue'
 import SparcDatasets from './components/sparc-datasets/SparcDatasets.vue'
 
 export default {
-  name: 'dashboard',
+  name: 'home',
   components: {
     BfVega,
     SparcWelcome,
@@ -34,7 +34,7 @@ export default {
 <style lang="scss" scoped>
 @import '../../../static/css/_variables.scss';
 
-  #dashboard {
+  #home {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
