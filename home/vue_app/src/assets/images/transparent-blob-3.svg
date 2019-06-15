@@ -5,10 +5,10 @@
             <stop stop-color="#EDF1FC" offset="100%"></stop>
         </linearGradient>
     </defs>
-    <g id="round-I" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.114127604">
-        <g id="dp-landing-filter1" transform="translate(-374.000000, -329.000000)" fill="url(#linearGradient-1)">
-            <g id="Oval-Copy-2" transform="translate(0.000000, 301.000000)">
-                <circle cx="509.5" cy="163.5" r="135.5"></circle>
+    <g id="round-III" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.0314127604">
+        <g id="dp-landing" transform="translate(-483.000000, -330.000000)" fill="url(#linearGradient-1)">
+            <g id="Oval-Copy-2" transform="translate(-357.000000, 285.000000)">
+                <circle cx="975.5" cy="180.5" r="135.5"></circle>
             </g>
         </g>
     </g>

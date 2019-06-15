@@ -1,15 +1,15 @@
 <template>
     <el-col>
-        <div class="header-and-hero">
+        <div class="head">
             <div class="texture">
-                <div class="blobs">
-                    <div class="blob blob1">
-                        <img alt="Irregular blob" :src="irregularBlob1"/>
-                    </div>
-                    <div class="blob blob2">
-                        <img alt="Irregular blob" :src="irregularBlob2"/>
-                    </div>
-                </div>
+                <el-row class="blob-row" type="flex" justify="center">
+                    <el-col class="blob-column" :sm="24" :md="12" :lg="12" :xl="12">
+                        <img class="blob1" alt="Irregular blob" :src="irregularBlob1"/>
+                    </el-col>
+                    <el-col class="blob-column" :sm="24" :md="12" :lg="12" :xl="12">
+                        <img class="blob2" alt="Irregular blob" :src="irregularBlob2"/>
+                    </el-col>
+                </el-row>
             </div>
             <div class="content">
                 <div class="nav section">
@@ -23,8 +23,9 @@
                     <el-row type="flex" justify="center">
                         <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
                             <el-row>
-                                <el-col :xs="22" :sm="22" :md="16" :lg="14">
-                                    <h1>Advancing the neuromodulation field toward treatments that change lives.</h1>
+                                <el-col :xs="22" :sm="22" :md="12" :lg="12">
+                                    <h1 class="hero-header">Advancing the neuromodulation field toward treatments that
+                                        change lives.</h1>
                                     <el-button type="primary" class="explore-the-data">Explore the data</el-button>
                                 </el-col>
                             </el-row>
@@ -33,18 +34,18 @@
                 </div>
             </div>
         </div>
-        <div class="section about">
+        <div class="about">
             <div class="texture">
-                <div class="blobs">
-                    <div class="blob1">
-                        <img alt="blob" :src="transparentBlob3"/>
-                    </div>
-                    <div class="blob2">
-                        <img alt="blob" :src="transparentBlob3"/>
-                    </div>
-                </div>
+                <el-row class="blob-row" type="flex" justify="space-between">
+                    <el-col class="blob-column" :sm="24" :md="12" :lg="12" :xl="12">
+                        <img class="blob3" alt="Irregular blob" :src="transparentBlob3"/>
+                    </el-col>
+                    <el-col class="blob-column" :sm="24" :md="12" :lg="12" :xl="12">
+                        <img class="blob4" alt="Irregular blob" :src="transparentBlob3"/>
+                    </el-col>
+                </el-row>
             </div>
-            <div class="content">
+            <div class="section content">
                 <el-row type="flex" justify="center">
                     <el-col :xs="22" :sm="22" :md="14" :lg="14">
                         <div class="options">
@@ -64,7 +65,7 @@
             <el-row type="flex" justify="center">
                 <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
                     <div class="cards">
-                        <el-row type="flex" :gutter="20">
+                        <el-row type="flex" :gutter="10">
                             <el-col :md="8" v-for="core in cores" v-bind:key="core.name">
                                 <el-card class="core-card" shadow="never" :body-style="{ padding: '0px' }">
                                     <img v-bind:src="core.image" class="image">
@@ -92,7 +93,7 @@
             <el-row type="flex" justify="center">
                 <el-col :xs="22" :sm="22" :md="12" :lg="8">
                     <div class="controls">
-                        <el-row justify="center" type="flex">
+                        <el-row justify="center" type="flex" gutter="5">
                             <el-col :xs="8" :sm="6">
                                 <div class="control">
                                     <el-select
@@ -111,17 +112,17 @@
                             <el-col :xs="16" :sm="18">
                                 <div class="control">
                                     <el-autocomplete
-                                            popper-class="my-autocomplete"
-                                            v-model="state"
-                                            size="large"
-                                            :fetch-suggestions="querySearch"
-                                            placeholder="Start typing..."
-                                            style="width: 100%; height: 100%; border-radius: 0; padding: 0; margin: 0;"
-                                            @select="handleSelect">
+                                        v-model="state"
+                                        size="large"
+                                        :fetch-suggestions="querySearch"
+                                        placeholder="Start typing..."
+                                        style="width: 100%; height: 100%; border-radius: 0; padding: 0; margin: 0;"
+                                        @select="handleSelect"
+                                    >
                                         <i
-                                                class="el-icon-edit el-input__icon"
-                                                slot="suffix"
-                                                @click="handleIconClick">
+                                            class="el-icon-search el-input__icon"
+                                            slot="suffix"
+                                            @click="handleIconClick">
                                         </i>
                                         <template slot-scope="{ item }">
                                             <div class="value">{{ item.value }}</div>
@@ -190,26 +191,23 @@
                 </el-col>
             </el-row>
         </div>
-        <el-col class="section footer">
+        <div class="section footer">
             <el-row type="flex" justify="center">
                 <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
-                    <el-col class="footer-content">
+                    <div class="footer-content">
                         <el-row>
-                            <el-col :md="8">
+                            <el-col class="contact" :md="8">
                                 <sparc-logo class="logo"></sparc-logo>
-                                <div class="contact">
-                                    <p>
-                                        National Institutes of Health<br/>
-                                        900 Rockville Pike, Bethesda, Maryland
-                                    </p>
-                                    <p>
-                                        gene.civillico@nih.gov
-                                    </p>
-                                    <p>
-                                        301-451-3180
-                                    </p>
-
-                                </div>
+                                <p>
+                                    {{ footerAddress.name }}<br/>
+                                    {{ footerAddress.street }}, {{ footerAddress.city }}, {{ footerAddress.state }}
+                                </p>
+                                <p>
+                                    {{ footerEmailAddress }}
+                                </p>
+                                <p>
+                                    {{ footerPhoneNumber.join("-") }}
+                                </p>
                                 <div class="social">
                                     <p>Twitter</p>
                                     <p>Facebook</p>
@@ -220,54 +218,30 @@
                             </el-col>
                             <el-col :md="16">
                                 <el-row type="flex" class="link-sections">
-                                    <el-col :sm="12" :lg="8" class="link-section">
-                                        <p class="link-header">About</p>
+                                    <el-col :key="section.title" :sm="12" :lg="8" class="link-section" v-for="section in footerLinks">
+                                        <p class="link-header">{{ section.title }}</p>
                                         <ul>
-                                            <li><a href="/">About SPARC</a></li>
-                                            <li><a href="/">About SPARC</a></li>
-                                        </ul>
-                                    </el-col>
-                                    <el-col :md="12" :lg="8" class="link-section">
-                                        <p class="link-header">About</p>
-                                        <ul>
-                                            <li><a href="/">About SPARC</a></li>
-                                            <li><a href="/">About SPARC</a></li>
-                                        </ul>
-                                    </el-col>
-                                    <el-col :md="12" :lg="8" class="link-section">
-                                        <p class="link-header">About</p>
-                                        <ul>
-                                            <li><a href="/">About SPARC</a></li>
-                                            <li><a href="/">About SPARC</a></li>
-                                        </ul>
-                                    </el-col>
-                                    <el-col :md="12" :lg="8" class="link-section">
-                                        <p class="link-header">About</p>
-                                        <ul>
-                                            <li><a href="/">About SPARC</a></li>
-                                            <li><a href="/">About SPARC</a></li>
-                                        </ul>
-                                    </el-col>
-                                    <el-col :md="12" :lg="8" class="link-section">
-                                        <p class="link-header">About</p>
-                                        <ul>
-                                            <li><a href="/">About SPARC</a></li>
-                                            <li><a href="/">About SPARC</a></li>
+                                            <li :key="link.title" v-for="link in section.items">
+                                                <a :href="link.href">{{ link.title }}</a>
+                                            </li>
                                         </ul>
                                     </el-col>
                                 </el-row>
                             </el-col>
                         </el-row>
-                    </el-col>
+                    </div>
                 </el-col>
             </el-row>
-            <el-row>
-                <el-col>
-                    <p>NIH Stimulating Peripheral Activity to Relieve Conditions</p>
-                    <p>&copy; 2019 All Rights Reserved. <a href="https://blackfynn.com/privacy">Privacy Policy</a></p>
+            <el-row type="flex" justify="center">
+                <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
+                    <div class="legal">
+                        <p>NIH Stimulating Peripheral Activity to Relieve Conditions</p>
+                        <p>&copy; 2019 All Rights Reserved. <a href="https://blackfynn.com/privacy">Privacy Policy</a>
+                        </p>
+                    </div>
                 </el-col>
             </el-row>
-        </el-col>
+        </div>
     </el-col>
 </template>
 
@@ -281,6 +255,113 @@
     import dataCore from "../../assets/images/data-core.png";
     import SparcLogo from "../logo/SparcLogo.vue";
     import datasetAbstractImage from "../../assets/images/dataset-abstract-image.png"
+
+    const footerAddress = {
+        name: "National Institutes of Health",
+        street: "990 Rockville Pike",
+        city: "Bethesda",
+        state: "Maryland"
+    }
+
+    const footerEmailAddress = "gene.civillico@nih.gov"
+
+    const footerPhoneNumber = ["301", "451", "3180"]
+
+    const footerTwitterHandle = "/"
+
+    const footerFacebookHandle = "/"
+
+    const footerLinks = [
+        {
+            title: "Overview",
+            items: [
+                {
+                    title: "Program components",
+                    href: "/"
+                },
+                {
+                    title: "SPARC OTs",
+                    href: "/"
+                },
+                {
+                    title: "Working group",
+                    href: "/"
+                }
+            ]
+        },
+        {
+            title: "Research",
+            items: [
+                {
+                    title: "Funded research",
+                    href: "/"
+                },
+                {
+                    title: "Translational partnerships",
+                    href: "/"
+                },
+                {
+                    title: "Opportunities",
+                    href: "/"
+                },
+                {
+                    title: "Devices",
+                    href: "/"
+                },
+                {
+                    title: "Publications",
+                    href: "/"
+                }
+            ]
+        },
+        {
+            title: "Resources",
+            items: [
+                {
+                    title: "Cores",
+                    href: "/"
+                },
+                {
+                    title: "Templates and references",
+                    href: "/"
+                },
+                {
+                    title: "Materials",
+                    href: "/"
+                }
+            ]
+        },
+        {
+            title: "News",
+            items: [
+                {
+                    title: "Events",
+                    href: "/"
+                },
+                {
+                    title: "Announcements",
+                    href: "/"
+                }
+            ]
+        },
+        {
+            title: "Support",
+            items: [
+                {
+                    title: "Documentation",
+                    href: "/"
+                },
+                {
+                    title: "Tutorials",
+                    href: "/"
+                },
+                {
+                    title: "Feedback",
+                    href: "/"
+                }
+            ]
+        }
+    ];
 
     export default {
         name: "landing-page",
@@ -296,6 +377,12 @@
             dataCore,
             transparentBlob3,
             datasetAbstractImage,
+            footerLinks,
+            footerAddress,
+            footerPhoneNumber,
+            footerEmailAddress,
+            footerTwitterHandle,
+            footerFacebookHandle,
             cores: [
                 {
                     name: "Data Core",
@@ -325,7 +412,7 @@
 
 <style lang="scss" scoped>
     * {
-        font-family: 'San Francisco UI', sans-serif;
+        font-family: 'Asap', sans-serif;
     }
 
     .section-header {
@@ -452,6 +539,12 @@
                     -webkit-appearance: none;
                     width: 100%;
                     height: 100%;
+
+                    > input {
+                        border-radius: 0 !important;
+                        border: 0 !important;
+                        background: none;
+                    }
                 }
 
                 .search-input {
@@ -459,10 +552,15 @@
                     border: 0;
                     padding: .5em;
                     color: #8300BF;
-                    border-radius: 0;
                     -webkit-appearance: none;
                     width: 100%;
                     height: 100%;
+
+                    > input {
+                        border-radius: 0 !important;
+                        border: 0 !important;
+                        background: none;
+                    }
 
                     ::placeholder {
                         color: #8300BF;
@@ -482,29 +580,41 @@
         user-select: none;
         overflow: hidden;
 
-        .blobs {
+        .blob-row {
             height: 100%;
-            width: 100%;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: row;
-            flex-wrap: nowrap;
-            justify-content: space-around;
-            align-items: flex-start;
+            background: none;
+            flex-wrap: wrap;
 
-            .blob {
+            .blob-column {
                 height: 100%;
+                text-align: center;
+                padding-left: 5em;
+                padding-right: 5em;
+                padding-bottom: 3em;
+                background: none;
 
                 img {
                     height: 100%;
                 }
 
-                .blob1 {
-
+                img.blob1 {
+                    padding-left: 5em;
                 }
 
-                .blob2 {
-                    transform: scale(0.3);
+                img.blob2 {
+                    transform: scale(0.7);
+                }
+
+                img.blob3 {
+                    margin-top: 1em;
+                    margin-left: -3em;
+                    transform: scale(1.8);
+                }
+
+                img.blob4 {
+                    margin-top: 5em;
+                    margin-right: -1em;
+                    transform: scale(1.8);
                 }
             }
         }
@@ -531,12 +641,28 @@
         margin: 0;
     }
 
+    .legal {
+        padding: 2em 0;
+        text-transform: none;
+
+        p {
+            font-size: 8pt;
+            line-height: 12pt;
+            margin: 0;
+            padding: 0;
+        }
+    }
+
     .content {
         z-index: 1;
         position: relative;
     }
 
-    .header-and-hero {
+    .hero-header {
+        margin-bottom: .5em;
+    }
+
+    .head {
         font-family: 'Asap', sans-serif;
         position: relative;
 
@@ -549,10 +675,9 @@
             }
 
             .hero {
-                padding: 6em 0px;
+                padding: 10em 0;
             }
         }
-
     }
 
     .about {
@@ -561,32 +686,20 @@
         text-align: center;
         font-family: 'Asap', sans-serif;
         font-size: 22px;
-        padding: 40px 0px;
         position: relative;
 
-        .option {
-            padding: 0 .5em;
+        .content {
+            .option {
+                padding: 0 .5em;
 
-            a {
-                text-decoration: none;
-                color: #F9F2FC;
+                a {
+                    text-decoration: none;
+                    color: #F9F2FC;
 
-                &.active {
-                    color: #C200FD;
+                    &.active {
+                        color: #C200FD;
+                    }
                 }
-            }
-        }
-
-        .texture {
-            position: absolute;
-            z-index: 0;
-
-            .blob1 {
-                transform: scale(0.3);
-            }
-
-            .blob2 {
-                transform: scale(0.5);
             }
         }
     }
@@ -606,28 +719,27 @@
     }
 
     .footer {
-        padding: 60px 0px;
+        padding: 6em 0;
         background: #EDF1FC;
 
         color: #5D6478;
         text-transform: uppercase;
+        font-size: 10pt;
+        font-weight: 500;
 
         .link-header {
             color: #000;
         }
 
         .footer-content {
-            font-size: 10pt;
-            size: 10pt;
-            font-weight: bold;
 
             .contact {
-
+                margin-bottom: 2em;
             }
 
             .logo {
                 height: 30px;
-                margin-bottom: 4em;
+                margin-bottom: 3em;
             }
         }
 
@@ -639,7 +751,7 @@
     }
 
     .link-section {
-        padding-bottom: 5em;
+        padding-bottom: 3em;
 
         ul {
             list-style-type: none;
