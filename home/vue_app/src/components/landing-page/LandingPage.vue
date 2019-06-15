@@ -64,22 +64,20 @@
         <div class="section cores">
             <el-row type="flex" justify="center">
                 <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
-                    <div class="cards">
-                        <el-row type="flex" :gutter="10">
-                            <el-col :md="8" v-for="core in cores" v-bind:key="core.name">
-                                <el-card class="core-card" shadow="never" :body-style="{ padding: '0px' }">
-                                    <img v-bind:src="core.image" class="image">
-                                    <div class="content">
-                                        <p>{{core.name}}</p>
-                                        <p>{{core.description}}</p>
-                                        <div class="bottom clearfix">
-                                            <el-button type="text" class="button">{{core.linkText}}</el-button>
-                                        </div>
+                    <el-row class="cards" type="flex" justify="center" :gutter="20">
+                        <el-col :xs="20" :sm="8" v-for="core in cores" v-bind:key="core.name">
+                            <el-card class="core-card" shadow="never" :body-style="{ padding: '0px' }">
+                                <img v-bind:src="core.image" class="image">
+                                <div class="content">
+                                    <p>{{core.name}}</p>
+                                    <p>{{core.description}}</p>
+                                    <div class="bottom clearfix">
+                                        <el-button type="text" class="button">{{core.linkText}}</el-button>
                                     </div>
-                                </el-card>
-                            </el-col>
-                        </el-row>
-                    </div>
+                                </div>
+                            </el-card>
+                        </el-col>
+                    </el-row>
                 </el-col>
             </el-row>
 
@@ -157,8 +155,7 @@
                         </el-row>
                         <el-row type="flex" justify="flex-start">
                             <el-col :span="12" class="flush-column">
-                                <div class="featured-dataset-image"
-                                     :style="{ backgroundImage: `url('${datasetAbstractImage}')` }"/>
+                                <div class="featured-dataset-image" :style="{ backgroundImage: `url('${datasetAbstractImage}')` }"></div>
                             </el-col>
                             <el-col :span="12" class="flush-column">
                                 <div class="featured-dataset-description">
@@ -388,21 +385,21 @@
                     name: "Data Core",
                     description: "Powered by Blackfynn, the data portal houses and synthesizes the metadata from an array of datasets.",
                     link: "/data-core",
-                    linkText: "Visit data core",
+                    linkText: "Browse the data",
                     image: dataCore
                 },
                 {
                     name: "Map Core",
                     description: "Powered by Blackfynn, the data portal houses and synthesizes the metadata from an array of datasets.",
                     link: "/map-core",
-                    linkText: "Visit data core",
+                    linkText: "Check out the visualizations",
                     image: mapCore
                 },
                 {
                     name: "Simulation Core",
                     description: "Powered by Blackfynn, the data portal houses and synthesizes the metadata from an array of datasets.",
                     link: "/simulation-core",
-                    linkText: "Visit data core",
+                    linkText: "Launch o2S2PARC Platform",
                     image: simulationCore
                 }
             ]
@@ -420,7 +417,8 @@
     }
 
     .cards {
-
+        flex-wrap: wrap;
+        margin-top: -2em;
     }
 
     .flush-column {
@@ -494,13 +492,14 @@
 
     .core-card {
         width: 100%;
+        margin-top: 2em;
 
         img {
             width: 100%;
         }
 
         .content {
-            padding: .5em;
+            padding: 1em;
             background: #F5F7FA;
         }
     }
@@ -705,7 +704,7 @@
     }
 
     .section {
-        padding: 3rem 0;
+        padding: 5rem 0;
     }
 
     .explore-the-data {
