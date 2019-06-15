@@ -1,20 +1,25 @@
 <template>
-    <div class="contain">
-        <slot></slot>
-    </div>
+   <div class="contain">
+       <el-row class="row" type="flex" justify="center">
+           <el-col class="col" :xs="22" :lg="18">
+               <slot></slot>
+           </el-col>
+       </el-row>
+   </div>
 </template>
 
 <script>
     export default {
-        name: "contain"
+        name: "contain",
     }
 </script>
 
 <style scoped lang="scss">
     .contain {
-        padding: 0 3rem;
-        height: 100%;
-        margin: 0 auto;
+        .row {
+            .col {
+            }
+        }
     }
 </style>
 

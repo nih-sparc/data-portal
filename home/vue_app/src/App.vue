@@ -13,8 +13,16 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '../../../static/css/_variables.scss';
+@import url('https://fonts.googleapis.com/css?family=Asap&display=swap');
 
+    /*.el-row {*/
+    /*    border: 1px dotted grey;*/
+    /*}*/
+
+    /*.el-col {*/
+    /*    border: 1px dotted grey;*/
+    /*}*/
 
 </style>
