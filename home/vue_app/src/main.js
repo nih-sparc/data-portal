@@ -4,6 +4,7 @@ import VueAxios from 'vue-axios'
 import ElementUI from 'element-ui';
 import VueRouter from 'vue-router'
 import SparcLandingPage from "./components/landing-page/LandingPage.vue"
+import SparcAboutPage from "./components/about-page/AboutPage.vue"
 import MarketingApp from './App.vue'
 
 Vue.config.productionTip = false
@@ -21,6 +22,11 @@ const router = new VueRouter({
       path: '/home',
       name: 'Home',
       component: SparcLandingPage,
+    },
+    {
+      path: '/about',
+      name: 'About',
+      component: SparcAboutPage
     }
   ],
 })

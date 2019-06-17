@@ -1,5 +1,12 @@
 <template>
-    <el-col>
+    <div>
+        <div class="nav">
+            <el-row type="flex" justify="center">
+                <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
+                    <sparc-header/>
+                </el-col>
+            </el-row>
+        </div>
         <div class="head">
             <div class="texture">
                 <el-row class="blob-row" type="flex" justify="center">
@@ -12,13 +19,6 @@
                 </el-row>
             </div>
             <div class="content">
-                <div class="nav section">
-                    <el-row type="flex" justify="center">
-                        <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
-                            <sparc-header/>
-                        </el-col>
-                    </el-row>
-                </div>
                 <div class="hero section">
                     <el-row type="flex" justify="center">
                         <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
@@ -188,58 +188,8 @@
                 </el-col>
             </el-row>
         </div>
-        <div class="section footer">
-            <el-row type="flex" justify="center">
-                <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
-                    <div class="footer-content">
-                        <el-row>
-                            <el-col class="contact" :md="8">
-                                <sparc-logo class="logo"></sparc-logo>
-                                <p>
-                                    {{ footerAddress.name }}<br/>
-                                    {{ footerAddress.street }}, {{ footerAddress.city }}, {{ footerAddress.state }}
-                                </p>
-                                <p>
-                                    {{ footerEmailAddress }}
-                                </p>
-                                <p>
-                                    {{ footerPhoneNumber.join("-") }}
-                                </p>
-                                <div class="social">
-                                    <p>Twitter</p>
-                                    <p>Facebook</p>
-                                </div>
-                                <div class="external-link uppercase">
-                                    <a href="https://nih.gov">Visit the NIH site ></a>
-                                </div>
-                            </el-col>
-                            <el-col :md="16">
-                                <el-row type="flex" class="link-sections">
-                                    <el-col :key="section.title" :sm="12" :lg="8" class="link-section" v-for="section in footerLinks">
-                                        <p class="link-header">{{ section.title }}</p>
-                                        <ul>
-                                            <li :key="link.title" v-for="link in section.items">
-                                                <a :href="link.href">{{ link.title }}</a>
-                                            </li>
-                                        </ul>
-                                    </el-col>
-                                </el-row>
-                            </el-col>
-                        </el-row>
-                    </div>
-                </el-col>
-            </el-row>
-            <el-row type="flex" justify="center">
-                <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
-                    <div class="legal">
-                        <p>NIH Stimulating Peripheral Activity to Relieve Conditions</p>
-                        <p>&copy; 2019 All Rights Reserved. <a href="https://blackfynn.com/privacy">Privacy Policy</a>
-                        </p>
-                    </div>
-                </el-col>
-            </el-row>
-        </div>
-    </el-col>
+        <sparc-footer/>
+    </div>
 </template>
 
 <script>
@@ -252,119 +202,14 @@
     import dataCore from "../../assets/images/data-core.png";
     import SparcLogo from "../logo/SparcLogo.vue";
     import datasetAbstractImage from "../../assets/images/dataset-abstract-image.png"
-
-    const footerAddress = {
-        name: "National Institutes of Health",
-        street: "990 Rockville Pike",
-        city: "Bethesda",
-        state: "Maryland"
-    }
-
-    const footerEmailAddress = "gene.civillico@nih.gov"
-
-    const footerPhoneNumber = ["301", "451", "3180"]
-
-    const footerTwitterHandle = "/"
-
-    const footerFacebookHandle = "/"
-
-    const footerLinks = [
-        {
-            title: "Overview",
-            items: [
-                {
-                    title: "Program components",
-                    href: "/"
-                },
-                {
-                    title: "SPARC OTs",
-                    href: "/"
-                },
-                {
-                    title: "Working group",
-                    href: "/"
-                }
-            ]
-        },
-        {
-            title: "Research",
-            items: [
-                {
-                    title: "Funded research",
-                    href: "/"
-                },
-                {
-                    title: "Translational partnerships",
-                    href: "/"
-                },
-                {
-                    title: "Opportunities",
-                    href: "/"
-                },
-                {
-                    title: "Devices",
-                    href: "/"
-                },
-                {
-                    title: "Publications",
-                    href: "/"
-                }
-            ]
-        },
-        {
-            title: "Resources",
-            items: [
-                {
-                    title: "Cores",
-                    href: "/"
-                },
-                {
-                    title: "Templates and references",
-                    href: "/"
-                },
-                {
-                    title: "Materials",
-                    href: "/"
-                }
-            ]
-        },
-        {
-            title: "News",
-            items: [
-                {
-                    title: "Events",
-                    href: "/"
-                },
-                {
-                    title: "Announcements",
-                    href: "/"
-                }
-            ]
-        },
-        {
-            title: "Support",
-            items: [
-                {
-                    title: "Documentation",
-                    href: "/"
-                },
-                {
-                    title: "Tutorials",
-                    href: "/"
-                },
-                {
-                    title: "Feedback",
-                    href: "/"
-                }
-            ]
-        }
-    ];
+    import SparcFooter from "../Footer/Footer.vue";
 
     export default {
         name: "landing-page",
         components: {
             SparcHeader,
-            SparcLogo
+            SparcLogo,
+            SparcFooter
         },
         data: () => ({
             irregularBlob1,
@@ -374,12 +219,6 @@
             dataCore,
             transparentBlob3,
             datasetAbstractImage,
-            footerLinks,
-            footerAddress,
-            footerPhoneNumber,
-            footerEmailAddress,
-            footerTwitterHandle,
-            footerFacebookHandle,
             cores: [
                 {
                     name: "Data Core",
@@ -664,9 +503,10 @@
     .head {
         font-family: 'Asap', sans-serif;
         position: relative;
+        margin-top: -40px;
+        z-index: -1;
 
         .content {
-
             .nav {
                 height: 35px;
                 padding: 0;
@@ -717,59 +557,4 @@
         background: #EDF1FC;
     }
 
-    .footer {
-        padding: 6em 0;
-        background: #EDF1FC;
-
-        color: #5D6478;
-        text-transform: uppercase;
-        font-size: 10pt;
-        font-weight: 500;
-
-        .link-header {
-            color: #000;
-        }
-
-        .footer-content {
-
-            .contact {
-                margin-bottom: 2em;
-            }
-
-            .logo {
-                height: 30px;
-                margin-bottom: 3em;
-            }
-        }
-
-    }
-
-    .link-sections {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .link-section {
-        padding-bottom: 3em;
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-
-            li {
-                padding: .5em 0;
-                margin: 0;
-
-                a {
-                    color: #606266;
-                    text-decoration: none;
-
-                    &:hover {
-                        color: #909399;
-                    }
-                }
-            }
-        }
-    }
 </style>
