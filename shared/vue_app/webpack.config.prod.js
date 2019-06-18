@@ -1,7 +1,5 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const filewatcherPlugin = require("filewatcher-webpack-plugin");
 
 module.exports = {
   entry: path.resolve(__dirname, 'src/main.js'),
@@ -37,19 +35,6 @@ module.exports = {
     filename: '_build/bundle.js'
   },
   plugins: [
-    new VueLoaderPlugin(),
-    new HtmlWebpackPlugin({
-      'template': 'public/dashboard.html',
-      'filename': 'dashboard.html',
-      'chunks': ['dashboard'],
-      'inject': false}),
-    new filewatcherPlugin({
-      watchFileRegex: [
-        './src/**/*.vue',
-        './src/**/*.js',
-      ],
-      usePolling: true,
-      ignored: '/node_modules/'
-    })
-  ],
+    new VueLoaderPlugin()
+      ]
 };
