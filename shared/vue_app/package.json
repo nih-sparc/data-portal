@@ -16,8 +16,10 @@
     "vega-embed": "^3.29.0",
     "vue": "^2.5.22",
     "vue-infinite-loading": "^2.4.3",
-    "vue-router": "^3.0.2",
-    "webpack": "^4.29.6"
+    "webpack": "^4.29.6",
+    "axios": "^0.18.0",
+    "vue-axios": "^2.1.4",
+    "vue-router": "^3.0.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.4.0",
