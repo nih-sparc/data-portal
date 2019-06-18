@@ -12,9 +12,13 @@
 </head>
 
 <body>
-    {% block app %}{% endblock %}
+    <div id="site-container">
+        <div id="sparc-header"></div>
+        <div id="page-container">{% block app %}{% endblock %}</div>
+        <div id="sparc-footer"></div>
+    </div>
+    <script type="text/javascript" src="shared/_build/bundle.js"></script>
 </body>
 
-{% block javascript %}
-{% endblock %}
+{% block javascript %}{% endblock %}
 </html>

@@ -30,6 +30,7 @@ with app.app_context():
 from dat_core.views import dat_core_blueprint
 from map_core.views import map_core_blueprint
 from sim_core.views import sim_core_blueprint
+from shared.views import shared_blueprint
 from home.views import home_blueprint
 from api.api import api_blueprint
 
@@ -40,7 +41,7 @@ app.register_blueprint(dat_core_blueprint)
 app.register_blueprint(sim_core_blueprint)
 app.register_blueprint(home_blueprint)
 app.register_blueprint(api_blueprint)
-
+app.register_blueprint(shared_blueprint)
 
 
 # don't cache static assets in jinja templates

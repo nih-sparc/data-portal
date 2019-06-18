@@ -1,12 +1,5 @@
 <template>
     <div>
-        <div class="nav">
-            <el-row type="flex" justify="center">
-                <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
-                    <sparc-header/>
-                </el-col>
-            </el-row>
-        </div>
         <div class="head">
             <div class="texture">
                 <el-row class="blob-row" type="flex" justify="center">
@@ -188,29 +181,48 @@
                 </el-col>
             </el-row>
         </div>
-        <sparc-footer/>
     </div>
 </template>
 
 <script>
-    import SparcHeader from "../header/Header.vue";
+    import SparcHeader from "../../../../../shared/vue_app/src/components/header/Header.vue";
     import irregularBlob1 from "../../assets/images/irregular-blob-1.svg";
     import irregularBlob2 from "../../assets/images/irregular-blob-2.svg";
     import transparentBlob3 from "../../assets/images/transparent-blob-3.svg";
     import mapCore from "../../assets/images/map-core.png";
     import simulationCore from "../../assets/images/simulation-core.png";
     import dataCore from "../../assets/images/data-core.png";
-    import SparcLogo from "../logo/SparcLogo.vue";
+    import SparcLogo from "../../../../../shared/vue_app/src/components/logo/SparcLogo.vue";
     import datasetAbstractImage from "../../assets/images/dataset-abstract-image.png"
-    import SparcFooter from "../Footer/Footer.vue";
+    import SparcFooter from "../../../../../shared/vue_app/src/components/footer/Footer.vue";
+
+    const cores = [
+        {
+            name: "Data Core",
+            description: "Powered by Blackfynn, the data portal houses and synthesizes the metadata from an array of datasets.",
+            link: "/data-core",
+            linkText: "Browse the data",
+            image: dataCore
+        },
+        {
+            name: "Map Core",
+            description: "Powered by Blackfynn, the data portal houses and synthesizes the metadata from an array of datasets.",
+            link: "/map-core",
+            linkText: "Check out the visualizations",
+            image: mapCore
+        },
+        {
+            name: "Simulation Core",
+            description: "Powered by Blackfynn, the data portal houses and synthesizes the metadata from an array of datasets.",
+            link: "/simulation-core",
+            linkText: "Launch o2S2PARC Platform",
+            image: simulationCore
+        }
+    ]
 
     export default {
         name: "landing-page",
-        components: {
-            SparcHeader,
-            SparcLogo,
-            SparcFooter
-        },
+        components: {},
         data: () => ({
             irregularBlob1,
             irregularBlob2,
@@ -219,36 +231,14 @@
             dataCore,
             transparentBlob3,
             datasetAbstractImage,
-            cores: [
-                {
-                    name: "Data Core",
-                    description: "Powered by Blackfynn, the data portal houses and synthesizes the metadata from an array of datasets.",
-                    link: "/data-core",
-                    linkText: "Browse the data",
-                    image: dataCore
-                },
-                {
-                    name: "Map Core",
-                    description: "Powered by Blackfynn, the data portal houses and synthesizes the metadata from an array of datasets.",
-                    link: "/map-core",
-                    linkText: "Check out the visualizations",
-                    image: mapCore
-                },
-                {
-                    name: "Simulation Core",
-                    description: "Powered by Blackfynn, the data portal houses and synthesizes the metadata from an array of datasets.",
-                    link: "/simulation-core",
-                    linkText: "Launch o2S2PARC Platform",
-                    image: simulationCore
-                }
-            ]
+            cores
         })
     }
 </script>
 
 <style lang="scss" scoped>
-    * {
-        font-family: 'Asap', sans-serif;
+    .page-container {
+        margin-top: -5em;
     }
 
     .section-header {
@@ -458,39 +448,6 @@
         }
     }
 
-    h1 {
-        font-size: 3em;
-        font-weight: normal;
-        padding: 0;
-        margin: 0;
-    }
-
-    h2 {
-        font-size: 2em;
-        font-weight: normal;
-        padding: 0;
-        margin: 0;
-    }
-
-    h3 {
-        font-size: 1.5em;
-        font-weight: normal;
-        padding: 0;
-        margin: 0;
-    }
-
-    .legal {
-        padding: 2em 0;
-        text-transform: none;
-
-        p {
-            font-size: 8pt;
-            line-height: 12pt;
-            margin: 0;
-            padding: 0;
-        }
-    }
-
     .content {
         z-index: 1;
         position: relative;
@@ -501,18 +458,10 @@
     }
 
     .head {
-        font-family: 'Asap', sans-serif;
         position: relative;
-        margin-top: -40px;
         z-index: -1;
 
         .content {
-            .nav {
-                height: 35px;
-                padding: 0;
-                padding-top: 2rem;
-            }
-
             .hero {
                 padding: 10em 0;
             }

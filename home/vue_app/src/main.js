@@ -6,6 +6,7 @@ import VueRouter from 'vue-router'
 import SparcLandingPage from "./components/landing-page/LandingPage.vue"
 import SparcAboutPage from "./components/about-page/AboutPage.vue"
 import MarketingApp from './App.vue'
+import DatasetPage from "./components/dataset-landing-page/DatasetPage.vue";
 
 Vue.config.productionTip = false
 Vue.config.devtools = true
@@ -27,6 +28,11 @@ const router = new VueRouter({
       path: '/about',
       name: 'About',
       component: SparcAboutPage
+    },
+    {
+      path: '/dataset',
+      name: 'Dataset',
+      component: DatasetPage
     }
   ],
 })

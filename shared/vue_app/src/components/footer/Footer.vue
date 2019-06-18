@@ -6,14 +6,14 @@
                     <el-row>
                         <el-col class="contact" :md="8">
                             <sparc-logo class="logo"></sparc-logo>
-                            <p>
+                            <p class="address">
                                 {{ footerAddress.name }}<br/>
                                 {{ footerAddress.street }}, {{ footerAddress.city }}, {{ footerAddress.state }}
                             </p>
-                            <p>
+                            <p class="email-address">
                                 {{ footerEmailAddress }}
                             </p>
-                            <p>
+                            <p class="phone-number">
                                 {{ footerPhoneNumber.join("-") }}
                             </p>
                             <div class="social">
@@ -179,9 +179,15 @@
 </script>
 
 <style scoped lang="scss">
+    @import '../../../../../static/css/_variables.scss';
+
     .footer-content {
         font-size: 10pt;
         size: 10pt;
+    }
+
+    .address {
+        margin-bottom: 3em;
     }
 
     .uppercase {

@@ -7,6 +7,7 @@
     "node": "11.6.0"
   },
   "scripts": {
+    "dev-build-shared": "npm --prefix shared/vue_app install && npm --prefix shared/vue_app run build",
     "dev-build-dashboard": "npm --prefix home/vue_app install && npm --prefix home/vue_app run build",
     "dev-build-browse": "npm --prefix ./dat_core/vue_app install && npm --prefix ./dat_core/vue_app run build",
     "heroku-postbuild": "npm --prefix ./dat_core/vue_app install && npm --prefix ./dat_core/vue_app --only=dev install && npm --prefix ./dat_core/vue_app run build-prod && npm --prefix home/vue_app install && npm --prefix home/vue_app --only=dev install && npm --prefix home/vue_app run build-prod"
