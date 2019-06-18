@@ -53,7 +53,6 @@ def connect_to_graphenedb():
 @api_blueprint.route('/db/graph/properties')
 def graph_props():
     cmd = 'MATCH (n:GraphModel)-[*1]-(m:GraphModelProp) RETURN n.name, m.name, m.type'
-    print 'Get Properties: {}'.format(cmd)
     with gp.session() as session:
         result = session.run(cmd)
         items = []
@@ -146,7 +145,7 @@ def model(model):
                 cmd += 'WHERE '
 
             valueStr = f['v']
-            print(f['o'])
+            # print(f['o'])
             if f['o'] in ['STARTS WITH', 'ENDS WITH', 'CONTAINS']:
                 print(f['o'])
                 valueStr = "'{}'".format(f['v'])
@@ -154,7 +153,7 @@ def model(model):
                 f['o'] = '='
                 valueStr = "'{}'".format(f['v'])
 
-            print('filter: {} + {} + {}'.format(f['m'],f['o'],valueStr))
+            # print('filter: {} + {} + {}'.format(f['m'],f['o'],valueStr))
 
             propComponents = f['m'].split(':')
             propModel = propComponents[0]
@@ -180,7 +179,7 @@ def model(model):
         else:
             cmd = 'MATCH (n:{}) RETURN n SKIP {} LIMIT {}'.format(model, offset, limit)
         
-    print('requesting: {}'.format(cmd))    
+    # print('requesting: {}'.format(cmd))    
     resp = []
     with gp.session() as session:
         result = session.run(cmd)    
@@ -211,7 +210,7 @@ def getLabelProps(model):
     cmd = 'MATCH (a:{}) UNWIND keys(a) AS key RETURN collect(distinct key)'.format(model)
 
     # cmd = 'MATCH (n:{}) RETURN n LIMIT 1'.format(model)
-    print(cmd)
+    # print(cmd)
 
     resp = []
     with gp.session() as session:
