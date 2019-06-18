@@ -14,5 +14,8 @@
 </script>
 
 <style lang="scss" scoped>
+  #browse-app {
+    margin-top: 6em;
+  }
 
 </style>
