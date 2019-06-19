@@ -4,7 +4,7 @@
             <el-col :xs="22" :sm="22" :md="16" :lg="12" :xl="12">
                 <div class="about">
                     <h1>About the Data Portal</h1>
-                    <p>The data portal is a window into the SPARC Data & Resource Center. Its function is to provide investigators easy access to multimodal data, maps, data models, and simulations of the SPARC program.</p>
+                    <p>The SPARC Portal provides interactive access to a growing collection of data, maps, and computational models that focus on the role of the autonomic nervous system in controlling organ function. These resources are made freely available to the community with the intent of advancing the neuromodulation field towards more precise treatment of diseases and conditions.</p>
                     <div class="rule-container">
                         <div class="rule"></div>
                     </div>
