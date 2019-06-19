@@ -3,7 +3,7 @@
 </template>
 
 <script>
-    import logo from "../../../../../home/vue_app/src/assets/images/sparc-logo.svg"
+    import logo from "../../../../../home/vue_app/src/assets/images/logo-sparc-wave-primary.svg"
 
     export default {
         name: 'sparc-logo',
