@@ -44,20 +44,19 @@
           <el-col :xs="22" :sm="22" :md="14" :lg="14">
             <div class="options">
               <span class="option">
-                <a class="active">Goal</a>
+                <a :class="{ active: activeTextBlock === 'goal' }" href="#" @click.prevent="toggleText('goal')">Goal</a>
               </span>
               <span>•</span>
               <span class="option">
-                <a>Current</a>
+                <a :class="{ active: activeTextBlock === 'current' }" href="#" @click.prevent="toggleText('current')">Current</a>
               </span>
               <span>•</span>
               <span class="option">
-                <a>Future</a>
+                <a :class="{ active: activeTextBlock === 'future' }" href="#" @click.prevent="toggleText('future')">Future</a>
               </span>
             </div>
             <p>
-              The SPARC Portal is a free, open-source platform that aims to 
-              catalyze development of next-generation bioelectronic medicines.
+              {{ textBlocks[activeTextBlock] }}
             </p>
           </el-col>
         </el-row>
@@ -187,16 +186,13 @@
 </template>
 
 <script>
-import SparcHeader from "../../../../../shared/vue_app/src/components/header/Header.vue";
 import irregularBlob1 from "../../assets/images/irregular-blob-1.svg";
 import irregularBlob2 from "../../assets/images/irregular-blob-2.svg";
 import transparentBlob3 from "../../assets/images/transparent-blob-3.svg";
 import mapCore from "../../assets/images/map-core.png";
 import simulationCore from "../../assets/images/simulation-core.png";
 import dataCore from "../../assets/images/data-core.png";
-import SparcLogo from "../../../../../shared/vue_app/src/components/logo/SparcLogo.vue";
 import datasetAbstractImage from "../../assets/images/dataset-abstract-image.png";
-import SparcFooter from "../../../../../shared/vue_app/src/components/footer/Footer.vue";
 
 const cores = [
   {
@@ -226,9 +222,15 @@ const cores = [
 ];
 
 export default {
-  name: "landing-page",
-  components: {},
+  name: 'landing-page',
+
   data: () => ({
+    textBlocks: {
+      goal: 'The SPARC Portal is a free, open-source platform that aims to catalyze development of next-generation bioelectronic medicines.',
+      current: '',
+      future: ''
+    },
+    activeTextBlock: 'goal',
     irregularBlob1,
     irregularBlob2,
     mapCore,
@@ -238,7 +240,16 @@ export default {
     datasetAbstractImage,
     cores
   }),
-  methods: () => ({})
+
+  methods: {
+    /**
+     * Sets the activeTextBlock
+     * @param {String}
+     */
+    toggleText: function(key) {
+      this.activeTextBlock = key
+    }
+  }
 };
 </script>
 
