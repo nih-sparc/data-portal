@@ -18,8 +18,7 @@
               <el-row>
                 <el-col :xs="22" :sm="22" :md="12" :lg="12">
                   <h1 class="hero-header">
-                    Advancing the neuromodulation field toward treatments that
-                    change lives.
+                    A modern view into the autonomic nervous system.
                   </h1>
                   <el-button type="primary" class="explore-the-data">Explore the data</el-button>
                 </el-col>
@@ -57,8 +56,8 @@
               </span>
             </div>
             <p>
-              SPARC is a consortium of researchers, data experts, coders, and scientists seeking to map
-              the nervous system. The project is data focused and split into 3 core groups.
+              The SPARC Portal is a free, open-source platform that aims to 
+              catalyze development of next-generation bioelectronic medicines.
             </p>
           </el-col>
         </el-row>
@@ -203,25 +202,25 @@ const cores = [
   {
     name: "Data Core",
     description:
-      "Powered by Blackfynn, the data portal houses and synthesizes the metadata from an array of datasets.",
+      "A collection of curated data provides new insights into the autonomic nervous system. ",
     link: "/data-core",
-    linkText: "Browse the data",
+    linkText: "Explore SPARC Datasets",
     image: dataCore
   },
   {
     name: "Map Core",
     description:
-      "Powered by Blackfynn, the data portal houses and synthesizes the metadata from an array of datasets.",
+      "Interactive visualizations facilitate exploration of nerve-organ anatomy and function.",
     link: "/map-core",
-    linkText: "Check out the visualizations",
+    linkText: "View Interactive Maps",
     image: mapCore
   },
   {
     name: "Simulation Core",
     description:
-      "Powered by Blackfynn, the data portal houses and synthesizes the metadata from an array of datasets.",
+      "An online simulation platform enables predictive modeling of neuromodulation effects.",
     link: "/simulation-core",
-    linkText: "Launch o2S2PARC Platform",
+    linkText: "Explore Simulation Models",
     image: simulationCore
   }
 ];

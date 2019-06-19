@@ -32,7 +32,7 @@
         {
             title: "Overview",
             href: "/",
-            active: pathOrHashContainsString("/") && !pathOrHashContainsString("/about") && !pathOrHashContainsString("/dataset")
+            active: pathOrHashContainsString("/") && !pathOrHashContainsString("/about") && !pathOrHashContainsString("/browse")
         },
         {
             title: "About",
@@ -40,16 +40,16 @@
             active: pathOrHashContainsString("/about")
         },
         {
-            title: "Data Core",
-            href: "/#",
-            active: pathOrHashContainsString("/dataset")
+            title: "Browse Data",
+            href: "/browse/#",
+            active: pathOrHashContainsString("/browse")
         },
         {
-            title: "Map Core",
+            title: "Visualize Maps",
             href: "/#"
         },
         {
-            title: "Simulation Core",
+            title: "Run Simulations",
             href: "/#"
         }
     ];
