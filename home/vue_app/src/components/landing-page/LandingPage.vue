@@ -227,8 +227,8 @@ export default {
   data: () => ({
     textBlocks: {
       goal: 'The SPARC Portal is a free, open-source platform that aims to catalyze development of next-generation bioelectronic medicines.',
-      current: '',
-      future: ''
+      current: 'The SPARC Portal provides a growing collection of autonomic neuroscience datasets, maps, and computational models ⁠— as well as the ability to interact with those resources all within your web browser.',
+      future: 'Launched in July 2019, the SPARC Portal will enable users to run advanced analytics and multiscale simulations for predicting the effects of neuromodulation on organ function.'
     },
     activeTextBlock: 'goal',
     irregularBlob1,
