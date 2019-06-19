@@ -33,8 +33,8 @@ module.exports = {
     ]}]
   },
   output: {
-    path: path.resolve(__dirname, '../static/dist'),
-    filename: '_build/bundle.js'
+    path: path.resolve(__dirname, '../../shared/static/dist'),
+    filename: '_build/bundle_home.js'
   },
   plugins: [
     new VueLoaderPlugin(),

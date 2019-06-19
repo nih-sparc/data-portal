@@ -12,7 +12,7 @@ from logger import logger
 #### config ####
 ################
  
-home_blueprint = Blueprint('home', __name__, static_folder='./static/dist', template_folder='./static/dist',url_prefix='',static_url_path="")
+home_blueprint = Blueprint('home', __name__, static_folder='../shared/static/dist', template_folder='./static/dist',url_prefix='',static_url_path="")
  
 ################
 #### routes ####
