@@ -56,7 +56,7 @@
               </span>
             </div>
             <p>
-              {{ textBlocks[activeTextBlock] }}
+              {{ activeText }}
             </p>
           </el-col>
         </el-row>
@@ -238,8 +238,20 @@ export default {
     dataCore,
     transparentBlob3,
     datasetAbstractImage,
-    cores
+    cores,
+    value2: '',
+    state: ''
   }),
+
+  computed: {
+    /**
+     * Compute active text to show
+     * @returns {String}
+     */
+    activeText: function () {
+      return this.textBlocks[this.activeTextBlock]
+    }
+  },
 
   methods: {
     /**
@@ -248,6 +260,13 @@ export default {
      */
     toggleText: function(key) {
       this.activeTextBlock = key
+    },
+
+    /**
+     * @TODO temp function
+     */
+    handleIconClick: function() {
+
     }
   }
 };
