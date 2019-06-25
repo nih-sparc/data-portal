@@ -8,7 +8,8 @@
 
 export default {
   name: 'sparc-welcome',
-
+  components: {
+  },
   props: {
     message: {
       type: String,

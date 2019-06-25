@@ -1,6 +1,15 @@
 {% extends "base.html" %}
-{% block header %}<title>Browse SPARC Maps</title>{% endblock %}
-{% block app %}<div id="MAPcorePortalArea" style="height:90%;width:100%;position: absolute;"></div>{% endblock %}
+{% block header %}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <title>MAP</title>
+{% endblock %}
+{% block app %}
+	<div id="MAPcorePortalArea" style="height:1000px;top:10em;position:relative;"></div>
+{% endblock %}
 {% block javascript %}
   <!-- Place additional Javascript here -->
   <!-- <script type="text/javascript" src="./scaffoldmaker_webapp.js"></script>-->

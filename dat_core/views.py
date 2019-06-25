@@ -13,7 +13,7 @@ from flask import current_app
 #### config ####
 ################
  
-dat_core_blueprint = Blueprint('dat_core', __name__, static_folder='./static/dist', template_folder='./static/dist',url_prefix='/browse',static_url_path="")
+dat_core_blueprint = Blueprint('dat_core', __name__, static_folder='../shared/static/dist', template_folder='./static/dist',url_prefix='/browse',static_url_path="")
 
 ################
 #### routes ####
