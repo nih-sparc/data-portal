@@ -40,10 +40,10 @@ def connect_to_blackfynn():
 @app.before_first_request
 def connect_to_graphenedb():
     global gp
-    # graphenedb_url = Config.GRAPHENEDB_BOLT_URL
-    # graphenedb_user = Config.GRAPHENEDB_BOLT_USER
-    # graphenedb_pass = Config.GRAPHENEDB_BOLT_PASSWORD
-    # gp = GraphDatabase.driver(graphenedb_url, auth=basic_auth(graphenedb_user, graphenedb_pass))
+    graphenedb_url = Config.GRAPHENEDB_BOLT_URL
+    graphenedb_user = Config.GRAPHENEDB_BOLT_USER
+    graphenedb_pass = Config.GRAPHENEDB_BOLT_PASSWORD
+    gp = GraphDatabase.driver(graphenedb_url, auth=basic_auth(graphenedb_user, graphenedb_pass))
 
     init_sim_db(gp)
 
