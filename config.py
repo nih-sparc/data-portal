@@ -10,3 +10,5 @@ class Config(object):
     GRAPHENEDB_BOLT_URL=os.environ.get("GRAPHENEDB_BOLT_URL")
     GRAPHENEDB_BOLT_USER=os.environ.get("GRAPHENEDB_BOLT_USER")
     GRAPHENEDB_BOLT_PASSWORD=os.environ.get("GRAPHENEDB_BOLT_PASSWORD")
+
+    DISCOVER_API_HOST=os.environ.get('DISCOVER_API_HOST')

@@ -5,7 +5,7 @@
 #################
  
 from app import app
-from flask import render_template, Blueprint, request
+from flask import render_template, Blueprint, request, jsonify
 from logger import logger
 from blackfynn import Blackfynn
 from config import Config
@@ -13,7 +13,8 @@ from flask_marshmallow import Marshmallow
 from neo4j import GraphDatabase, basic_auth
 import json
 import urllib
-from .simcore import init_sim_db
+import requests
+# from .simcore import init_sim_db
 
 ################
 #### config ####
@@ -40,12 +41,12 @@ def connect_to_blackfynn():
 @app.before_first_request
 def connect_to_graphenedb():
     global gp
-    graphenedb_url = Config.GRAPHENEDB_BOLT_URL
-    graphenedb_user = Config.GRAPHENEDB_BOLT_USER
-    graphenedb_pass = Config.GRAPHENEDB_BOLT_PASSWORD
-    gp = GraphDatabase.driver(graphenedb_url, auth=basic_auth(graphenedb_user, graphenedb_pass))
+    # graphenedb_url = Config.GRAPHENEDB_BOLT_URL
+    # graphenedb_user = Config.GRAPHENEDB_BOLT_USER
+    # graphenedb_pass = Config.GRAPHENEDB_BOLT_PASSWORD
+    # gp = GraphDatabase.driver(graphenedb_url, auth=basic_auth(graphenedb_user, graphenedb_pass))
 
-    init_sim_db(gp)
+    # init_sim_db(gp)
 
 #########################
 #### GRAPHDB  routes ####
@@ -285,3 +286,9 @@ def discover():
 #########################
 #### SIM-CORE routes ####
 #########################
+
+@api_blueprint.route('/sim/datasets')
+def datasets():
+    if request.method == 'GET':
+        req = requests.get('{}/datasets'.format(Config.DISCOVER_API_HOST))
+        return jsonify(req.json())
