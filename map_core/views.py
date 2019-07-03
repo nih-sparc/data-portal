@@ -1,24 +1,31 @@
 # map_core/views.py
- 
+
 #################
 #### imports ####
 #################
- 
+
 from app import app
-from flask import render_template, Blueprint, request,make_response, url_for, jsonify, send_from_directory, redirect
+from flask import render_template, Blueprint, request, make_response, url_for, jsonify, send_file, send_from_directory, redirect
+import io
+import json
+from landez.sources import MBTilesReader, ExtractionError
 from logger import logger
+import os.path
+import pathlib
 import requests
 
 ################
 #### config ####
 ################
- 
+
 map_core_blueprint = Blueprint('map_core', __name__, template_folder='templates', url_prefix='/map', static_folder='static')
+
+flatmaps_root = os.path.join(map_core_blueprint.root_path, 'flatmaps')
 
 ################
 #### routes ####
 ################
- 
+
 @map_core_blueprint.route('/')
 def index():
     return render_template('map_core.html')
@@ -49,3 +56,61 @@ def getStagingModel(p):
 def scaffoldmakerproxy(p = ''):
     url = 'http://localhost:6565/{0}?{1}'.format(p, str(request.query_string, 'utf-8'))
     return getResponseFromRemote(url)
+
+################
+### flatmaps ###
+################
+
+@map_core_blueprint.route('flatmap/')
+def maps():
+    maps = []
+    for path in pathlib.Path(flatmaps_root).iterdir():
+        if os.path.isdir(path) and os.path.join(flatmaps_root, path, 'index.mbtiles'):
+            mbtiles = os.path.join(flatmaps_root, path, 'index.mbtiles')
+            reader = MBTilesReader(mbtiles)
+            rows = reader._query("SELECT value FROM metadata WHERE name='source';")
+            maps.append({ 'id': path.name, 'source': [row[0] for row in rows][0] })
+    return jsonify(maps)
+
+@map_core_blueprint.route('flatmap/<string:map>/')
+def map(map):
+    filename = os.path.join(flatmaps_root, map, 'index.json')
+    return send_file(filename)
+
+@map_core_blueprint.route('flatmap/<string:map>/style')
+def style(map):
+    filename = os.path.join(flatmaps_root, map, 'style.json')
+    return send_file(filename)
+
+@map_core_blueprint.route('flatmap/<string:map>/annotations')
+def map_annotations(map):
+    mbtiles = os.path.join(flatmaps_root, map, 'index.mbtiles')
+    reader = MBTilesReader(mbtiles)
+    rows = reader._query("SELECT value FROM metadata WHERE name='annotations';")
+    annotations = [row[0] for row in rows]
+    return send_file(io.BytesIO(annotations[0].encode('utf-8')), mimetype='application/json')
+
+@map_core_blueprint.route('flatmap/<string:map>/images/<string:image>')
+def map_background(map, image):
+    filename = os.path.join(flatmaps_root, map, 'images', image)
+    return send_file(filename)
+
+@map_core_blueprint.route('flatmap/<string:map>/mvtiles/<int:z>/<int:x>/<int:y>')
+def vector_tiles(map, z, y, x):
+    try:
+        mbtiles = os.path.join(flatmaps_root, map, 'index.mbtiles')
+        reader = MBTilesReader(mbtiles)
+        return send_file(io.BytesIO(reader.tile(z, x, y)), mimetype='application/octet-stream')
+    except ExtractionError:
+        pass
+    return ('', 204)
+
+@map_core_blueprint.route('flatmap/<string:map>/tiles/<string:layer>/<int:z>/<int:x>/<int:y>')
+def image_tiles(map, layer, z, y, x):
+    try:
+        mbtiles = os.path.join(flatmaps_root, map, '{}.mbtiles'.format(layer))
+        reader = MBTilesReader(mbtiles)
+        return send_file(io.BytesIO(reader.tile(z, x, y)), mimetype='image/png')
+    except ExtractionError:
+        pass
+    return ('', 204)
