@@ -1,29 +1,21 @@
 <template>
-  <div id="browse">
-    <sparc-welcome />
-
-  </div>
+  <div id="browse-app">
+      <router-view></router-view>
+  </div> 
 </template>
 
 <script>
-import BfVega from './components/bf-vega/BfVega.vue'
-import SparcWelcome from './components/sparc-welcome/SparcWelcome.vue'
 
-export default {
-  name: 'browse',
-  components: {
-    BfVega,
-    SparcWelcome
+  export default {
+    name: 'browse-app',
+    components: {
+    }
   }
-}
 </script>
 
 <style lang="scss" scoped>
-#browse {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50; 
-  margin-top: 10px;
-}
+  #browse-app {
+    margin-top: 6em;
+  }
+
 </style>
