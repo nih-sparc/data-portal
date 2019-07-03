@@ -23,6 +23,12 @@ map_core_blueprint = Blueprint('map_core', __name__, template_folder='templates'
 def index():
     return render_template('map_core.html')
 
+@map_core_blueprint.route('8ed83a516242675649285ff523ffddb6.svg')
+def getLogo():
+    url = 'map/static/8ed83a516242675649285ff523ffddb6.svg'
+    #print(url_for('static', filename=url))
+    return redirect(url)
+
 @map_core_blueprint.route('models/<path:p>')
 def getModels(p):
     url = 'map/static/models/{0}'.format(p)
@@ -48,4 +54,11 @@ def getStagingModel(p):
 @map_core_blueprint.route('scaffoldmaker/<path:p>')
 def scaffoldmakerproxy(p = ''):
     url = 'http://localhost:6565/{0}?{1}'.format(p, str(request.query_string, 'utf-8'))
+    return getResponseFromRemote(url)
+
+@map_core_blueprint.route('flatmap/demo')
+@map_core_blueprint.route('flatmap/demo/')
+@map_core_blueprint.route('flatmap/demo/<path:p>')
+def flatmapDemoproxy(p = ''):
+    url = 'http://localhost:4329/map/{0}?{1}'.format(p, str(request.query_string, 'utf-8'))
     return getResponseFromRemote(url)

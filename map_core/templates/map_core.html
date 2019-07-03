@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block header %}
+  <title>Browse SPARC Maps</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -9,20 +10,30 @@
   <title>MAP</title>
 {% endblock %}
 {% block app %}
+	<div id="MAPcore Banner" style="height: 100px;position: relative;background-image: linear-gradient(to right, rgba(0,38,255), rgba(248,0,69));">
+		<div style="position: relative;
+		    height: 100%;
+		    top: 10px;
+		    left: 5%;
+		    z-index: 1;
+		    font: 32px bold;
+		    color: white;
+		    font-family: sans-serif;">
+			MAPCore 
+    	</div>
+	</div>
 	<div id="MAPcorePortalArea" style="height:1000px;position:relative;">
 		<div class="flex" style="height:100%;">
-		    <div id="one"></div>
+		    <div id="one" style="width:100%"></div>
 		    <div id="two" class="flex-column">
-		    	<div id="three"></div>
+		    	<div id="three" style="height:100%;"></div>
 		    	<div id="four"></div>
 		    </div>
 		</div>
 	</div>
 {% endblock %}
 {% block javascript %}
-  <!-- Place additional Javascript here -->
-  <!-- <script type="text/javascript" src="./scaffoldmaker_webapp.js"></script>-->
   <script src="https://unpkg.com/split.js/dist/split.min.js"></script>
-  <script type="text/javascript" src="./static/mapcorewebapp.min.js"></script>
+  <script type="text/javascript" src="./static/mapcorewebapp.js"></script>
   <script type="text/javascript" src="./static/integrated.js"></script>
 {% endblock %}
