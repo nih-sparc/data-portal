@@ -86,9 +86,12 @@ def style(map):
 def map_annotations(map):
     mbtiles = os.path.join(flatmaps_root, map, 'index.mbtiles')
     reader = MBTilesReader(mbtiles)
-    rows = reader._query("SELECT value FROM metadata WHERE name='annotations';")
-    annotations = [row[0] for row in rows]
-    return send_file(io.BytesIO(annotations[0].encode('utf-8')), mimetype='application/json')
+    rows = reader._query("SELECT value FROM metadata WHERE name='annotations';").fetchone()
+    if rows is None:
+        annotations = {}
+    else:
+        annotations = json.loads([row[0] for row in rows][0])
+    return jsonify(annotations)
 
 @map_core_blueprint.route('flatmap/<string:map>/images/<string:image>')
 def map_background(map, image):
