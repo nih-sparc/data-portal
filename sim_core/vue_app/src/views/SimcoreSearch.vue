@@ -19,9 +19,6 @@
             </el-form>
           </el-col>
         </el-row>
-        <form action="/api/sim/datasets" method="get">
-          <input type="submit" />
-        </form>
       </el-col>
     </el-row>
   </div>
@@ -37,11 +34,29 @@ export default {
     }
   },
   methods: {
-    submit() {
-
+    onSubmit(e) {
+      const {
+        search
+      } = this.simSearch;
+      // Fetch discover
+      fetch('/api/sim/datasets')
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          console.error("Couldn't fetch the data");
+        }
+      })
+      .then(json => {
+        this.renderDatasets(json);
+      })
+      .catch(error => {
+        console.error("The request failed due to a network error");
+      });
     },
-    onSubmit(data) {
-      console.log(data);
+
+    renderDatasets(datasets) {
+      console.log(datasets);
     }
   }
 }

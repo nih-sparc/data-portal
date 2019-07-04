@@ -5,6 +5,7 @@ const filewatcherPlugin = require("filewatcher-webpack-plugin");
 
 module.exports = {
   entry: path.resolve(__dirname, "src/main.js"),
+  mode: "development",
   module: {
     rules: [
       {
