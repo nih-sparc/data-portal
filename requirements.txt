@@ -33,6 +33,9 @@ protobuf==3.2.0
 psutil==5.5.0
 python-dateutil==2.8.0
 pytz==2018.9
+PyYAML==5.1.1
+rdflib==4.2.2
+rdflib-sqlalchemy==0.3.8
 requests==2.21.0
 s3transfer==0.2.0
 singledispatch==3.4.0.3
