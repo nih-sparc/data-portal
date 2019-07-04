@@ -50,7 +50,7 @@
         },
         {
             title: "Run Simulations",
-            href: "/#"
+            href: "/sim/#"
         }
     ];
 
