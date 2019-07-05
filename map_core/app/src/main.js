@@ -197,7 +197,7 @@ main = function()  {
 			resizeMAPDrawingArea();
 			var one = document.getElementById("one");
 			var module = new FlatmapsModule();
-			flatmapsDialog = new FlatmapsDialog(module, one);
+			flatmapsDialog = new FlatmapsDialog(module, one, {flatmapEntry: "human"});
 			var eventNotifier =  new physiomeportal.EventNotifier();
 			module.setName("Flatmaps");
 			flatmapsDialog.setTitle("Flatmaps");
