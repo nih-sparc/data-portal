@@ -99,7 +99,7 @@ def map_annotations(map):
     if rows is None:
         annotations = {}
     else:
-        annotations = json.loads(row[0])
+        annotations = json.loads(rows[0])
     return jsonify(annotations)
 
 @map_core_blueprint.route('flatmap/<string:map>/images/<string:image>')

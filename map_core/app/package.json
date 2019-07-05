@@ -1,6 +1,6 @@
 {
   "name": "MAPcoreDataPortal",
-  "version": "0.0.1alpha",
+  "version": "0.0.2alpha",
   "private": true,
   "description": "MAPcore Integrated Webapp At Data Portal",
   "scripts": {
