@@ -8,27 +8,17 @@
     <!-- import CSS -->
     <link href="https://fonts.googleapis.com/css?family=Asap:300,500,600|Nunito+Sans:400,600,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="%% url_for('static', filename = 'css/_base.css') %%">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 </head>
 
 <body>
-    <div id="portal_nav">
-        <div id="logo">
-            NIH SPARC
-        </div>
-        <div id="portal_modules">
-            <div class="module_option"><a href="/">Dashboard</a></div>
-            <div class="module_option"><a href="/browse">Browse</a></div>
-            <div class="module_option"><a href="/map">SPARC Map</a></div>
-            <div class="module_option"><a href="/sim">SPARC Sim</a></div>
-        </div>
-        <div id="help_button">
-                <a href="https://docs.sparc.science"><i class="fa fa-question-circle-o" style="font-size:32px; color:#5D6478"></i></a>
-        </div>
+    <div id="site-container">
+        <div id="sparc-header"></div>
+        <div id="page-container">{% block app %}{% endblock %}</div>
+        <div id="sparc-footer"></div>
     </div>
-    {% block app %}{% endblock %}
+    <script type="text/javascript" src="/shared/_build/bundle.js"></script>
 </body>
 
-{% block javascript %}
-{% endblock %}
+{% block javascript %}{% endblock %}
 </html>

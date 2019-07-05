@@ -8,6 +8,7 @@ configparser==3.7.1
 Deprecated==1.2.4
 docopt==0.6.2
 docutils==0.14
+enum34==1.1.6
 Flask==1.0.2
 Flask-Cors==3.0.7
 flask-marshmallow==0.9.0
@@ -17,18 +18,29 @@ idna==2.8
 itsdangerous==1.1.0
 Jinja2==2.10
 jmespath==0.9.3
+landez==2.5.0
 logger==1.4
 MarkupSafe==1.1.0
 marshmallow==2.18.0
+mccabe==0.6.1
+neo4j==1.7.2
+neo4j-driver==1.7.2
+neobolt==1.7.4
+neotime==1.7.4
 numpy==1.16.1
 pandas==0.24.1
 protobuf==3.2.0
 psutil==5.5.0
 python-dateutil==2.8.0
 pytz==2018.9
+PyYAML==5.1.1
+rdflib==4.2.2
+rdflib-sqlalchemy==0.3.8
 requests==2.21.0
 s3transfer==0.2.0
+singledispatch==3.4.0.3
 six==1.12.0
 urllib3==1.24.1
 Werkzeug==0.14.1
 wrapt==1.11.1
+-e git://github.com/alan-wu/scaffoldmaker-webapp.git#egg=scaffoldmaker_webapp
