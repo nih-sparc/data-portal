@@ -9,14 +9,12 @@
         </el-row>
         <el-row>
           <el-col>
-            <el-form :inline="true" :model="simSearch" class="search-form" @submit.prevent.native="onSubmit">
-              <el-form-item>
-                <el-input v-model="simSearch.search" placeholder="Type your search"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="onSubmit">Search</el-button>
-              </el-form-item>
-            </el-form>
+            <SearchForm />
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col>
+            <DatasetList />
           </el-col>
         </el-row>
       </el-col>
@@ -25,39 +23,14 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      simSearch: {
-        search: ''
-      }
-    }
-  },
-  methods: {
-    onSubmit(e) {
-      const {
-        search
-      } = this.simSearch;
-      // Fetch discover
-      fetch('/api/sim/datasets')
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          console.error("Couldn't fetch the data");
-        }
-      })
-      .then(json => {
-        this.renderDatasets(json);
-      })
-      .catch(error => {
-        console.error("The request failed due to a network error");
-      });
-    },
+import SearchForm from "../components/SimcoreSearch/SearchForm.vue";
+import DatasetList from "../components/SimcoreSearch/DatasetList.vue";
 
-    renderDatasets(datasets) {
-      console.log(datasets);
-    }
+export default {
+  name: "simcore-search",
+  components: {
+    SearchForm,
+    DatasetList
   }
 }
 </script>
@@ -65,8 +38,5 @@ export default {
 <style lang="scss" scoped>
 .simcore-search {
   padding-top: 7em;
-}
-form.search-form {
-  margin: 2em 0;
 }
 </style>
