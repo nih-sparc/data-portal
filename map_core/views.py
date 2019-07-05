@@ -5,7 +5,8 @@
 #################
 
 from app import app
-from flask import render_template, Blueprint, request, make_response, url_for, jsonify, send_file, send_from_directory, redirect
+from flask import render_template, Blueprint, request, make_response, url_for
+from flask import jsonify, send_file, send_from_directory, redirect, abort
 import io
 import json
 from landez.sources import MBTilesReader, ExtractionError
@@ -13,6 +14,8 @@ from logger import logger
 import os.path
 import pathlib
 import requests
+
+from .knowledgebase import KnowledgeBase
 
 ################
 #### config ####
@@ -123,3 +126,12 @@ def image_tiles(map, layer, z, y, x):
     except ExtractionError:
         pass
     return ('', 204)
+
+@map_core_blueprint.route('query', methods=['POST'])
+def kb_query():
+    query = request.get_json()
+    try:
+        with KnowledgeBase(os.path.join(flatmaps_root, 'KnowledgeBase.sqlite')) as graph:
+            return jsonify(graph.query(query.get('sparql')))
+    except RuntimeError:
+        abort(404, 'Cannot open knowledge base')
