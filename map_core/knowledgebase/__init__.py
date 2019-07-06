@@ -13,7 +13,6 @@ import rdflib
 import rdflib_sqlalchemy as sqlalchemy
 sqlalchemy.registerplugins()
 
-from rdflib.plugins.sparql.results.jsonlayer import encode as JSON_results_encode
 from rdflib.plugins.sparql.results.jsonresults import JSONResultSerializer
 
 #===============================================================================
@@ -53,6 +52,6 @@ class KnowledgeBase(rdflib.Graph, ContextDecorator):
                 ]}
         except:
             pass
-        return JSON_results_encode(results)
+        return results
 
 #===============================================================================
