@@ -8,6 +8,8 @@ from contextlib import ContextDecorator
 
 #===============================================================================
 
+import pyparsing
+
 import rdflib
 
 import rdflib_sqlalchemy as sqlalchemy
@@ -50,6 +52,8 @@ class KnowledgeBase(rdflib.Graph, ContextDecorator):
                 results['results'] = { 'bindings': [
                     json_results._bindingToJSON(x) for x in json_results.result.bindings
                 ]}
+        except pyparsing.ParseException as error:
+            results = { 'error': str(error) }
         except:
             pass
         return results
