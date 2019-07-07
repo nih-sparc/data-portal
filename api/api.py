@@ -1,9 +1,11 @@
 # api/api.py
- 
+
 #################
 #### imports ####
 #################
- 
+from client import MockSparcPortalApiClient
+from model import SparcPortalSearchParameters
+from serializer import PaginatedDatasetResponseSchema, PaginatedFileResponseSchema, DatasetSchema, ContactRequestSchema
 from app import app
 from flask import render_template, Blueprint, request
 from logger import logger
@@ -17,32 +19,62 @@ import urllib
 ################
 #### config ####
 ################
- 
+
 api_blueprint = Blueprint('api', __name__, template_folder='templates', url_prefix='/api')
 
 bf = None
 gp = None
 ma = Marshmallow(app)
+client = MockSparcPortalApiClient()
 
-@app.before_first_request
-def connect_to_blackfynn():
-    global bf
-
-    bf = Blackfynn(
-       api_token=Config.BLACKFYNN_API_TOKEN,
-       api_secret=Config.BLACKFYNN_API_SECRET,
-       env_override=False,
-       host=Config.BLACKFYNN_API_HOST,
-       concepts_api_host=Config.BLACKFYNN_CONCEPTS_API_HOST
+@api_blueprint.route('/search/dataset')
+def search_dataset():
+    response = client.search_datasets(
+        SparcPortalSearchParameters(
+            limit=10,
+            offset=0,
+            terms=[],
+            tags=[]
+        )
     )
 
-@app.before_first_request
-def connect_to_graphenedb():
-    global gp
-    graphenedb_url = Config.GRAPHENEDB_BOLT_URL
-    graphenedb_user = Config.GRAPHENEDB_BOLT_USER
-    graphenedb_pass = Config.GRAPHENEDB_BOLT_PASSWORD
-    gp = GraphDatabase.driver(graphenedb_url, auth=basic_auth(graphenedb_user, graphenedb_pass))
+    marshalled = PaginatedDatasetResponseSchema().dump(response)
+    return json.dumps(marshalled.data)
+
+@api_blueprint.route("/search/file")
+def search_file():
+    response = client.search_files(
+        SparcPortalSearchParameters(
+            limit=10,
+            offset=0,
+            terms=[],
+            tags=[]
+        )
+    )
+
+    marshalled = PaginatedFileResponseSchema().dump(response)
+    return json.dumps(marshalled.data)
+
+@api_blueprint.route("/featured")
+def featured():
+    response = client.retrieve_featured_datasets()
+
+    marshalled = DatasetSchema().dump(response, many=True)
+
+    return json.dumps(marshalled.data)
+
+@api_blueprint.route("/contact", methods=["POST"])
+def contact():
+    data = json.loads(request.data)
+    contact_request = ContactRequestSchema().load(data).data
+
+    client.send_contact_request(
+        name=contact_request["name"],
+        email=contact_request["email"],
+        message=contact_request["message"]
+    )
+
+    return ''
 
 #########################
 #### GRAPHDB  routes ####
@@ -58,9 +90,9 @@ def graph_props():
 
     return json.dumps(items)
 
+
 @api_blueprint.route('/db/model/<model>')
 def model(model):
-    
     # Get Request parameters and stage Cypher cmd
     args = request.args
 
@@ -75,7 +107,7 @@ def model(model):
     limit = limit if limit != None else 100
     hops = hops if hops != None else 1
     descending = 'DESC' if descending == 'descending' else ''
-    
+
     filters = json.loads(urllib.unquote(args.get('filters')).decode('utf8'))
     print(filters)
 
@@ -87,7 +119,7 @@ def model(model):
             propModel = propComponents[0]
             propProperty = propComponents[1]
             if model != propModel:
-                cmd += 'MATCH (n:{})-[*0..{}]-(m{}:{}) '.format(model,hops,idx,propModel)
+                cmd += 'MATCH (n:{})-[*0..{}]-(m{}:{}) '.format(model, hops, idx, propModel)
             elif idx == 0:
                 cmd += 'MATCH (n:{}) '.format(model)
 
@@ -95,7 +127,7 @@ def model(model):
         for idx, f in enumerate(filters):
             if idx > 0:
                 cmd += 'AND '
-            else :
+            else:
                 cmd += 'WHERE '
 
             propComponents = f['m'].split(':')
@@ -114,28 +146,29 @@ def model(model):
             cmd += ' ORDER BY n.{} {}'.format(order_by, descending)
 
         # Set Pagination Info
-        cmd += ' SKIP {} LIMIT {}'.format( offset, limit)
+        cmd += ' SKIP {} LIMIT {}'.format(offset, limit)
 
     else:
         if order_by:
-            cmd = 'MATCH (n:{}) RETURN n ORDER BY n.{} {} SKIP {} LIMIT {}'.format(model, order_by, descending, offset, limit)
+            cmd = 'MATCH (n:{}) RETURN n ORDER BY n.{} {} SKIP {} LIMIT {}'.format(model, order_by, descending, offset,
+                                                                                   limit)
         else:
             cmd = 'MATCH (n:{}) RETURN n SKIP {} LIMIT {}'.format(model, offset, limit)
-        
-    print('requesting: {}'.format(cmd))    
+
+    print('requesting: {}'.format(cmd))
     resp = list()
     with gp.session() as session:
-        result = session.run(cmd)    
+        result = session.run(cmd)
         for record in result:
             keys = record['n'].keys()
             item = {}
             for key in keys:
                 item[key] = record['n'][key]
 
-            resp.append(item)                
+            resp.append(item)
 
-    
     return json.dumps(resp)
+
 
 @api_blueprint.route('/db/model/<model>/props')
 def getLabelProps(model):
@@ -146,7 +179,7 @@ def getLabelProps(model):
 
     resp = []
     with gp.session() as session:
-        result = session.run(cmd) 
+        result = session.run(cmd)
         # print(result)
         for k in result:
             col = k['collect(distinct key)']
@@ -155,29 +188,30 @@ def getLabelProps(model):
 
     return json.dumps(resp)
 
+
 @api_blueprint.route('/db/labels')
 def getLabel():
     cmd = 'MATCH (n:Node) RETURN DISTINCT LABELS(n)'
     resp = list()
     with gp.session() as session:
-        result = session.run(cmd)  
+        result = session.run(cmd)
         for record in result:
             resp.append(record['LABELS(n)'][1])
-    
+
     return json.dumps(resp)
+
 
 @api_blueprint.route('/db/graph/model/<model>/hops/<hops>')
 def getNeighborModels(model, hops):
-
     cmd = 'MATCH (n:GraphModel) -[*0..{}]- (m:GraphModel {{name:"{}"}}) RETURN DISTINCT n.name'.format(hops, model)
     resp = list()
     with gp.session() as session:
-        result = session.run(cmd)         
+        result = session.run(cmd)
         for k in result:
             resp.append(k['n.name'])
-        
 
     return json.dumps(resp)
+
 
 #########################
 #### DAT-CORE routes ####
