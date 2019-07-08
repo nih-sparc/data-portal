@@ -61,7 +61,8 @@ export default new Vuex.Store({
 
     fetchDataset(context, id) {
       const { datasets } = context.state.entities;
-      if (datasets && datasets[id]) {
+      if (datasets && datasets[id] && datasets[id].markdown) {
+        // If dataset exists and has its markdown is resolved
         return;
       }
       context.commit('SET_SIMCOREDETAIL_IS_FETCHING', true);

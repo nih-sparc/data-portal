@@ -291,10 +291,20 @@ def discover():
 def datasets():
     if request.method == 'GET':
         req = requests.get('{}/datasets'.format(Config.DISCOVER_API_HOST))
-        return jsonify(req.json())
+        json = req.json()
+        # Filter only datasets with tag 'simcore'
+        json['datasets'] = filter(lambda dataset: ('simcore' in dataset.get('tags', [])), json.get('datasets', []))
+        return jsonify(json)
 
 @api_blueprint.route('/sim/dataset/<id>')
 def dataset(id):
     if request.method == 'GET':
         req = requests.get('{}/datasets/{}'.format(Config.DISCOVER_API_HOST, id))
-        return jsonify(req.json())
+        json = req.json()
+        injectMarkdown(json)
+        return jsonify(json)
+
+def injectMarkdown(json):
+    if 'readme' in json:
+        markReq = requests.get(json.get('readme'))
+        json['markdown'] = markReq.text

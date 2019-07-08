@@ -4,13 +4,13 @@
     <el-table-column prop="organizationName" label="Organization"></el-table-column>
     <el-table-column prop="ownerName" label="Owner"></el-table-column>
     <el-table-column prop="updatedAt" label="Last modification"></el-table-column>
-    <el-table-column label="Actions" fixed>
+    <el-table-column label="Actions" fixed="right">
       <template slot-scope="scope">
         <router-link :to="{ name: 'dataset-detail', params: { id: scope.row.id } }">
-          <el-button type="text" size="small">Detail</el-button>
+          <el-button size="small">Detail</el-button>
         </router-link>
         <a href="http://www.osparc.io" target="_blank">
-          <el-button type="text" size="small">Open in oSPARC</el-button>
+          <el-button size="small">Open in oSPARC</el-button>
         </a>
       </template>
     </el-table-column>

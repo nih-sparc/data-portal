@@ -23,6 +23,11 @@
           </p>
         </el-col>
       </el-row>
+      <el-row>
+        <el-col>
+          <markdown :markdown="dataset.markdown" />
+        </el-col>
+      </el-row>
     </div>
     <div v-else>
       <p>Sorry, we couldn't retreive the dataset for the given id.</p>
@@ -32,6 +37,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import Markdown from '../Markdown/Markdown.vue';
 
 export default {
   name: 'dataset-detail',
@@ -51,6 +57,9 @@ export default {
   },
   created() {
     this.fetchDataset(this.id);
+  },
+  components: {
+    Markdown
   }
 }
 </script>
