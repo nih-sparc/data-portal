@@ -33,6 +33,12 @@ flatmaps_root = os.path.join(map_core_blueprint.root_path, 'flatmaps')
 def index():
     return render_template('map_core.html')
 
+@map_core_blueprint.route('8ed83a516242675649285ff523ffddb6.svg')
+def getLogo():
+    url = 'map/static/8ed83a516242675649285ff523ffddb6.svg'
+    #print(url_for('static', filename=url))
+    return redirect(url)
+
 @map_core_blueprint.route('models/<path:p>')
 def getModels(p):
     url = 'map/static/models/{0}'.format(p)
@@ -93,7 +99,7 @@ def map_annotations(map):
     if rows is None:
         annotations = {}
     else:
-        annotations = json.loads(row[0])
+        annotations = json.loads(rows[0])
     return jsonify(annotations)
 
 @map_core_blueprint.route('flatmap/<string:map>/images/<string:image>')

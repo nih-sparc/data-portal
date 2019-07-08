@@ -32,7 +32,7 @@
         {
             title: "Overview",
             href: "/",
-            active: pathOrHashContainsString("/") && !pathOrHashContainsString("/about") && !pathOrHashContainsString("/browse")
+            active: pathOrHashContainsString("/") && !pathOrHashContainsString("/about") && !pathOrHashContainsString("/browse") && !pathOrHashContainsString("/map")
         },
         {
             title: "About",
@@ -46,7 +46,8 @@
         },
         {
             title: "Visualize Maps",
-            href: "/map"
+            href: "/map",
+            active: pathOrHashContainsString("/map")
         },
         {
             title: "Run Simulations",
