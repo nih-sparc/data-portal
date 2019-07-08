@@ -15,6 +15,7 @@ Make sure you have the correct environment variables set (see wiki). Then, in se
 ```
 npm run dev-build-dashboard
 npm run dev-build-browse
+npm run dev-build-sim
 make serve
 ```
 

@@ -11,4 +11,4 @@ class Config(object):
     GRAPHENEDB_BOLT_USER=os.environ.get("GRAPHENEDB_BOLT_USER")
     GRAPHENEDB_BOLT_PASSWORD=os.environ.get("GRAPHENEDB_BOLT_PASSWORD")
 
-    DISCOVER_API_HOST=os.environ.get('DISCOVER_API_HOST')
+    DISCOVER_API_HOST=os.environ.get('DISCOVER_API_HOST', 'https://api.blackfynn.io/discover')
