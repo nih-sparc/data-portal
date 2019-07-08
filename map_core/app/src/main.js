@@ -197,7 +197,7 @@ main = function()  {
 			resizeMAPDrawingArea();
 			var one = document.getElementById("one");
 			var module = new FlatmapsModule();
-			flatmapsDialog = new FlatmapsDialog(module, one, {flatmapEntry: "human"});
+			flatmapsDialog = new FlatmapsDialog(module, one, {flatmapEntry: "https://models.physiomeproject.org/workspace/585/rawfile/650adf9076538a4bf081609df14dabddd0eb37e7/Human_Body.pptx"});
 			var eventNotifier =  new physiomeportal.EventNotifier();
 			module.setName("Flatmaps");
 			flatmapsDialog.setTitle("Flatmaps");
