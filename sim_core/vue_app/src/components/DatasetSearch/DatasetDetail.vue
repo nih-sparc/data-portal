@@ -5,9 +5,7 @@
         <el-link type="primary" size="small">&lt; Back to search results</el-link>
       </router-link>
     </p>
-    <div v-if="isFetching">
-      Fetching...
-    </div>
+    <div v-if="isFetching" v-loading="true" class="loading-placeholder" element-loading-background="transparent" element-loading-text="Loading..."></div>
     <div v-else-if="dataset">
       <el-row :gutter="18">
         <el-col :sm="8">
@@ -63,3 +61,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.loading-placeholder {
+  height: 300px;
+}
+</style>
