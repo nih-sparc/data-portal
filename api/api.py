@@ -50,15 +50,22 @@ def discover():
     resp = bf._api._get('/consortiums/1/datasets')
     return json.dumps(resp)
 
+@api_blueprint.route('/dataset/<int:id>')
+def dataset(id):
+    response = client.retrieve_dataset(id)
+    marshalled = DatasetSchema().dump(response)
+
+    return json.dumps(marshalled.data)
+
 @api_blueprint.route('/search/dataset')
 def search_dataset():
+    limit = request.args.get('limit')
+    offset = request.args.get('offset')
+    terms = request.args.getlist('terms')
+    tags = request.args.getlist('tags')
+
     response = client.search_datasets(
-        SparcPortalSearchParameters(
-            limit=10,
-            offset=0,
-            terms=[],
-            tags=[]
-        )
+        SparcPortalSearchParameters(limit, offset, terms, tags)
     )
 
     marshalled = PaginatedDatasetResponseSchema().dump(response)
@@ -66,13 +73,13 @@ def search_dataset():
 
 @api_blueprint.route("/search/file")
 def search_file():
+    limit = request.args.get('limit')
+    offset = request.args.get('offset')
+    terms = request.args.getlist('terms')
+    tags = request.args.getlist('tags')
+
     response = client.search_files(
-        SparcPortalSearchParameters(
-            limit=10,
-            offset=0,
-            terms=[],
-            tags=[]
-        )
+        SparcPortalSearchParameters(limit, offset, terms, tags)
     )
 
     marshalled = PaginatedFileResponseSchema().dump(response)

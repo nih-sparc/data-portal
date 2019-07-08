@@ -12,7 +12,7 @@ from logger import logger
 #### config ####
 ################
  
-map_core_blueprint = Blueprint('map_core', __name__, template_folder='templates', url_prefix='/map')
+map_core_blueprint = Blueprint('map_core', __name__, static_folder='../shared/static/dist', template_folder='./static/dist', url_prefix='/map', static_url_path="")
 
 ################
 #### routes ####

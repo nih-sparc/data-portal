@@ -35,14 +35,14 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, '../../shared/static/dist'),
-    filename: '_build/bundle_home.js'
+    filename: '_build/bundle_map.js'
   },
   plugins: [
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       'template': 'public/index.html',
-      'filename': 'home.html',
-      'chunks': ['dashboard'],
+      'filename': 'map_core.html',
+      'chunks': ['map'],
       'inject': false
     }),
     new filewatcherPlugin({

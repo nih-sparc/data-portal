@@ -1,7 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const filewatcherPlugin = require("filewatcher-webpack-plugin");
 
 module.exports = {
   entry: path.resolve(__dirname, 'src/main.js'),
@@ -35,23 +34,15 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, '../../shared/static/dist'),
-    filename: '_build/bundle_home.js'
+    filename: '_build/bundle_map.js'
   },
   plugins: [
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
-      'template': 'public/index.html',
-      'filename': 'home.html',
-      'chunks': ['dashboard'],
+      'template': 'public/map.html',
+      'filename': 'map_core.html',
+      'chunks': ['map'],
       'inject': false
-    }),
-    new filewatcherPlugin({
-      watchFileRegex: [
-        './src/**/*.vue',
-        './src/**/*.js',
-      ],
-      usePolling: true,
-      ignored: '/node_modules/'
     })
   ],
 };
