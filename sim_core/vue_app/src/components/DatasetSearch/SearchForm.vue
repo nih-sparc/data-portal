@@ -4,7 +4,7 @@
       <el-input v-model="simcoreSearchForm.search" placeholder="Type your search"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="onSubmit" :disabled="isFetching ? true : false">{{ isFetching ? "Searching..." : "Search" }}</el-button>
+      <el-button type="primary" native-type="submit" :loading="isFetching ? true : false">Search</el-button>
     </el-form-item>
   </el-form>
 </template>

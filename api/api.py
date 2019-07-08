@@ -287,8 +287,14 @@ def discover():
 #### SIM-CORE routes ####
 #########################
 
-@api_blueprint.route('/sim/datasets')
+@api_blueprint.route('/sim/dataset')
 def datasets():
     if request.method == 'GET':
         req = requests.get('{}/datasets'.format(Config.DISCOVER_API_HOST))
+        return jsonify(req.json())
+
+@api_blueprint.route('/sim/dataset/<id>')
+def dataset(id):
+    if request.method == 'GET':
+        req = requests.get('{}/datasets/{}'.format(Config.DISCOVER_API_HOST, id))
         return jsonify(req.json())

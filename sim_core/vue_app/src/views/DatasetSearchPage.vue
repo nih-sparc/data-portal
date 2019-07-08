@@ -1,5 +1,5 @@
 <template>
-  <div class="simcore-search">
+  <div class="simcore-page">
     <el-row type="flex" justify="center">
       <el-col :span="18">
         <el-row>
@@ -9,12 +9,12 @@
         </el-row>
         <el-row>
           <el-col>
-            <SearchForm />
+            <search-form />
           </el-col>
         </el-row>
         <el-row>
           <el-col>
-            <DatasetList />
+            <dataset-list />
           </el-col>
         </el-row>
       </el-col>
@@ -23,11 +23,11 @@
 </template>
 
 <script>
-import SearchForm from "../components/SimcoreSearch/SearchForm.vue";
-import DatasetList from "../components/SimcoreSearch/DatasetList.vue";
+import SearchForm from "../components/DatasetSearch/SearchForm.vue";
+import DatasetList from "../components/DatasetSearch/DatasetList.vue";
 
 export default {
-  name: "simcore-search",
+  name: "dataset-search-page",
   components: {
     SearchForm,
     DatasetList
@@ -36,7 +36,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.simcore-search {
-  padding-top: 7em;
+.simcore-page {
+  padding: 7em 0;
 }
 </style>
