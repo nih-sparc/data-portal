@@ -8,12 +8,13 @@ from contextlib import ContextDecorator
 
 #===============================================================================
 
+import pyparsing
+
 import rdflib
 
 import rdflib_sqlalchemy as sqlalchemy
 sqlalchemy.registerplugins()
 
-from rdflib.plugins.sparql.results.jsonlayer import encode as JSON_results_encode
 from rdflib.plugins.sparql.results.jsonresults import JSONResultSerializer
 
 #===============================================================================
@@ -51,8 +52,10 @@ class KnowledgeBase(rdflib.Graph, ContextDecorator):
                 results['results'] = { 'bindings': [
                     json_results._bindingToJSON(x) for x in json_results.result.bindings
                 ]}
+        except pyparsing.ParseException as error:
+            results = { 'error': str(error) }
         except:
             pass
-        return JSON_results_encode(results)
+        return results
 
 #===============================================================================
