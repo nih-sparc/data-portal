@@ -19,9 +19,12 @@
           <p v-if="dataset.contributors.length">
             Contributors: <span v-for="(contributor, i) in dataset.contributors" :key="contributor">{{ contributor }}{{ i === dataset.contributors.length-1 ? "." : ", "}}</span>
           </p>
+          <a href="http://www.osparc.io" target="_blank">
+            <el-button type="primary">Run simulation</el-button>
+          </a>
         </el-col>
       </el-row>
-      <el-row>
+      <el-row class="markdown">
         <el-col>
           <markdown :markdown="dataset.markdown" />
         </el-col>
@@ -65,5 +68,8 @@ export default {
 <style lang="scss" scoped>
 .loading-placeholder {
   height: 300px;
+}
+.markdown {
+  margin-top: 30px;
 }
 </style>
