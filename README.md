@@ -14,6 +14,7 @@ Make sure you have the correct environment variables set (see wiki). Then, in se
 
 ```
 make clean
+npm run dev-build-shared
 npm run dev-build-dashboard
 npm run dev-build-browse
 make serve
