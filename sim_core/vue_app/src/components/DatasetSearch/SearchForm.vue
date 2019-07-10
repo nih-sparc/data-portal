@@ -25,7 +25,7 @@ export default {
   }),
   methods: {
     onSubmit(e) {
-      this.fetchDatasets();
+      this.fetchDatasets(this.simcoreSearchForm.search);
     },
     ...mapActions([
       'fetchDatasets'

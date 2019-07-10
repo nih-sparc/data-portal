@@ -36,9 +36,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    fetchDatasets(context) {
+    fetchDatasets(context, query) {
       context.commit('SET_SIMCORESEARCH_IS_FETCHING', true);
-      fetch('/api/sim/dataset')
+      fetch('/api/sim/dataset?query=' + query || '')
         .then(response => {
           if (response.ok) {
             return response.json();

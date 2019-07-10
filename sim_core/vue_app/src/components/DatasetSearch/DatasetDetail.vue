@@ -19,7 +19,7 @@
           <p v-if="dataset.contributors.length">
             Contributors: <span v-for="(contributor, i) in dataset.contributors" :key="contributor">{{ contributor }}{{ i === dataset.contributors.length-1 ? "." : ", "}}</span>
           </p>
-          <a href="http://www.osparc.io" target="_blank">
+          <a href="http://master.osparc.io/study/template-uuid-5d82-b08d-d39c436ca738" target="_blank">
             <el-button type="primary">Run simulation</el-button>
           </a>
         </el-col>
