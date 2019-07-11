@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="16px" viewBox="0 0 12 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50 (54983) - http://www.bohemiancoding.com/sketch -->
+    <title>icon-location-filled</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Trial" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Multiple-Users" transform="translate(-374.000000, -187.000000)" fill="#BDBDBD">
+            <path d="M380,195 C378.896,195 378,194.104 378,193 C378,191.896 378.896,191 380,191 C381.104,191 382,191.896 382,193 C382,194.104 381.104,195 380,195 M380,187 C376.687,187 374,189.687 374,193 C374,197 379,203 380,203 C381,203 386,197 386,193 C386,189.687 383.313,187 380,187" id="icon-location-filled"></path>
+        </g>
+    </g>
+</svg>
