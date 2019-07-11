@@ -146,7 +146,8 @@ export default {
       citationLoading: false,
       isTombStone: false,
       isLoadingDataset: false,
-      datasetDetails: {}
+      datasetDetails: {},
+      errorLoading: false
     }
   },
 
@@ -255,7 +256,7 @@ export default {
         })
         .catch(error => {
           // handle error
-          console.log(error);
+          this.errorLoading = true
         })
         .finally(() => {
           this.isLoadingDataset = false
