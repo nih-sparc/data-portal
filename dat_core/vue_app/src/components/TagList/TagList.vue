@@ -43,8 +43,8 @@ export default {
 }
 .tag-list-tag {
   border-radius: 4px;
-  background-color: #cddaff;
-  color: #1c46bd;
+  background-color: #f2f6fc;
+  color: #24245b;
   display: block;
   font-size: 14px;
   font-weight: 500;
