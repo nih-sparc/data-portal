@@ -1,0 +1,61 @@
+$neuron: #071540;
+$dopamine: #2760FF;
+$dopamine-dark: #1F53E4;
+$glial: #71747C;
+$cortex: #DADADA;
+$white-matter: #FFFFFF;
+$dendrite: #FAFAFA;
+$dendrite-dark: #F1F1F3;
+$synapse: #e94b4b;
+$synapse-dark: #d24343;
+$nucleus: #17bb62;
+$nucleus-dark: #14a758;
+$noradrenaline: #FBFBFD;
+$warning: #ffe393;
+$orange: #FFB000;
+$serotonin: #11396C;
+$myelin: #404554;
+$axon: #F1F1F3;
+
+
+$dark-blue: #1C46BD;
+$blackfynn-green: #358855;
+$blackfynn-blue-bright: #4870b1;
+$blackfynn-data: #BA5767;
+$default-primary-color: $dopamine;
+$primary-color: $default-primary-color;
+$app-primary-color: $dopamine;
+$app-secondary-color: black;
+$success-color: $nucleus;
+$notification-color: #ffd700;
+$error-color: $synapse;
+$input-placeholder-text: #9f9f9f;
+$link-color: $app-primary-color;
+$link-color-hover: $glial;
+$settings-nav-background: #f9f9f9;
+$delete-button-background: $synapse;
+$light-gray: #BDBDBD;
+$dark-gray: $myelin;
+$table-background-color: #E2E3E8;
+$table-border-dark: solid 1px $light-gray;
+$table-border-light: solid 1px $cortex;
+
+$text-color: $dark-gray;
+$input-text: #000;
+
+$nav-link-color: #565D70;
+$nav-link-color-hover: $dark-gray;
+
+$system-font:  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !important;
+
+// Hide only visually, but have it available for screenreaders: h5bp.com
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
