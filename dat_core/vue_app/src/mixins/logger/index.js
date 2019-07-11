@@ -12,7 +12,7 @@ export default {
         return
       }
       const msg = Array.isArray(fnArgs) ? fnArgs : [fnArgs]
-      const isProduction = location.href.indexOf('app.blackfynn.') >= 0
+      const isProduction = location.href.indexOf('data.sparc.science') >= 0
       /* eslint-disable no-console */
       if (!isProduction && typeof console[fnName] === 'function') {
         console[fnName].apply(console, msg)
