@@ -51,9 +51,8 @@
                   v-loading="citationLoading"
                   class="info-citation"
                   aria-live="polite"
-                >
-                  {{ citationText }}
-                </div>
+                  v-html="$sanitize(citationText, ['i'])"
+                />
                 <div class="info-citation-links mb-24">
                   Formatted as:
                   <button

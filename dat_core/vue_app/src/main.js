@@ -13,6 +13,9 @@ import locale from 'element-ui/lib/locale/lang/en'
 import * as svgicon from 'vue-svgicon'
 import './assets/icons'
 
+import striptags from 'striptags';
+Vue.prototype.$sanitize = (html, allowedTags=['br']) => striptags(html, allowedTags)
+
 Vue.config.productionTip = false
 Vue.config.devtools = true
 
