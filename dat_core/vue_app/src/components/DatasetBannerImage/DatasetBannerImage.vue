@@ -8,6 +8,8 @@
 </template>
 
 <script>
+import brokenImage from '../../../public/images/illustrations/icon-broken-image.svg'
+
 export default {
   name: 'DatasetBannerImage',
   props: {
@@ -20,17 +22,7 @@ export default {
   data () {
     return {
       bannerSrc: '',
-      publicPath: process.env.BASE_URL
-    }
-  },
-
-  computed: {
-    /**
-     * Compute broken image path
-     * @return {String}
-     */
-    brokenImage: function () {
-      return `${this.publicPath}images/illustrations/icon-broken-image.svg`
+      brokenImage
     }
   },
 
