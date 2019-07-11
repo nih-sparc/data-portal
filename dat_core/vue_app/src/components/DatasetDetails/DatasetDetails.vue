@@ -222,7 +222,7 @@ export default {
      * @returns {String}
      */
     getDatasetUrl: function () {
-      return `https://dev.blackfynn.io/discover/datasets/${this.datasetId}`
+      return `https://api.blackfynn.io/discover/datasets/${this.datasetId}`
     }
   },
 
