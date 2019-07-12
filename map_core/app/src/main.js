@@ -3,17 +3,16 @@ var FlatmapsDialog = require('mapcoreintegratedwebapp').FlatmapsDialog;
 var FlatmapsModule = require('mapcoreintegratedwebapp').FlatmapsModule;
 var BFCSVExporterDialog = require('mapcoreintegratedwebapp').BFCSVExporterDialog;
 var BFCSVExporterModule = require('mapcoreintegratedwebapp').BFCSVExporterModule;
-var Split = require('split.js').default;
 
 main = function()  {
+	var tabManager = undefined;
 	var moduleManager = undefined;
 	var UIIsReady = true;
 	var nav_bar = document.querySelector(".nav");
 	var parent = document.getElementById("MAPcorePortalArea");
+	var mapContent = document.querySelector(".maptab-contents");
 	var flatmapsDialog = undefined;
 	var channel = undefined;
-	var hSplit = undefined;
-	var vSplit = undefined
 	var _this = this;
 	
 	var findItemWithTypeNameInManager = function(manager, typeName) {
@@ -38,44 +37,13 @@ main = function()  {
 		return undefined;
 	}
 	
-	var horizontalSplit = function() {
-		hSplit = Split(['#one', '#two'], {
-			elementStyle: (dimension, size, gutterSize) => ({
-				'flex-basis': `calc(${size}% - ${gutterSize}px)`,
-			}),
-			gutterStyle: (dimension, gutterSize) => ({
-				"border-style": "solid"
-			}),
-		})
-	}
-	
-	var verticalSplit = function() {
-		vSplit = Split(['#three', '#four'], {
-			direction: 'vertical',
-			elementStyle: (dimension, size, gutterSize) => ({
-				'flex-basis': `calc(${size}% - ${gutterSize}px)`,
-			}),
-			gutterStyle: (dimension, gutterSize) => ({
-				"cursor": 'row-resize',
-				"border-style": "solid"
-			}),
-		})
-	}
 	
 	var createOrgansViewer = function(manager) {
-		horizontalSplit();
-		var organsViewer = moduleManager.createModule("Organs Viewer");
-		organsViewer.setName("Organs Viewer");
-		var three = document.getElementById("three");
-		var organsViewerDialog = new physiomeportal.OrgansViewerDialog(organsViewer, three);
-		organsViewerDialog.hideCloseButton();
-		organsViewerDialog.dock();
-		organsViewerDialog.destroyModuleOnClose = true;
-		moduleManager.manageDialog(organsViewerDialog);
-		var eventNotifier =  new physiomeportal.EventNotifier();
-		organsViewer.addNotifier(eventNotifier);
-		eventNotifier.subscribe(this, selectionCallback(organsViewer));
-		return organsViewer;
+		var data = tabManager.createDialog("Organ Viewer");
+		data.module.loadOrgansFromURL("https://mapcore-bucket1.s3-us-west-2.amazonaws.com/ISAN/scaffold/stellate/stellate_metadata.json", 
+			"human", "nervous", "stellate",
+			"https://mapcore-bucket1.s3-us-west-2.amazonaws.com/ISAN/scaffold/stellate/stellate_view.json");
+		return data;
 	}
 	
 	var createPlotViewer = function(manager) {
@@ -114,7 +82,7 @@ main = function()  {
 								}
 							}
 						}
-					} else if (source.typeName === "Organs Viewer") {
+					} else if (source.typeName === "Organ Viewer") {
 						var plotViewer = findModulesWithTypeNameInManager(moduleManager, "Data Viewer");
 						if (plotViewer === undefined) 
 							plotViewer = createPlotViewer();
@@ -130,58 +98,8 @@ main = function()  {
 		var h = window.innerHeight;
 		var myHeight = h - parent.offsetTop;
 		parent.style.height = myHeight + "px";
-	}
-	
-	var updateWidgets = function() {
-		var organsViewerItem = findItemWithTypeNameInManager(moduleManager, "Organs Viewer");
-		var plotViewerItem = findItemWithTypeNameInManager(moduleManager, "Data Viewer");
-		if (!organsViewerItem) {
-			if (hSplit) {
-				hSplit.destroy();
-				hSplit = undefined;
-			}
-		}
-		else {
-			if (!hSplit) {
-				horizontalSplit();
-			}
-			var module = organsViewerItem.getModule();
-			var dialog = organsViewerItem.getDialog();
-			dialog.destroyModuleOnClose = true;
-			if (module.eventNotifiers.length == 0) {
-				var eventNotifier =  new physiomeportal.EventNotifier();
-				module.addNotifier(eventNotifier);
-				eventNotifier.subscribe(this, selectionCallback(module));
-			}
-		}
-		if (!plotViewerItem) {
-			if (vSplit) {
-				vSplit.destroy();
-				vSplit = undefined;
-			}
-		}
-		else {
-			if (!vSplit) {
-				verticalSplit();
-			}
-			var module = plotViewerItem.getModule();
-			var dialog = plotViewerItem.getDialog();
-			dialog.destroyModuleOnClose = true;
-			if (module.eventNotifiers.length == 0) {
-				var eventNotifier =  new physiomeportal.EventNotifier();
-				module.addNotifier(eventNotifier);
-				eventNotifier.subscribe(this, selectionCallback(module));
-			}
-		}
-	}
-	
-	/**
-		Process the hash
-	 */
-	var processHash = function() {
-		moduleManager.deserialise(window.location.hash);
-		// Then create or destory split
-		updateWidgets();
+		var contentHeight = myHeight - mapContent.offsetTop;
+		mapContent.style.height = contentHeight + "px";
 	}
 
 	/**
@@ -192,31 +110,25 @@ main = function()  {
 	 */
 	var initialiseMain = function() {	
 		if (moduleManager) {
-			moduleManager.addConstructor("Flatmaps", FlatmapsModule, FlatmapsDialog ); 
-			moduleManager.addConstructor("Data Viewer", BFCSVExporterModule, BFCSVExporterDialog );
 			resizeMAPDrawingArea();
-			var one = document.getElementById("one");
-			var module = new FlatmapsModule();
-			flatmapsDialog = new FlatmapsDialog(module, one, {flatmapEntry: "https://models.physiomeproject.org/workspace/585/rawfile/650adf9076538a4bf081609df14dabddd0eb37e7/Human_Body.pptx"});
-			var eventNotifier =  new physiomeportal.EventNotifier();
-			module.setName("Flatmaps");
-			flatmapsDialog.setTitle("Flatmaps");
-			flatmapsDialog.destroyModuleOnClose = true;
-			flatmapsDialog.addNotifier(eventNotifier);
-			flatmapsDialog.hideCloseButton();
-			flatmapsDialog.dock();
-			eventNotifier.subscribe(this, selectionCallback(flatmapsDialog));
-			flatmapsDialog.initaliseBroadcastCallback();
-			moduleManager.manageDialog(flatmapsDialog);
-		    if (window.location.hash !== "") {
-		    	processHash();
+			moduleManager.addConstructor("Flatmap", FlatmapsModule, FlatmapsDialog ); 
+			moduleManager.addConstructor("Data Viewer", BFCSVExporterModule, BFCSVExporterDialog );
+			var tabContainment = document.getElementById("maptab-container");
+			tabManager = new (require('./tabmanager').TabManager)(tabContainment, moduleManager);
+			if (window.location.hash !== "") {
+				tabManager.processHash(window.location.hash);
+			} else {
+				var data = tabManager.createDialog("Flatmap", {flatmapEntry: "https://models.physiomeproject.org/workspace/585/rawfile/650adf9076538a4bf081609df14dabddd0eb37e7/Human_Body.pptx"});
+				createOrgansViewer();
 			}
+			moduleManager.serialiseDiv = false;
 		    moduleManager.allowStateChange = true;   
 		}
 	}
 
 	var initialise = function() {
 		moduleManager = new physiomeportal.ModuleManager();
+		tabManager = new (require('./tabmanager').TabManager)();
 		initialiseMain();
 	}	
 
