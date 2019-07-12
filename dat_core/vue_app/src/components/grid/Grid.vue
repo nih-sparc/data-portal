@@ -2,9 +2,29 @@
   <el-row gutter="20" type="flex" class="cards">
     <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="card in cards" v-bind:key="card.key">
       <div class="card">
-        <div class="title">{{ card.title }}</div>
-        <div class="description">{{ card.description }}</div>
+        <router-link
+          :to="{
+            name: 'Dataset',
+            params: {
+              datasetId: card.id
+            }
+          }"
+        >
+          <dataset-banner-image :src="card.banner" />
+        </router-link>
+        <h3 class="title">{{ card.name }}</h3>
+        <p class="description">{{ card.description }}</p>
         <div class="link">
+          <router-link
+            :to="{
+              name: 'Dataset',
+              params: {
+                datasetId: card.id
+              }
+            }"
+          >
+            Explore Dataset
+          </router-link>
           <a v-bind:href="card.href">{{ card.cta }}</a>
         </div>
       </div>
@@ -13,8 +33,15 @@
 </template>
 
 <script>
+import DatasetBannerImage from '../DatasetBannerImage/DatasetBannerImage.vue'
+
 export default {
   name: "grid",
+
+  components: {
+    DatasetBannerImage
+  },
+
   props: ["cards"]
 };
 </script>
@@ -42,6 +69,7 @@ export default {
   .title {
     font-size: 1.5rem;
     margin-bottom: 1rem;
+    word-break: break-all;
   }
 
   .description {
@@ -58,6 +86,11 @@ export default {
       color: #8300bf;
     }
   }
+}
+
+.dataset-image {
+  height: auto;
+  width: 100%;
 }
 
 @media screen and (min-width: 40em) {

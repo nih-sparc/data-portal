@@ -31,17 +31,17 @@
 export default {
   data() {
     return {
-      selectedType: "dataset",
+      selectedType: "datasets",
       loading: false,
       terms: null,
       types: [
         {
           label: "Datasets",
-          key: "dataset"
+          key: "datasets"
         },
         {
           label: "Files",
-          key: "file"
+          key: "files"
         }
       ]
     };

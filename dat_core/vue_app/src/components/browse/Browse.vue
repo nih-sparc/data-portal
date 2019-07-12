@@ -44,7 +44,11 @@
     <div class="section">
       <el-row type="flex" justify="center">
         <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
-          <grid v-loading="loading" v-bind:cards="results" />
+          <grid
+            v-if="searchType === 'datasets'"
+            v-loading="loading"
+            :cards="results"
+          />
         </el-col>
       </el-row>
       <el-row>
@@ -66,15 +70,6 @@ import Grid from "../grid/Grid.vue";
 import SearchControls from "../search-controls/SearchControls.vue";
 import Pagination from "../Pagination/Pagination.vue";
 
-const example = {
-  key: "dataset1",
-  title: "Powley 2018 VNS-Gastric MRI Study",
-  description:
-    "Lu, K. H., et al. (2018). Vagus nerve stimulation promotes gastric emptying by increasing pyloric opening measured with magnetic resonance imaging. Neurogastroenterology & Motility",
-  href: "/dataset1",
-  cta: "Explore dataset"
-};
-
 export default {
   name: "browse",
   components: {
@@ -90,21 +85,26 @@ export default {
       limit: 16,
       offset: 0,
       page: 0,
-      results: []
+      results: [],
+      searchType: ''
     };
   },
+
+  mounted: function() {
+    this.fetchResults(['datasets', ''])
+  },
+
   methods: {
     selectPage(index) {
       this.page = index;
-      fetchResults();
+      this.fetchResults();
     },
     async fetchResults([type, terms]) {
       this.results = [];
       this.loading = true;
+      this.searchType = type
 
-      const requestUrl = `/api/search/${type}?terms=${terms || ""}&limit=${
-        this.limit
-      }&offset=${this.page * this.offset}`;
+      const requestUrl = `https://api.blackfynn.io/discover/search/${type}?query=${terms || ""}&limit=${this.limit}&offset=${this.page * this.offset}`;
 
       this.$http.get(requestUrl).then(
         function(response) {
@@ -113,14 +113,8 @@ export default {
           this.offset = response.data.offset;
 
           switch (type) {
-            case "dataset":
-              this.results = response.data.datasets.map(response => ({
-                key: response.id,
-                title: response.name,
-                description: response.description,
-                href: "/",
-                cta: "Explore dataset"
-              }));
+            case "datasets":
+              this.results = response.data.datasets
               break;
             case "file":
               this.results = response.data.files.map(response => ({

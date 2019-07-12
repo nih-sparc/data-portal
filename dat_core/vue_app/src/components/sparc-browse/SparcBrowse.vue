@@ -60,7 +60,7 @@
                                     <el-button icon="el-icon-view" circle size="mini"
                                     @click.native.prevent="handleClickLookup(scope.$index, tableData)"></el-button>
                                 </div>
-                                <el-button 
+                                <el-button
                                 @click.native.prevent="handleClickLookup(scope.$index, tableData)"
                                 type="text" size="small">Lookup</el-button>
                             </template>
@@ -103,7 +103,7 @@
                     @click.native.prevent="handleClickLookup(scope.$index, tableData)"
                   ></el-button>
                 </div>
-                <!-- <el-button 
+                <!-- <el-button
                                 @click.native.prevent="handleClickLookup(scope.$index, tableData)"
                 type="text" size="small">Lookup</el-button>-->
               </template>
