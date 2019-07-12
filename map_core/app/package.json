@@ -1,6 +1,6 @@
 {
   "name": "MAPcoreDataPortal",
-  "version": "0.0.3alpha",
+  "version": "0.0.4alpha",
   "private": true,
   "description": "MAPcore Integrated Webapp At Data Portal",
   "scripts": {
@@ -19,7 +19,7 @@
   ],
   "devDependencies": {},
   "dependencies": {
-    "mapcoreintegratedwebapp": "^0.0.3alpha",
+    "mapcoreintegratedwebapp": "^0.0.4alpha",
     "fdikbquery": "^0.0.4alpha",
     "split.js": "^1.5.11",
     "webpack": "^4.29.6",

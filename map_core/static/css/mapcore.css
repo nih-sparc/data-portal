@@ -1,12 +1,71 @@
-.flex {
-    display: flex;
-    flex-direction: row;
-}
-.flex-column {
-    display: flex;
-    flex-direction: column;
+
+/* Style the tab */
+.maptab {
+  overflow: hidden;
+  background-color: #9000c7;
+  color: #dddddd;
 }
 
-.gutter.gutter-horizontal {
-    cursor: ew-resize;
+/* Style the buttons that are used to open the tab content */
+.maptab div {
+  background-color: inherit;
+  color: white;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 2px 6px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.maptab div:hover {
+  background-color: #6ebba6;
+
+}
+
+/* Create an active/current tablink class */
+.maptab div.active {
+  background-color: white;
+  color: #9000c7;
+}
+
+.maptab div button {
+  z-index:100;
+  border-radius:10px;
+  background-color: inherit;
+  color:inherit;
+  border:none;
+}
+
+.maptab div button:hover {
+	background-color: gray;
+	cursor: pointer;
+}
+
+.maptab div div {
+  background-color: inherit;
+  color:inherit;
+  border:none;
+  z-index: -1;
+}
+
+/* Style the tab content */
+.maptabcontent {
+  display: none;
+  padding: 0px 0px;
+  border: 1px solid #ccc;
+  border-top: none;
+  height: 100%;
+}
+
+/* Style the tab content */
+.maptabcontent.active {
+  display: block;
+}
+
+#maptab-container {
+	position: absolute;
+	height:100%;
+	width:100%;
 }
