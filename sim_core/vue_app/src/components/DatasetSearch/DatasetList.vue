@@ -3,7 +3,7 @@
     <el-table-column prop="name" label="Name"></el-table-column>
     <el-table-column prop="organizationName" label="Organization"></el-table-column>
     <el-table-column prop="ownerName" label="Owner"></el-table-column>
-    <el-table-column prop="updatedAt" label="Last modification"></el-table-column>
+    <el-table-column prop="updatedAt" :formatter="(row, column, cellValue) => new Date(cellValue).toLocaleString()" label="Last modification"></el-table-column>
     <el-table-column label="Actions" fixed="right">
       <template slot-scope="scope">
         <router-link :to="{ name: 'dataset-detail', params: { id: scope.row.id } }">
