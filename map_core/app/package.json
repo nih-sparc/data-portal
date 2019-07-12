@@ -17,10 +17,10 @@
     "modelling",
     "flatmaps"
   ],
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
     "mapcoreintegratedwebapp": "^0.0.3alpha",
+    "fdikbquery": "^0.0.4alpha",
     "split.js": "^1.5.11",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3"
