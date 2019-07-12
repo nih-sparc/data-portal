@@ -3,6 +3,7 @@ var FlatmapsDialog = require('mapcoreintegratedwebapp').FlatmapsDialog;
 var FlatmapsModule = require('mapcoreintegratedwebapp').FlatmapsModule;
 var BFCSVExporterDialog = require('mapcoreintegratedwebapp').BFCSVExporterDialog;
 var BFCSVExporterModule = require('mapcoreintegratedwebapp').BFCSVExporterModule;
+var fdi_kb_query_module = require('fdikbquery').FDI_KB_Query_Module;
 var Split = require('split.js').default;
 
 main = function()  {
@@ -10,6 +11,7 @@ main = function()  {
 	var UIIsReady = true;
 	var nav_bar = document.querySelector(".nav");
 	var parent = document.getElementById("MAPcorePortalArea");
+	var fdikbquery = undefined;
 	var flatmapsDialog = undefined;
 	var channel = undefined;
 	var hSplit = undefined;
@@ -186,7 +188,7 @@ main = function()  {
 
 	/**
 	 * Initialise all the panels required for PJP to function correctly.
-	 * Modules used incude - {@link PJP.ModelsLoader}, {@link PJP.BodyViewer},
+	 * Modules used include - {@link PJP.ModelsLoader}, {@link PJP.BodyViewer},
 	 * {@link PJP.OrgansViewer}, {@link PJP.TissueViewer}, {@link PJP.CellPanel}
 	 * and {@link PJP.ModelPanel}.
 	 */
@@ -217,6 +219,7 @@ main = function()  {
 
 	var initialise = function() {
 		moduleManager = new physiomeportal.ModuleManager();
+		fdikbquery = new fdi_kb_query_module(parent);
 		initialiseMain();
 	}	
 
