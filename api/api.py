@@ -3,6 +3,9 @@
 #################
 #### imports ####
 #################
+import boto3
+
+from email_sender import EmailSender
 from client import MockSparcPortalApiClient
 from model import SparcPortalSearchParameters
 from serializer import PaginatedDatasetResponseSchema, PaginatedFileResponseSchema, DatasetSchema, ContactRequestSchema
@@ -22,23 +25,23 @@ import urllib
 
 api_blueprint = Blueprint('api', __name__, template_folder='templates', url_prefix='/api')
 
-bf = None
 gp = None
 ma = Marshmallow(app)
 client = MockSparcPortalApiClient()
+email_sender = EmailSender()
 
 @api_blueprint.route("/contact", methods=["POST"])
 def contact():
     data = json.loads(request.data)
     contact_request = ContactRequestSchema().load(data).data
 
-    client.send_contact_request(
-        name=contact_request["name"],
-        email=contact_request["email"],
-        message=contact_request["message"]
-    )
+    name = contact_request["name"]
+    email = contact_request["email"]
+    message = contact_request["message"]
 
-    return ''
+    email_sender.send_email(name, email, message)
+
+    return json.dumps({ "status": "sent" })
 
 #########################
 #### DAT-CORE routes ####

@@ -101,7 +101,8 @@
                     style="width: 100%; height: 100%; margin: 0; padding: 0; border-radius: 0"
                     placeholder="Select"
                   >
-                    <el-option key="1" label="Datasets" value="datasets"></el-option>
+                    <el-option key="datasets" label="Datasets" value="datasets"></el-option>
+                    <el-option key="files" label="Files" value="files"></el-option>
                   </el-select>
                 </div>
               </el-col>

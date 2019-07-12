@@ -28,47 +28,7 @@
     <div class="search section">
       <el-row type="flex" justify="center">
         <el-col :xs="22" :sm="22" :md="12" :lg="8">
-          <div class="controls">
-            <el-row justify="center" type="flex" gutter="5">
-              <el-col :xs="8" :sm="6">
-                <div class="control">
-                  <el-select
-                    v-model="value2"
-                    multiple
-                    collapse-tags
-                    size="large"
-                    style="width: 100%; height: 100%; margin: 0; padding: 0; border-radius: 0"
-                    placeholder="Select"
-                  >
-                    <el-option v-for="type in types" v-bind:key="type.key">{{ type.label }}</el-option>
-                  </el-select>
-                </div>
-              </el-col>
-              <el-col :xs="16" :sm="18">
-                <div class="control">
-                  <el-autocomplete
-                    v-model="state"
-                    size="large"
-                    :fetch-suggestions="querySearch"
-                    placeholder="Start typing..."
-                    style="width: 100%; height: 100%; border-radius: 0; padding: 0; margin: 0;"
-                    @select="handleSelect"
-                  >
-                    <i class="el-icon-search el-input__icon" slot="suffix" @click="handleIconClick"></i>
-                    <template slot-scope="{ item }">
-                      <div class="value">{{ item.value }}</div>
-                      <span class="link">{{ item.link }}</span>
-                    </template>
-                  </el-autocomplete>
-                </div>
-              </el-col>
-            </el-row>
-            <el-row>
-              <div class="search-button">
-                <el-button type="primary" class="view-search-results">View Results</el-button>
-              </div>
-            </el-row>
-          </div>
+          <search-controls @query="fetchResults" />
         </el-col>
       </el-row>
     </div>
@@ -76,12 +36,6 @@
       <el-row type="flex" justify="center">
         <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
           <div class="tableMetadata">
-            <div class="tags">
-              <div v-for="tag in appliedTags" v-bind:key="tag.key" class="tag">
-                <div class="content">{{ tag.key }} = {{ tag.value }}</div>
-                <div class="delete">X</div>
-              </div>
-            </div>
             <div class="number-of-records">Showing {{ totalCount }} records</div>
           </div>
         </el-col>
@@ -90,14 +44,17 @@
     <div class="section">
       <el-row type="flex" justify="center">
         <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
-          <grid v-bind:cards="responseCards" />
+          <grid v-loading="loading" v-bind:cards="results" />
         </el-col>
       </el-row>
-    </div>
-    <div class="data section">
-      <el-row type="flex" justify="center">
+      <el-row>
         <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
-          <data-table table-class="browse-table" :totalCount="totalCount" />
+          <pagination
+            :selected="page"
+            :pageSize="limit"
+            :total="totalCount"
+            @selectPage="selectPage"
+          />
         </el-col>
       </el-row>
     </div>
@@ -106,6 +63,8 @@
 <script>
 import DataTable from "../data-table/DataTable.vue";
 import Grid from "../grid/Grid.vue";
+import SearchControls from "../search-controls/SearchControls.vue";
+import Pagination from "../Pagination/Pagination.vue";
 
 const example = {
   key: "dataset1",
@@ -120,102 +79,65 @@ export default {
   name: "browse",
   components: {
     DataTable,
-    Grid
+    Grid,
+    SearchControls,
+    Pagination
   },
-  data: () => ({
-    types: [
-      {
-        label: "Datasets",
-        key: "dataset"
-      },
-      {
-        label: "Models",
-        key: "model"
-      },
-      {
-        label: "Files",
-        key: "file"
-      }
-    ],
-    totalCount: 1,
-    properties: {
-      dataset: [
-        {
-          label: "Sample size",
-          key: "sampleSize"
-        }
-      ],
-      model: [
-        {
-          label: "Protein target",
-          key: "proteinTarget"
-        }
-      ],
-      file: [
-        {
-          label: "File type",
-          key: "fileType"
-        },
-        {
-          label: "Compression",
-          key: "compression"
-        }
-      ]
+  data() {
+    return {
+      loading: false,
+      totalCount: 0,
+      limit: 16,
+      offset: 0,
+      page: 0,
+      results: []
+    };
+  },
+  methods: {
+    selectPage(index) {
+      this.page = index;
+      fetchResults();
     },
-    appliedTags: [
-      {
-        key: "model",
-        value: "mouse"
-      },
-      {
-        key: "model",
-        value: "mouse"
-      },
-      {
-        key: "model",
-        value: "mouse"
-      }
-    ],
-    responseCards: [example, example, example, example, example],
-    tableData: [
-      {
-        date: "2016-05-03",
-        name: "Tom",
-        state: "California",
-        city: "Los Angeles",
-        address: "No. 189, Grove St, Los Angeles",
-        zip: "CA 90036",
-        tag: "Home"
-      },
-      {
-        date: "2016-05-02",
-        name: "Tom",
-        state: "California",
-        city: "Los Angeles",
-        address: "No. 189, Grove St, Los Angeles",
-        zip: "CA 90036",
-        tag: "Office"
-      },
-      {
-        date: "2016-05-04",
-        name: "Tom",
-        state: "California",
-        city: "Los Angeles",
-        address: "No. 189, Grove St, Los Angeles",
-        zip: "CA 90036",
-        tag: "Home"
-      },
-      {
-        date: "2016-05-01",
-        name: "Tom",
-        state: "California",
-        city: "Los Angeles",
-        address: "No. 189, Grove St, Los Angeles",
-        zip: "CA 90036",
-        tag: "Office"
-      }
-    ]
-  })
+    async fetchResults([type, terms]) {
+      this.results = [];
+      this.loading = true;
+
+      const requestUrl = `/api/search/${type}?terms=${terms || ""}&limit=${
+        this.limit
+      }&offset=${this.page * this.offset}`;
+
+      this.$http.get(requestUrl).then(
+        function(response) {
+          this.totalCount = response.data.totalCount;
+          this.limit = response.data.limit;
+          this.offset = response.data.offset;
+
+          switch (type) {
+            case "dataset":
+              this.results = response.data.datasets.map(response => ({
+                key: response.id,
+                title: response.name,
+                description: response.description,
+                href: "/",
+                cta: "Explore dataset"
+              }));
+              break;
+            case "file":
+              this.results = response.data.files.map(response => ({
+                key: response.uri,
+                title: response.name,
+                description: "",
+                href: "/",
+                cta: "Download file"
+              }));
+              break;
+          }
+
+          this.loading = false;
+        }.bind(this)
+      );
+    }
+  }
 };
 </script>
 
@@ -286,71 +208,6 @@ button.clear-all {
   .header {
     h2 {
       text-align: center;
-    }
-  }
-}
-
-.search {
-  color: white;
-  text-align: center;
-
-  .search-button {
-    padding-top: 1em;
-
-    .view-search-results {
-      background: #24245b;
-      text: #fff;
-      border: 0;
-    }
-  }
-
-  .controls {
-    padding-top: 1em;
-    min-height: 4em;
-
-    .control {
-      display: inline-block;
-      height: 100%;
-      width: 100%;
-      font-size: 2em;
-
-      .search-type-selector {
-        padding: 0.5em;
-        border: 0;
-        color: #8300bf;
-        border-radius: 0;
-        background: none;
-        -webkit-appearance: none;
-        width: 100%;
-        height: 100%;
-
-        > input {
-          border-radius: 0 !important;
-          border: 0 !important;
-          background: none;
-        }
-      }
-
-      .search-input {
-        background: none;
-        border: 0;
-        padding: 0.5em;
-        color: #8300bf;
-        -webkit-appearance: none;
-        width: 100%;
-        height: 100%;
-
-        > input {
-          border-radius: 0 !important;
-          border: 0 !important;
-          background: none;
-        }
-
-        ::placeholder {
-          color: #8300bf;
-          opacity: 1;
-        }
-      }
     }
   }
 }

@@ -28,16 +28,7 @@ class BaseSparcPortalApiClient(object):
         # type: (int) -> SparcPortalDataset
         pass
 
-    @abc.abstractmethod
-    def send_contact_request(self, name, email, message):
-        # type: (str, str, str) -> None
-        pass
-
 class MockSparcPortalApiClient(BaseSparcPortalApiClient):
-    def send_contact_request(self, name, email, message):
-        # TODO - wire up to Blackfynn-provided API
-        print name, email, message
-
     def retrieve_featured_datasets(self):
         return [dataset1, dataset2, dataset1, dataset2]
 
