@@ -1,6 +1,6 @@
 {
   "name": "MAPcoreDataPortal",
-  "version": "0.0.2alpha",
+  "version": "0.0.3alpha",
   "private": true,
   "description": "MAPcore Integrated Webapp At Data Portal",
   "scripts": {
@@ -18,10 +18,10 @@
     "flatmaps"
   ],
   "devDependencies": {
-    "mapcoreintegratedwebapp": "^0.0.1alpha",
-    "split.js": "^1.5.11"
   },
   "dependencies": {
+    "mapcoreintegratedwebapp": "^0.0.3alpha",
+    "split.js": "^1.5.11",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3"
   }
