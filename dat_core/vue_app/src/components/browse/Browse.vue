@@ -49,6 +49,41 @@
             v-loading="loading"
             :cards="results"
           />
+
+          <div class="files-table">
+            <el-table
+              v-if="searchType === 'files'"
+              :data="results"
+            >
+              <el-table-column
+                fixed
+                prop="name"
+                label="Name"
+              />
+              <el-table-column
+                prop="fileType"
+                label="File type"
+                width="120"
+              />
+              <el-table-column
+                prop="size"
+                label="Size"
+                width="120"
+                :formatter="formatStorage"
+              />
+              <el-table-column
+                fixed="right"
+                label="Operations"
+                width="112"
+              >
+                <template slot-scope="scope">
+                  <bf-button @click="downloadFile(scope)" >
+                    Download
+                  </bf-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
         </el-col>
       </el-row>
       <el-row>
@@ -65,19 +100,27 @@
   </div>
 </template>
 <script>
-import DataTable from "../data-table/DataTable.vue";
 import Grid from "../grid/Grid.vue";
 import SearchControls from "../search-controls/SearchControls.vue";
 import Pagination from "../Pagination/Pagination.vue";
+import BfButton from '../shared/BfButton/BfButton.vue'
+
+import FormatStorage from '../../mixins/bf-storage-metrics/index'
 
 export default {
   name: "browse",
+
   components: {
-    DataTable,
+    BfButton,
     Grid,
     SearchControls,
     Pagination
   },
+
+  mixins: [
+    FormatStorage
+  ],
+
   data() {
     return {
       loading: false,
@@ -95,6 +138,17 @@ export default {
   },
 
   methods: {
+    /**
+     * Format storage column
+     * @param {Object} row
+     * @param {Object} column
+     * @param {Number} cellValue
+     * @returns {String}
+     */
+    formatStorage: function (row, column, cellValue) {
+      return this.formatMetric(cellValue)
+    },
+
     selectPage(index) {
       this.page = index;
       this.fetchResults();
@@ -116,13 +170,12 @@ export default {
             case "datasets":
               this.results = response.data.datasets
               break;
-            case "file":
+            case "files":
               this.results = response.data.files.map(response => ({
-                key: response.uri,
-                title: response.name,
-                description: "",
-                href: "/",
-                cta: "Download file"
+                uri: response.uri,
+                name: response.name,
+                size: response.size,
+                fileType: response.fileType
               }));
               break;
           }
@@ -130,6 +183,14 @@ export default {
           this.loading = false;
         }.bind(this)
       );
+    },
+
+    /**
+     * Download file
+     * @param {Object} file
+     */
+    downloadFile: function(file) {
+
     }
   }
 };
@@ -182,7 +243,10 @@ button.clear-all {
   }
 }
 
-.card {
+.files-table {
+  background: #fff;
+  border: 1px solid rgb(228, 231, 237);
+  padding: 16px;
 }
 
 .section {
