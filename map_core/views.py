@@ -71,7 +71,7 @@ def maps():
             reader = MBTilesReader(mbtiles)
             source_row = reader._query("SELECT value FROM metadata WHERE name='source';").fetchone()
             if source_row is not None:
-                flatmap = { 'id': path.name, 'source': source_row[0] }
+                flatmap = { 'id': tile_dir.name, 'source': source_row[0] }
                 created = reader._query("SELECT value FROM metadata WHERE name='created';").fetchone()
                 if created is not None:
                     flatmap['created'] = created[0]
