@@ -9,9 +9,6 @@
         <router-link :to="{ name: 'dataset-detail', params: { id: scope.row.id } }">
           <el-button size="small">Detail</el-button>
         </router-link>
-        <a href="http://master.osparc.io/study/template-uuid-5d82-b08d-d39c436ca738" target="_blank">
-          <el-button size="small">Open in oSPARC</el-button>
-        </a>
       </template>
     </el-table-column>
   </el-table>

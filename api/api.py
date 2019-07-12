@@ -287,6 +287,8 @@ def discover():
 #### SIM-CORE routes ####
 #########################
 
+import logging
+
 @api_blueprint.route('/sim/dataset')
 def datasets():
     if request.method == 'GET':
@@ -302,10 +304,42 @@ def dataset(id):
     if request.method == 'GET':
         req = requests.get('{}/datasets/{}'.format(Config.DISCOVER_API_HOST, id))
         json = req.json()
-        injectMarkdown(json)
+        inject_markdown(json)
+        inject_template_data(json)
         return jsonify(json)
 
-def injectMarkdown(json):
-    if 'readme' in json:
-        markReq = requests.get(json.get('readme'))
-        json['markdown'] = markReq.text
+def inject_markdown(resp):
+    if 'readme' in resp:
+        mark_req = requests.get(resp.get('readme'))
+        resp['markdown'] = mark_req.text
+
+def inject_template_data(resp):
+    import boto3
+    from botocore.exceptions import ClientError
+    import json
+
+    id = resp.get('id')
+    version = resp.get('version')
+    if (id is None or version is None):
+        return
+
+    try:
+        s3_client = boto3.Session().client('s3', region_name='us-east-1')
+        response = s3_client.get_object(Bucket='blackfynn-discover-use1',
+                                        Key='{}/{}/packages/template.json'.format(id, version),
+                                        RequestPayer='requester')
+    except ClientError as e:
+        logging.error(e)
+        return
+
+    template = response['Body'].read()
+
+    try:
+        template_json = json.loads(template)
+    except ValueError as e:
+        logging.error(e)
+        return
+
+    resp['study'] = {'uuid': template_json.get('uuid'),
+                     'name': template_json.get('name'),
+                     'description': template_json.get('description')}
