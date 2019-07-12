@@ -79,7 +79,14 @@ def maps():
             reader = MBTilesReader(mbtiles)
             source_row = reader._query("SELECT value FROM metadata WHERE name='source';").fetchone()
             if source_row is not None:
-                maps.append({ 'id': path.name, 'source': source_row[0] })
+                map = { 'id': path.name, 'source': source_row[0] }
+                created = reader._query("SELECT value FROM metadata WHERE name='created';").fetchone()
+                if created is not None:
+                    map['created'] = created[0]
+                describes = reader._query("SELECT value FROM metadata WHERE name='describes';").fetchone()
+                if describes is not None:
+                    map['describes'] = describes[0]
+                maps.append(map)
     return jsonify(maps)
 
 @map_core_blueprint.route('flatmap/<string:map>/')
