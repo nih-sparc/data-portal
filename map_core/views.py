@@ -64,22 +64,22 @@ def scaffoldmakerproxy(p = ''):
 # Flatmaps
 @map_core_blueprint.route('flatmap/')
 def maps():
-    map_array = []
+    flatmap_list = []
     for tile_dir in pathlib.Path(flatmaps_root).iterdir():
         mbtiles = os.path.join(flatmaps_root, tile_dir, 'index.mbtiles')
         if os.path.isdir(tile_dir) and os.path.exists(mbtiles):
             reader = MBTilesReader(mbtiles)
             source_row = reader._query("SELECT value FROM metadata WHERE name='source';").fetchone()
             if source_row is not None:
-                map = { 'id': path.name, 'source': source_row[0] }
+                flatmap = { 'id': path.name, 'source': source_row[0] }
                 created = reader._query("SELECT value FROM metadata WHERE name='created';").fetchone()
                 if created is not None:
-                    map['created'] = created[0]
+                    flatmap['created'] = created[0]
                 describes = reader._query("SELECT value FROM metadata WHERE name='describes';").fetchone()
                 if describes is not None:
-                    map['describes'] = describes[0]
-                map_array.append(map)
-    return jsonify(map_array)
+                    flatmap['describes'] = describes[0]
+                flatmap_list.append(flatmap)
+    return jsonify(flatmap_list)
 
 
 @map_core_blueprint.route('flatmap/<string:map_path>/')
