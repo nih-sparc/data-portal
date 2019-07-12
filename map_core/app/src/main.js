@@ -3,11 +3,7 @@ var FlatmapsDialog = require('mapcoreintegratedwebapp').FlatmapsDialog;
 var FlatmapsModule = require('mapcoreintegratedwebapp').FlatmapsModule;
 var BFCSVExporterDialog = require('mapcoreintegratedwebapp').BFCSVExporterDialog;
 var BFCSVExporterModule = require('mapcoreintegratedwebapp').BFCSVExporterModule;
-<<<<<<< HEAD
 var fdi_kb_query_module = require('fdikbquery').FDI_KB_Query_Module;
-var Split = require('split.js').default;
-=======
->>>>>>> 1c3a3b875cf507940033bc2410a97687c2d61fa5
 
 main = function()  {
 	var tabManager = undefined;
@@ -15,11 +11,8 @@ main = function()  {
 	var UIIsReady = true;
 	var nav_bar = document.querySelector(".nav");
 	var parent = document.getElementById("MAPcorePortalArea");
-<<<<<<< HEAD
-	var fdikbquery = undefined;
-=======
 	var mapContent = document.querySelector(".maptab-contents");
->>>>>>> 1c3a3b875cf507940033bc2410a97687c2d61fa5
+	var fdikbquery = undefined;
 	var flatmapsDialog = undefined;
 	var channel = undefined;
 	var _this = this;
