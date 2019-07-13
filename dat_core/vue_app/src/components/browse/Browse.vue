@@ -9,7 +9,6 @@
                 <el-col :xs="24" :lg="12">
                   <h3>Find SPARC data</h3>
                   <p>A growing list of SPARC datasets provides insight into neural control of organ function and datasets are annotated with a common standard.</p>
-                  <!-- <p>The Data Portal is powered by Blackfynn which provides a sustainable data management system for scientific metadata. - A growing list of SPARC datasets provides insight into neural control of organ function. Datasets are annotated with a common standard, allowing users to perform cross-dataset comparisons and analyses.</p> -->
                 </el-col>
               </el-row>
             </div>
@@ -159,7 +158,7 @@ export default {
       this.loading = true;
       this.searchType = type
 
-      const requestUrl = `https://api.blackfynn.io/discover/search/${type}?query=${terms || ""}&limit=${this.limit}&offset=${this.page * this.offset}`;
+      const requestUrl = `https://api.blackfynn.io/discover/search/${type}?query=${terms || ""}&limit=${this.limit}&offset=${this.page * this.offset}&organization=SPARC%20Consortium`;
 
       this.$http.get(requestUrl).then(
         function(response) {
@@ -259,6 +258,10 @@ button.clear-all {
     padding: 1.5em 0;
     color: #f0f2f5;
     background-image: linear-gradient(90deg, #0026ff 0%, #00ffb9 100%);
+
+    .breadcrumb {
+      width: 50%;
+    }
   }
 }
 
