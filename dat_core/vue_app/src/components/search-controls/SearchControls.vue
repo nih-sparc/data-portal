@@ -1,6 +1,6 @@
 <template>
   <div class="controls">
-    <el-row justify="center" type="flex" gutter="5">
+    <el-row class="control-row" justify="center" type="flex" gutter="5">
       <el-col :xs="8" :sm="6">
         <div class="control">
           <el-select
@@ -59,6 +59,10 @@ export default {
   padding-top: 1em;
   min-height: 4em;
 
+  .control-row {
+    align-items: baseline;
+  }
+
   .control {
     display: inline-block;
     height: 100%;
@@ -106,7 +110,6 @@ export default {
 }
 
 .search-button {
-  padding-top: 1em;
 
   .view-search-results {
     background: #24245b;

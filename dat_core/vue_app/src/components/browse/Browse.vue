@@ -7,8 +7,9 @@
             <div class="breadcrumb">
               <el-row>
                 <el-col :xs="24" :lg="12">
-                  <h1>Data Core</h1>
-                  <p>DAT-CORE provides a sustainable scientific data management platform for scientific data management and publishing of SPARC data.</p>
+                  <h3>Find SPARC data</h3>
+                  <p>A growing list of SPARC datasets provides insight into neural control of organ function and datasets are annotated with a common standard.</p>
+                  <!-- <p>The Data Portal is powered by Blackfynn which provides a sustainable data management system for scientific metadata. - A growing list of SPARC datasets provides insight into neural control of organ function. Datasets are annotated with a common standard, allowing users to perform cross-dataset comparisons and analyses.</p> -->
                 </el-col>
               </el-row>
             </div>
@@ -16,7 +17,7 @@
         </el-row>
       </div>
     </div>
-    <div class="top section">
+    <!-- <div class="top section">
       <el-row type="flex" justify="center">
         <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
           <div class="header">
@@ -24,7 +25,7 @@
           </div>
         </el-col>
       </el-row>
-    </div>
+    </div> -->
     <div class="search section">
       <el-row type="flex" justify="center">
         <el-col :xs="22" :sm="22" :md="12" :lg="8">
