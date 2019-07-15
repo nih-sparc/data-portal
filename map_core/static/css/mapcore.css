@@ -1,57 +1,62 @@
 
 /* Style the tab */
-.maptab {
+.maptab-tabbar {
   overflow: hidden;
-  background-color: #9000c7;
-  color: #dddddd;
+  background-image: linear-gradient(to right, rgba(0,38,255), rgba(248,0,69));
+  display: flex;
+  align-items: flex-end;
+}
+
+
+/* Create an active/current tablink class */
+.maptab-tabbar .tablinks.active {
+  background-color: white;
 }
 
 /* Style the buttons that are used to open the tab content */
-.maptab div {
-  background-color: inherit;
-  color: white;
+.maptab-tabbar .tablinks {
+  display: flex;
   float: left;
-  border: none;
   outline: none;
-  cursor: pointer;
+  cursor: default;
   padding: 2px 6px;
-  transition: 0.3s;
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  margin-right: 1px;
+  border-color: black;
+  border-width: 4px;
 }
 
 /* Change background color of buttons on hover */
-.maptab div:hover {
-  background-color: #6ebba6;
+
+.maptab-tabbar .tablinks:hover:not(.active) {
+  background-color: #6abbec;
 
 }
 
-/* Create an active/current tablink class */
-.maptab div.active {
-  background-color: white;
-  color: #9000c7;
-}
-
-.maptab div button {
-  z-index:100;
+.maptab-tabbar .tablinks button {
   border-radius:10px;
+  margin-left: 3px;
+  cursor: pointer;
+  vertical-align: middle;
+  border: none;
   background-color: inherit;
-  color:inherit;
-  border:none;
 }
 
-.maptab div button:hover {
-	background-color: gray;
-	cursor: pointer;
+.maptab-tabbar .tablinks button:hover {
+  background-color: gray;
 }
-
-.maptab div div {
-  background-color: inherit;
-  color:inherit;
-  border:none;
-  z-index: -1;
+.maptab-tabbar .tablinks:not(.active) {
+  background-color: darkgray;
+  cursor: pointer;
 }
 
 /* Style the tab content */
-.maptabcontent {
+.maptab-contents {
   display: none;
   padding: 0px 0px;
   border: 1px solid #ccc;
@@ -60,12 +65,12 @@
 }
 
 /* Style the tab content */
-.maptabcontent.active {
+.maptab-contents.active {
   display: block;
 }
 
 #maptab-container {
-	position: absolute;
-	height:100%;
-	width:100%;
+  position: absolute;
+  height:100%;
+  width:100%;
 }

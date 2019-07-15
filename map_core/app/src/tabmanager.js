@@ -8,7 +8,7 @@ var TabData = function() {
 
 exports.TabManager = function(containerIn, moduleManagerIn ) {
 	const container = containerIn;
-	const maptab = document.querySelector(".maptab");
+	const maptab = document.querySelector(".maptab-tabbar");
 	const contents = document.querySelector(".maptab-contents");
 	const moduleManager = moduleManagerIn;
 	const tabData = [];
