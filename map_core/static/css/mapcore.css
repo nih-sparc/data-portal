@@ -2,7 +2,7 @@
 /* Style the tab */
 .maptab-tabbar {
   overflow: hidden;
-  background-image: linear-gradient(to right, rgba(0,38,255), rgba(248,0,69));
+  background-image: linear-gradient(to right, rgba(25,6,204), rgba(255,0,61));
   display: flex;
   align-items: flex-end;
 }
