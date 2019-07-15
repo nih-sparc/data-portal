@@ -13,7 +13,7 @@ from flask import current_app
 #### config ####
 ################
  
-sim_core_blueprint = Blueprint('sim_core', __name__, static_folder='../shared/static/dist', template_folder='../shared/static/dist', url_prefix='/sim', static_url_path="")
+sim_core_blueprint = Blueprint('sim_core', __name__, static_folder='../shared/static/dist', template_folder='./static/dist', url_prefix='/sim', static_url_path="")
 
 ################
 #### routes ####

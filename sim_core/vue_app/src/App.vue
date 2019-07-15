@@ -1,6 +1,6 @@
 <template>
   <div id="sim-app">
-    <router-view />
+    <router-view></router-view>
   </div>
 </template>
 

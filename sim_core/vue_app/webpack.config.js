@@ -15,7 +15,9 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
-        use: ['file-loader']
+        use: [
+          'file-loader'
+        ]
       },
       {
         test: /\.(css|scss)$/,
@@ -48,7 +50,10 @@ module.exports = {
       inject: false
     }),
     new filewatcherPlugin({
-      watchFileRegex: ['./src/**/*.vue', './src/**/*.js'],
+      watchFileRegex: [
+        './src/**/*.vue',
+        './src/**/*.js'
+      ],
       usePolling: true,
       ignored: '/node_modules/'
     })
