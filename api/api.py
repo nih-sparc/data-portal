@@ -5,10 +5,10 @@
 #################
 import boto3
 
-from email_sender import EmailSender
-from client import MockSparcPortalApiClient
-from model import SparcPortalSearchParameters
-from serializer import PaginatedDatasetResponseSchema, PaginatedFileResponseSchema, DatasetSchema, ContactRequestSchema
+from .email_sender import EmailSender
+from .client import MockSparcPortalApiClient
+from .model import SparcPortalSearchParameters
+from .serializer import PaginatedDatasetResponseSchema, PaginatedFileResponseSchema, DatasetSchema, ContactRequestSchema
 from app import app
 from flask import render_template, Blueprint, request
 from logger import logger
@@ -43,7 +43,7 @@ def contact():
 
     return json.dumps({ "status": "sent" })
 
-  @app.before_first_request
+@app.before_first_request
 def connect_to_graphenedb():
     global gp
     # graphenedb_url = Config.GRAPHENEDB_BOLT_URL
@@ -55,7 +55,7 @@ def connect_to_graphenedb():
 #### DAT-CORE routes ####
 #########################
 
-# Returns a list of public datasets from 
+# Returns a list of public datasets from
 @api_blueprint.route('/datasets')
 def discover():
     resp = bf._api._get('/consortiums/1/datasets')
