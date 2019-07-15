@@ -1,17 +1,26 @@
 <template>
-  <el-table :data="datasets">
-    <el-table-column prop="name" label="Name"></el-table-column>
-    <el-table-column prop="organizationName" label="Organization"></el-table-column>
-    <el-table-column prop="ownerName" label="Owner"></el-table-column>
-    <el-table-column prop="updatedAt" :formatter="(row, column, cellValue) => new Date(cellValue).toLocaleString()" label="Last modification"></el-table-column>
-    <el-table-column label="Actions" fixed="right">
-      <template slot-scope="scope">
-        <router-link :to="{ name: 'dataset-detail', params: { id: scope.row.id } }">
-          <el-button size="small">Detail</el-button>
+  <el-row :gutter="20" type="flex" class="cards">
+    <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="dataset in datasets" :key="dataset.id">
+      <div class="card">
+        <router-link :to="{ name: 'dataset-detail', params: { id: dataset.id } }">
+          <div class="thumbnail-container">
+            <el-row type="flex" justify="center">
+              <el-image :src="dataset.banner" fit="scale-down"></el-image>
+            </el-row>
+          </div>
         </router-link>
-      </template>
-    </el-table-column>
-  </el-table>
+        <div class="card-bottom">
+          <div>
+            <h3 class="title">{{ dataset.name }}</h3>
+            <p class="description">{{ dataset.description }}</p>
+          </div>
+          <div class="link">
+            <router-link :to="{ name: 'dataset-detail', params: { id: dataset.id } }">Explore</router-link>
+          </div>
+        </div>
+      </div>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
@@ -23,3 +32,56 @@ export default {
   })
 }
 </script>
+
+<style lang="scss" scoped>
+.thumbnail-container {
+  height: 15em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  > .el-row {
+    height: 100%;
+  }
+
+  @media screen and (max-width: 768px) {
+    height: auto;
+  }
+}
+
+.cards {
+  flex-wrap: wrap;
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+    border: 1px solid #EBEEF5;
+    background-color: #FFF;
+    border-radius: 4px;
+    padding: 18px;
+    margin-top: 20px;
+
+    .link {
+      a {
+        text-transform: uppercase;
+        text-decoration: none;
+        color: #f4942b;
+      }
+    }
+  }
+  
+  .card-bottom {
+    margin: 1em 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  > .el-col {
+    display: flex;
+  }
+}
+</style>

@@ -5,11 +5,10 @@
         <el-link type="primary" size="small">&lt; Back to search results</el-link>
       </router-link>
     </p>
-    <div v-if="isFetching" v-loading="true" class="loading-placeholder" element-loading-background="transparent" element-loading-text="Loading..."></div>
-    <div v-else-if="dataset">
+    <div v-if="dataset">
       <el-row :gutter="18">
         <el-col :sm="8">
-          <el-image :src="dataset.banner" fit="cover" lazy></el-image>
+          <el-image :src="dataset.banner" fit="cover"></el-image>
         </el-col>
         <el-col :sm="16">
           <h2>{{ dataset.name }}</h2>
@@ -37,28 +36,11 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
 import Markdown from '../Markdown/Markdown.vue';
 
 export default {
   name: 'dataset-detail',
-  props: ['id'],
-  computed: mapState({
-    dataset(state) {
-      return state.entities.datasets[this.id];
-    },
-    isFetching(state) {
-      return state.simcoreDetail.isFetching;
-    }
-  }),
-  methods: {
-    ...mapActions([
-      'fetchDataset'
-    ])
-  },
-  created() {
-    this.fetchDataset(this.id);
-  },
+  props: ['dataset', 'isFetching'],
   components: {
     Markdown
   }
@@ -66,9 +48,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.loading-placeholder {
-  height: 300px;
-}
 .markdown {
   margin-top: 30px;
 }
