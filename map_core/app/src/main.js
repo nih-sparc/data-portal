@@ -115,7 +115,7 @@ main = function()  {
 			resizeMAPDrawingArea();
 			moduleManager.addConstructor("Flatmap", FlatmapsModule, FlatmapsDialog ); 
 			moduleManager.addConstructor("Data Viewer", BFCSVExporterModule, BFCSVExporterDialog );
-			var tabContainment = document.getElementById("maptab-container");
+			var tabContainment = document.getElementById("maptab_container");
 			tabManager = new (require('./tabmanager').TabManager)(tabContainment, moduleManager);
 			if (window.location.hash !== "") {
 				tabManager.processHash(window.location.hash);
