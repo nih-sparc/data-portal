@@ -1,8 +1,11 @@
 
+.mapcore-gradient-background {
+  background-image: linear-gradient(to right, rgba(25,6,204), rgba(255,0,61));
+}
+
 /* Style the tab */
 .maptab-tabbar {
   overflow: hidden;
-  background-image: linear-gradient(to right, rgba(25,6,204), rgba(255,0,61));
   display: flex;
   align-items: flex-end;
 }
