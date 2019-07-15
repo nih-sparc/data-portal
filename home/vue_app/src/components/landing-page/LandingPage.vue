@@ -4,10 +4,10 @@
       <div class="texture">
         <el-row class="blob-row" type="flex" justify="center">
           <el-col class="blob-column" :sm="24" :md="12" :lg="12" :xl="12">
-            <img class="blob1" alt="Irregular blob" :src="irregularBlob1">
+            <img class="blob1" alt="Irregular blob" :src="irregularBlob1" />
           </el-col>
           <el-col class="blob-column" :sm="24" :md="12" :lg="12" :xl="12">
-            <img class="blob2" alt="Irregular blob" :src="irregularBlob2">
+            <img class="blob2" alt="Irregular blob" :src="irregularBlob2" />
           </el-col>
         </el-row>
       </div>
@@ -17,9 +17,7 @@
             <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
               <el-row>
                 <el-col :xs="22" :sm="22" :md="12" :lg="12">
-                  <h1 class="hero-header">
-                    A modern view into the autonomic nervous system.
-                  </h1>
+                  <h1 class="hero-header">A modern view into the autonomic nervous system.</h1>
                   <el-button type="primary" class="explore-the-data">Explore the data</el-button>
                 </el-col>
               </el-row>
@@ -32,10 +30,10 @@
       <div class="texture">
         <el-row class="blob-row" type="flex" justify="space-between">
           <el-col class="blob-column" :sm="24" :md="12" :lg="12" :xl="12">
-            <img class="blob3" alt="Irregular blob" :src="transparentBlob3">
+            <img class="blob3" alt="Irregular blob" :src="transparentBlob3" />
           </el-col>
           <el-col class="blob-column" :sm="24" :md="12" :lg="12" :xl="12">
-            <img class="blob4" alt="Irregular blob" :src="transparentBlob3">
+            <img class="blob4" alt="Irregular blob" :src="transparentBlob3" />
           </el-col>
         </el-row>
       </div>
@@ -44,20 +42,19 @@
           <el-col :xs="22" :sm="22" :md="14" :lg="14">
             <div class="options">
               <span class="option">
-                <a class="active">Goal</a>
+                <a :class="{ active: activeTextBlock === 'goal' }" href="#" @click.prevent="toggleText('goal')">Goal</a>
               </span>
               <span>•</span>
               <span class="option">
-                <a>Current</a>
+                <a :class="{ active: activeTextBlock === 'current' }" href="#" @click.prevent="toggleText('current')">Current</a>
               </span>
               <span>•</span>
               <span class="option">
-                <a>Future</a>
+                <a :class="{ active: activeTextBlock === 'future' }" href="#" @click.prevent="toggleText('future')">Future</a>
               </span>
             </div>
             <p>
-              The SPARC Portal is a free, open-source platform that aims to 
-              catalyze development of next-generation bioelectronic medicines.
+              {{ activeText }}
             </p>
           </el-col>
         </el-row>
@@ -69,7 +66,7 @@
           <el-row class="cards" type="flex" justify="center" :gutter="20">
             <el-col :xs="20" :sm="8" v-for="core in cores" v-bind:key="core.name">
               <el-card class="core-card" shadow="never" :body-style="{ padding: '0px' }">
-                <img v-bind:src="core.image" class="image">
+                <img v-bind:src="core.image" class="image" />
                 <div class="content">
                   <p>{{core.name}}</p>
                   <p>{{core.description}}</p>
@@ -103,7 +100,8 @@
                     style="width: 100%; height: 100%; margin: 0; padding: 0; border-radius: 0"
                     placeholder="Select"
                   >
-                    <el-option key="1" label="Datasets" value="datasets"></el-option>
+                    <el-option key="datasets" label="Datasets" value="datasets"></el-option>
+                    <el-option key="files" label="Files" value="files"></el-option>
                   </el-select>
                 </div>
               </el-col>
@@ -138,48 +136,7 @@
     <div class="section">
       <el-row type="flex" justify="center">
         <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
-          <div>
-            <el-row>
-              <el-col>
-                <h2 class="section-header">Featured datasets</h2>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="flex-start">
-              <el-col :span="12" class="flush-column">
-                <div
-                  class="featured-dataset-image"
-                  :style="{ backgroundImage: `url('${datasetAbstractImage}')` }"
-                ></div>
-              </el-col>
-              <el-col :span="12" class="flush-column">
-                <div class="featured-dataset-description">
-                  <div class="content">
-                    <h2>Powley 2018 VNS-Gastric MRI Study</h2>
-                    <p>
-                      Lu, K. H., et al. (2018). Vagus nerve stimulation promotes gastric emptying
-                      by increasing pyloric opening measured with magnetic resonance imaging.
-                    </p>
-                    <div class="actions">
-                      <el-button type="primary" class="view-dataset">View dataset</el-button>
-                    </div>
-                  </div>
-                </div>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col>
-                <div class="featured-dataset-carousel-navigation">
-                  <ul>
-                    <li class="active"></li>
-                    <li class></li>
-                    <li class></li>
-                    <li class></li>
-                    <li class></li>
-                  </ul>
-                </div>
-              </el-col>
-            </el-row>
-          </div>
+          <featured-datasets />
         </el-col>
       </el-row>
     </div>
@@ -187,16 +144,15 @@
 </template>
 
 <script>
-import SparcHeader from "../../../../../shared/vue_app/src/components/header/Header.vue";
 import irregularBlob1 from "../../assets/images/irregular-blob-1.svg";
 import irregularBlob2 from "../../assets/images/irregular-blob-2.svg";
 import transparentBlob3 from "../../assets/images/transparent-blob-3.svg";
 import mapCore from "../../assets/images/map-core.png";
 import simulationCore from "../../assets/images/simulation-core.png";
 import dataCore from "../../assets/images/data-core.png";
-import SparcLogo from "../../../../../shared/vue_app/src/components/logo/SparcLogo.vue";
 import datasetAbstractImage from "../../assets/images/dataset-abstract-image.png";
 import SparcFooter from "../../../../../shared/vue_app/src/components/footer/Footer.vue";
+import FeaturedDatasets from "../featured-datasets-carousel/FeaturedDatasetsCarousel.vue";
 
 const cores = [
   {
@@ -227,8 +183,17 @@ const cores = [
 
 export default {
   name: "landing-page",
-  components: {},
+  components: {
+    FeaturedDatasets
+  },
+
   data: () => ({
+    textBlocks: {
+      goal: 'The SPARC Portal is a free, open-source platform that aims to catalyze development of next-generation bioelectronic medicines.',
+      current: 'The SPARC Portal provides a growing collection of autonomic neuroscience datasets, maps, and computational models ⁠— as well as the ability to interact with those resources all within your web browser.',
+      future: 'Launched in July 2019, the SPARC Portal will enable users to run advanced analytics and multiscale simulations for predicting the effects of neuromodulation on organ function.'
+    },
+    activeTextBlock: 'goal',
     irregularBlob1,
     irregularBlob2,
     mapCore,
@@ -236,9 +201,37 @@ export default {
     dataCore,
     transparentBlob3,
     datasetAbstractImage,
-    cores
+    cores,
+    value2: '',
+    state: ''
   }),
-  methods: () => ({})
+
+  computed: {
+    /**
+     * Compute active text to show
+     * @returns {String}
+     */
+    activeText: function () {
+      return this.textBlocks[this.activeTextBlock]
+    }
+  },
+
+  methods: {
+    /**
+     * Sets the activeTextBlock
+     * @param {String}
+     */
+    toggleText: function(key) {
+      this.activeTextBlock = key
+    },
+
+    /**
+     * @TODO temp function
+     */
+    handleIconClick: function() {
+
+    }
+  }
 };
 </script>
 
@@ -258,70 +251,6 @@ export default {
 
 .flush-column {
   overflow: hidden;
-}
-
-.featured-dataset-image {
-  min-height: 25em;
-  background-size: cover;
-  background-repeat: no-repeat;
-  border-radius: 0.3em 0 0 0.3em;
-}
-
-.featured-dataset-carousel-navigation {
-  width: 100%;
-  text-align: center;
-  user-select: none;
-  margin: 0.2em 0;
-
-  ul {
-    padding: 0;
-    margin: 0;
-    height: 100%;
-
-    li {
-      padding: 0;
-      display: inline-block;
-      margin: 0 0.3em;
-      min-width: 2em;
-      border-bottom: 5px solid #909399;
-      cursor: pointer;
-
-      &.active {
-        border-bottom: 5px solid #24245b;
-      }
-    }
-  }
-}
-
-.featured-dataset-description {
-  height: 100%;
-  background: #24245b;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  border-radius: 0 0.3em 0.3em 0;
-
-  .content {
-    padding: 3em 1.5em;
-    color: white;
-
-    h2 {
-      font-size: 1.5em;
-    }
-
-    p {
-    }
-
-    .actions {
-      margin-top: 2em;
-
-      .view-dataset {
-        background: #8300bf;
-        text-transform: uppercase;
-        border: 0;
-      }
-    }
-  }
 }
 
 .core-card {

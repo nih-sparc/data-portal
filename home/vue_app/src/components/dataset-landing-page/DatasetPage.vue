@@ -1,5 +1,5 @@
 <template>
-  <div class="dataset-landing-page">
+  <div v-if="dataset" class="dataset-landing-page">
     <div class="dataset-breadcrumb-gradient">
       <el-row type="flex" justify="center">
         <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
@@ -9,7 +9,7 @@
             </span>
             <span class="divider">/</span>
             <span class="segment">
-              <a href="#">{{ title }}</a>
+              <a href="#">{{ dataset.name }}</a>
             </span>
           </div>
         </el-col>
@@ -21,18 +21,12 @@
           <el-row :gutter="20">
             <el-col :span="14">
               <div class="dataset-info">
-                <h2>{{ title }}</h2>
-                <p class="abstract">{{ abstract }}</p>
-                <p class="updated-on">Updated on {{ updatedDate }}</p>
+                <h2>{{ dataset.name }}</h2>
+                <p class="abstract">{{ dataset.description }}</p>
+                <p class="updated-on">Updated on {{ dataset.updatedAt }}</p>
 
                 <div class="authors">
-                  <span class="name">{{ author1Name }}</span>
-                  <span class="divider">
-                    <img :src="authorDivider">
-                  </span>
-                  <span class="name">
-                    <strong>{{ author2Name }}</strong>
-                  </span>
+                  <span class="name">{{ dataset.contributors.join(",") }}</span>
                 </div>
                 <div class="actions">
                   <el-button type="primary" class="get-dataset-button">Get Dataset</el-button>
@@ -40,33 +34,33 @@
                 </div>
                 <div class="attributes">
                   <div class="attribute">
-                    <img :src="filesIcon">
+                    <img :src="filesIcon" />
                     <span class="label">
-                      <strong>{{ fileCount }}</strong> files
+                      <strong>{{ dataset.fileCount }}</strong> files
                     </span>
                   </div>
                   <div class="divider">
-                    <img :src="divider">
+                    <img :src="divider" />
                   </div>
                   <div class="attribute">
-                    <img :src="fileSizeIcon">
+                    <img :src="fileSizeIcon" />
                     <span class="label">
-                      <strong>{{ fileSizeInGigabytes }}</strong> GB
+                      <strong>{{ dataset.size / 1000 }}</strong> GB
                     </span>
                   </div>
                   <div class="divider">
-                    <img :src="divider">
+                    <img :src="divider" />
                   </div>
                   <div class="attribute">
-                    <img :src="licenseIcon">
-                    <span class="label">{{ licenseName }}</span>
+                    <img :src="licenseIcon" />
+                    <span class="label">{{ dataset.license }}</span>
                   </div>
                 </div>
               </div>
             </el-col>
             <el-col :span="10">
               <div class="dataset-image">
-                <img :src="datasetAbstractImage">
+                <img :src="dataset.banner" />
               </div>
             </el-col>
           </el-row>
@@ -78,7 +72,7 @@
         <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
           <h3 class="about-this-dataset-header">About this dataset</h3>
           <div class="updated-date">
-            <p>{{ updatedDate }}</p>
+            <p>{{ dataset.updatedAt }}</p>
             <p class="label">Last Updated</p>
           </div>
           <div class="cite-dataset">
@@ -103,7 +97,7 @@
           <div class="tags">
             <h4>Tags</h4>
             <ul>
-              <li :key="tag.name" v-for="tag in tags">{{ tag.name }}</li>
+              <li :key="tag.tag" v-for="tag in dataset.tags">{{ tag.tag }}</li>
             </ul>
           </div>
         </el-col>
@@ -121,58 +115,35 @@ import fileSizeIcon from "../../assets/images/file-size-icon.svg";
 import licenseIcon from "../../assets/images/license-icon.svg";
 import divider from "../../assets/images/divider.svg";
 
-const author1Name = "Bartek Rajwa";
-const author2Name = "Kevin M. Jackson";
-
-const fileSizeInGigabytes = 7.55;
-const fileCount = 264;
-const licenseName = "CDLA-Permissive-1.0";
-
-const title = "Powley 2018 VNS-Gastric MRI Study";
-const abstract =
-  "Lu, K. H., et al. (2018). Vagus nerve stimulation promotes gastric emptying by increasing pyloric opening measured with magnetic resonance imaging. Neurogastroenterology & Motility, e1338";
-
-const updatedDate = "January 9, 2019";
-
-const tags = [
-  {
-    name: "Nervous System"
-  },
-  {
-    name: "Stimulation"
-  },
-  {
-    name: "Animals"
-  },
-  {
-    name: "Research"
-  }
-];
-
 const citation =
   "Bartek Rajwa and Kevin Jackson. “Powley 2018 VNS-Gastric MRI Study.” https://doi.org/10.7939/r3m8ac11";
 
 export default {
   name: "dataset-page",
   components: {},
-  data: () => ({
-    datasetAbstractImage,
-    authorDivider,
-    author1Name,
-    author2Name,
-    filesIcon,
-    fileSizeIcon,
-    licenseIcon,
-    fileSizeInGigabytes,
-    fileCount,
-    licenseName,
-    divider,
-    tags,
-    citation,
-    title,
-    abstract,
-    updatedDate
-  })
+  data: function() {
+    return {
+      loading: false,
+      loaded: false,
+      dataset: null,
+      authorDivider,
+      filesIcon,
+      fileSizeIcon,
+      licenseIcon,
+      divider,
+      citation
+    };
+  },
+  mounted: function() {
+    this.loading = true;
+    this.$http.get(`/api/dataset/${this.$route.params.datasetId}`).then(
+      function(response) {
+        this.dataset = response.data;
+        this.loaded = true;
+        this.loading = false;
+      }.bind(this)
+    );
+  }
 };
 </script>
 
