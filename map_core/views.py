@@ -1,10 +1,11 @@
 # map_core/views.py
 
 # Imports
-from app import app
-from flask import render_template, Blueprint, request, make_response, redirect
-from logger import logger
+import os
+import json
 import requests
+
+from flask import render_template, Blueprint, request, make_response, redirect
 
 # Config
 map_core_blueprint = Blueprint('map_core', __name__, template_folder='templates', url_prefix='/map', static_folder='static')
@@ -49,8 +50,15 @@ def knowledge_base_proxy(data_set=''):
 @map_core_blueprint.route('biolucida/<path:api_method>', methods=['GET', 'POST'])
 def biolucida_client_proxy(api_method=''):
     url = 'https://sparc.biolucida.net/api/v1/{0}'.format(api_method, 'utf-8')
+
     if request.method == 'POST':
-        return post_response_from_remote(url, data=json.loads(request.data))
+        request_data = json.loads(request.data)
+
+        if api_method == 'authenticate':
+            request_data['username'] = os.environ['BIOLUCIDA_USEERNAME']
+            request_data['password'] = os.environ['BIOLUCIDA_PASSWORD']
+
+        return post_response_from_remote(url, data=request_data)
     else:
         return get_response_from_remote(url, headers={'token': request.headers['token']})
 
