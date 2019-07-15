@@ -6,10 +6,9 @@ var TabData = function() {
 	this.dialog = undefined;
 } 
 
-exports.TabManager = function(containerIn, moduleManagerIn ) {
-	const container = containerIn;
-	const maptab = document.querySelector(".maptab-tabbar");
-	const contents = document.querySelector(".maptab-contents");
+exports.TabManager = function(parentIn, moduleManagerIn ) {
+	const maptab = parentIn.querySelector(".maptab-tabbar");
+	const contents = parentIn.querySelector(".maptab-contents");
 	const moduleManager = moduleManagerIn;
 	const tabData = [];
 	const _this = this;
@@ -34,7 +33,7 @@ exports.TabManager = function(containerIn, moduleManagerIn ) {
 	const addDialog = function(module) {
 		let data = new TabData();
 		data.contentElem = document.createElement("div");
-		data.contentElem.className = "maptabcontent active";
+		data.contentElem.className = "maptab-tab-content active";
 		data.buttonElem = document.createElement("div");
 		data.buttonElem.classList = "tablinks active";
 		data.textElem = document.createElement("div");

@@ -131,7 +131,6 @@ main = function()  {
 	var initialise = function() {
 		moduleManager = new physiomeportal.ModuleManager();
 		fdikbquery = new fdi_kb_query_module(parent);
-		tabManager = new (require('./tabmanager').TabManager)();
 		initialiseMain();
 	}	
 

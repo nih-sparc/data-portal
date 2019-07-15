@@ -59,7 +59,7 @@
 }
 
 /* Style the tab content */
-.maptab-contents {
+.maptab-tab-content {
   display: none;
   padding: 0px 0px;
   border: 1px solid #ccc;
@@ -68,7 +68,7 @@
 }
 
 /* Style the tab content */
-.maptab-contents.active {
+.maptab-tab-content.active {
   display: block;
 }
 
