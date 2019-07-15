@@ -118,7 +118,7 @@ main = function()  {
 			if (window.location.hash !== "") {
 				tabManager.processHash(window.location.hash);
 			} else {
-				var data = tabManager.createDialog("Flatmap", {flatmapEntry: "https://models.physiomeproject.org/workspace/585/rawfile/650adf9076538a4bf081609df14dabddd0eb37e7/Human_Body.pptx"});
+				var data = tabManager.createDialog("Flatmap", {flatmapEntry: "NCBITaxon:9606"});
 				createOrgansViewer();
 			}
 			moduleManager.serialiseDiv = false;
