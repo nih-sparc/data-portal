@@ -17,6 +17,7 @@ make clean
 npm run dev-build-shared
 npm run dev-build-dashboard
 npm run dev-build-browse
+npm run dev-build-sim
 make serve
 ```
 
