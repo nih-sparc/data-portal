@@ -1,0 +1,12 @@
+.flex {
+    display: flex;
+    flex-direction: row;
+}
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.gutter.gutter-horizontal {
+    cursor: ew-resize;
+}
