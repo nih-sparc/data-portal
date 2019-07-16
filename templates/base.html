@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     {% block header %}
     <title>SPARC Data Portal</title>
@@ -9,6 +10,16 @@
     <link href="https://fonts.googleapis.com/css?family=Asap:300,500,600|Nunito+Sans:400,600,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="%% url_for('static', filename = 'css/_base.css') %%">
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src=“https://www.googletagmanager.com/gtag/js?id=UA-143804703-1“></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-143804703-1');
+    </script>
 </head>
 
 <body>
@@ -21,4 +32,5 @@
 </body>
 
 {% block javascript %}{% endblock %}
+
 </html>

@@ -20,8 +20,10 @@ from .knowledgebase import KnowledgeBase
 ################
 #### config ####
 ################
+ 
+#map_core_blueprint = Blueprint('map_core', __name__, static_folder='../shared/static/dist', template_folder='./static/dist', url_prefix='/map', static_url_path="")
 
-map_core_blueprint = Blueprint('map_core', __name__, template_folder='templates', url_prefix='/map', static_folder='static')
+map_core_blueprint = Blueprint('map_core', __name__, template_folder='./static/dist', url_prefix='/map', static_folder='../shared/static/dist', static_url_path="")
 
 flatmaps_root = os.path.join(map_core_blueprint.root_path, 'flatmaps')
 
@@ -31,13 +33,7 @@ flatmaps_root = os.path.join(map_core_blueprint.root_path, 'flatmaps')
 
 @map_core_blueprint.route('/')
 def index():
-    return render_template('map_core.html')
-
-@map_core_blueprint.route('8ed83a516242675649285ff523ffddb6.svg')
-def getLogo():
-    url = 'map/static/8ed83a516242675649285ff523ffddb6.svg'
-    #print(url_for('static', filename=url))
-    return redirect(url)
+    return render_template('maps.html')
 
 @map_core_blueprint.route('models/<path:p>')
 def getModels(p):
