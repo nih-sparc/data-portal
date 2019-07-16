@@ -5,7 +5,7 @@
         <el-input v-model="simcoreSearchForm.search" placeholder="Type your search"></el-input>
       </el-col>
       <el-col :sm="8">
-        <el-button type="primary" native-type="submit" :loading="isFetching ? true : false">Search</el-button>
+        <el-button class="search-button" type="warning" native-type="submit" :loading="isFetching ? true : false">Search</el-button>
       </el-col>
     </el-row>
   </el-form>
@@ -27,9 +27,14 @@ export default {
   }),
   methods: {
     onSubmit(e) {
-      this.fetchDatasets(this.simcoreSearchForm.search);
+      if (this.simcoreSearchForm.search.length) {
+        this.searchDatasets(this.simcoreSearchForm.search);
+      } else {
+        this.fetchDatasets();
+      }
     },
     ...mapActions([
+      'searchDatasets',
       'fetchDatasets'
     ])
   }
@@ -42,13 +47,10 @@ form.search-form {
   @media screen and (max-width: 768px) {
     margin: 1em 0;
   }
-
-  .el-button {
-    background: #f4942b;
-    border: 0;
+  .search-button {
+    width: 100%;
     @media screen and (max-width: 768px) {
-      margin-top: 1em;
-      width: 100%;
+      margin: 1em 0;
     }
   }
 }

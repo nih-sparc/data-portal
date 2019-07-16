@@ -129,8 +129,17 @@ def featured():
 
 import logging
 
+tags = 'tags=simcore'
+
 @api_blueprint.route('/sim/dataset')
 def sim_datasets():
+    if request.method == 'GET':
+        req = requests.get('{}/datasets?{}'.format(Config.DISCOVER_API_HOST, tags))
+        json = req.json()
+        return jsonify(json)
+
+@api_blueprint.route('/sim/search-dataset')
+def sim_search_datasets():
     if request.method == 'GET':
         query = request.args.get('query')
         req = requests.get('{}/search/datasets?query={}'.format(Config.DISCOVER_API_HOST, query))

@@ -10,7 +10,8 @@ export default new Vuex.Store({
     simcoreSearch: {
       simcoreSearchForm: {
         isFetching: false
-      }
+      },
+      firstFetch: true
     },
     simcoreDetail: {
       isFetching: false
@@ -33,12 +34,45 @@ export default new Vuex.Store({
     },
     SET_DATASET(state, dataset) {
       state.entities.datasets[dataset.id] = dataset;
+    },
+    SET_FIRST_FETCH(state, firstFetch) {
+      state.simcoreSearch.firstFetch = firstFetch;
     }
   },
   actions: {
-    fetchDatasets(context, query) {
+    searchDatasets(context, query) {
       context.commit('SET_SIMCORESEARCH_IS_FETCHING', true);
-      fetch('/api/sim/dataset?query=' + query || '')
+      fetch('/api/sim/search-dataset?query=' + query || '')
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            context.commit('SET_SIMCORESEARCH_IS_FETCHING', false);
+            console.error(
+              "Couldn't fetch the data: The server returned an error status."
+            );
+          }
+        })
+        .then(json => {
+          context.commit('SET_DATASETS', json.datasets);
+          context.commit('SET_SIMCORESEARCH_IS_FETCHING', false);
+        })
+        .catch(error => {
+          context.commit('SET_SIMCORESEARCH_IS_FETCHING', false);
+          console.error('The request failed: ' + error.message);
+        });
+    },
+
+    firstFetch(context) {
+      if (context.state.simcoreSearch.firstFetch) {
+        context.commit('SET_FIRST_FETCH', false);
+        context.dispatch('fetchDatasets');
+      }
+    },
+
+    fetchDatasets(context) {
+      context.commit('SET_SIMCORESEARCH_IS_FETCHING', true);
+      fetch('/api/sim/dataset')
         .then(response => {
           if (response.ok) {
             return response.json();

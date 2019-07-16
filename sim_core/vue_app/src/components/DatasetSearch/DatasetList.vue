@@ -1,5 +1,5 @@
 <template>
-  <el-row :gutter="20" type="flex" class="cards">
+  <el-row v-if="datasets.length" :gutter="20" type="flex" class="cards">
     <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="dataset in datasets" :key="dataset.id">
       <div class="card">
         <router-link :to="{ name: 'dataset-detail', params: { id: dataset.id } }">
@@ -21,6 +21,9 @@
       </div>
     </el-col>
   </el-row>
+  <el-row v-else-if="!isFetching" type="flex" justify="center">
+    <p class="no-results">No data was found for the given search terms.</p>
+  </el-row>
 </template>
 
 <script>
@@ -28,7 +31,8 @@ import { mapState } from 'vuex';
 export default {
   name: 'dataset-list',
   computed: mapState({
-    datasets: state => Object.values(state.entities.datasets || {})
+    datasets: state => Object.values(state.entities.datasets || {}),
+    isFetching: state => state.simcoreSearch.simcoreSearchForm.isFetching
   })
 }
 </script>
@@ -83,5 +87,9 @@ export default {
   > .el-col {
     display: flex;
   }
+}
+
+.no-results {
+  color: #525252;
 }
 </style>

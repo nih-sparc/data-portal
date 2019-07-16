@@ -39,11 +39,21 @@
 import SearchForm from "../components/DatasetSearch/SearchForm.vue";
 import DatasetList from "../components/DatasetSearch/DatasetList.vue";
 
+import { mapActions } from 'vuex';
+
 export default {
   name: "dataset-search-page",
   components: {
     SearchForm,
     DatasetList
+  },
+  methods: {
+    ...mapActions([
+      'firstFetch'
+    ])
+  },
+  created() {
+    this.firstFetch();
   }
 }
 </script>
