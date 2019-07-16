@@ -12,14 +12,16 @@
             class="featured-dataset-image"
             :style="{ backgroundImage: `url('${dataset.banner}')` }"
           ></div>
-        </el-col>
+        </el-col>\
         <el-col :span="12" class="flush-column">
           <div class="featured-dataset-description">
             <div class="content">
               <h2>{{ dataset.name }}</h2>
               <p>{{ dataset.description }}</p>
               <div class="actions">
+              <a :href="`/browse/#/datasets/${dataset.id}`">
                 <el-button type="primary" class="view-dataset">View dataset</el-button>
+              </a>
               </div>
             </div>
           </div>
@@ -43,7 +45,7 @@
 </template>
 
 <script>
-const SLIDE_DURATION = 5000;
+const SLIDE_DURATION = 4000;
 
 export default {
   name: "carousel",
@@ -135,6 +137,7 @@ export default {
 
     h2 {
       font-size: 1.5em;
+      word-break: break-all;
     }
 
     p {
