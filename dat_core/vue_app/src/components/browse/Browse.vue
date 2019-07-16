@@ -74,10 +74,11 @@
               <el-table-column
                 fixed="right"
                 label="Operations"
-                width="112"
+                min-width="132"
+                width="132"
               >
                 <template slot-scope="scope">
-                  <bf-button @click="downloadFile(scope)" >
+                  <bf-button @click="requestDownloadFile(scope)" >
                     Download
                   </bf-button>
                 </template>
@@ -100,6 +101,13 @@
   </div>
 </template>
 <script>
+import {
+  compose,
+  last,
+  defaultTo,
+  split,
+  pathOr
+} from 'ramda'
 import Grid from "../grid/Grid.vue";
 import SearchControls from "../search-controls/SearchControls.vue";
 import Pagination from "../Pagination/Pagination.vue";
@@ -200,10 +208,42 @@ export default {
 
     /**
      * Download file
-     * @param {Object} file
+     * @param {Object} scope
      */
-    downloadFile: function(file) {
+    requestDownloadFile: function(scope) {
+      const filePath = compose(
+        last,
+        defaultTo([]),
+        split('s3://blackfynn-discover-use1/'),
+        pathOr('', ['row', 'uri']),
+      )(scope)
 
+      const fileName = pathOr('', ['row', 'name'], scope)
+
+      const requestUrl = `/api/download?key=${filePath}`
+      this.$http.get(requestUrl).then(
+        response => {
+          this.downloadFile(fileName, response.data)
+        }
+      )
+    },
+
+    /**
+     * Create an `a` tag to trigger downloading file
+     * @param {String} filename
+     * @param {String} text
+     */
+    downloadFile: function(filename, text) {
+      const el = document.createElement('a')
+      el.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text))
+      el.setAttribute('download', filename)
+
+      el.style.display = 'none'
+      document.body.appendChild(el)
+
+      el.click()
+
+      document.body.removeChild(el)
     }
   }
 };
