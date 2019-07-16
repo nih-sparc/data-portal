@@ -1,9 +1,9 @@
 import requests
-from urlparse import urlparse
+from urllib.parse import urlparse
 import abc
 
-from model import SparcPortalSearchParameters, SparcPortalTag, SparcPortalFile, SparcPortalDataset, SparcPortalModelCount, SparcPortalTerm, SparcPortalPaginatedDatasetResponse, SparcPortalPaginatedFileResponse
-from fixtures import dataset1, dataset2, file1, file2
+from .model import SparcPortalSearchParameters, SparcPortalTag, SparcPortalFile, SparcPortalDataset, SparcPortalModelCount, SparcPortalTerm, SparcPortalPaginatedDatasetResponse, SparcPortalPaginatedFileResponse
+from .fixtures import dataset1, dataset2, file1, file2
 
 class BaseSparcPortalApiClient(object):
     __metaclass__ = abc.ABCMeta
@@ -46,7 +46,7 @@ class MockSparcPortalApiClient(BaseSparcPortalApiClient):
         )
 
     def search_files(self, params):
-        print params
+        print(params)
 
         return SparcPortalPaginatedFileResponse(
             limit=params.limit,

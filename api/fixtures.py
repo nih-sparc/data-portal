@@ -1,4 +1,4 @@
-from model import SparcPortalSearchParameters, SparcPortalTag, SparcPortalFile, SparcPortalDataset, SparcPortalModelCount, SparcPortalTerm, SparcPortalPaginatedDatasetResponse, SparcPortalPaginatedFileResponse
+from .model import SparcPortalSearchParameters, SparcPortalTag, SparcPortalFile, SparcPortalDataset, SparcPortalModelCount, SparcPortalTerm, SparcPortalPaginatedDatasetResponse, SparcPortalPaginatedFileResponse
 
 dataset1 = SparcPortalDataset(
     id=3,

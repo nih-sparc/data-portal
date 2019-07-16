@@ -15,9 +15,7 @@ export default {
 #sim-app {
   margin-top: 6em;
 }
-</style>
 
-<style lang="scss">
 .simcore-page {
   padding: 2em 0;
   @media screen and (max-width: 768px) {
@@ -25,3 +23,4 @@ export default {
   }
 }
 </style>
+

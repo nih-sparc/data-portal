@@ -10,9 +10,7 @@ class Config(object):
     GRAPHENEDB_BOLT_URL=os.environ.get("GRAPHENEDB_BOLT_URL")
     GRAPHENEDB_BOLT_USER=os.environ.get("GRAPHENEDB_BOLT_USER")
     GRAPHENEDB_BOLT_PASSWORD=os.environ.get("GRAPHENEDB_BOLT_PASSWORD")
-
     DISCOVER_API_HOST=os.environ.get('DISCOVER_API_HOST', 'https://api.blackfynn.io/discover')
-    
     SES_SENDER=os.environ.get("SES_SENDER")
     SES_ARN=os.environ.get("SES_ARN")
     SPARC_PORTAL_AWS_KEY=os.environ.get("SPARC_PORTAL_USER_ID")

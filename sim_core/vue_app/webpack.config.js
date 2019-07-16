@@ -48,14 +48,17 @@ module.exports = {
       filename: 'sim.html',
       chunks: ['sim'],
       inject: false
+
     }),
     new filewatcherPlugin({
       watchFileRegex: [
         './src/**/*.vue',
         './src/**/*.js'
+
       ],
       usePolling: true,
       ignored: '/node_modules/'
     })
   ]
+
 };
