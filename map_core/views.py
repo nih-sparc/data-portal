@@ -21,9 +21,9 @@ from .knowledgebase import KnowledgeBase
 #### config ####
 ################
  
-#map_core_blueprint = Blueprint('map_core', __name__, static_folder='../shared/static/dist', template_folder='./static/dist', url_prefix='/map', static_url_path="")
+map_core_blueprint = Blueprint('map_core', __name__, static_folder='../shared/static/dist', template_folder='./static/dist', url_prefix='/map', static_url_path="")
 
-map_core_blueprint = Blueprint('map_core', __name__, template_folder='./static/dist', url_prefix='/map', static_folder='../shared/static/dist', static_url_path="")
+#map_core_blueprint = Blueprint('map_core', __name__, template_folder='./static/dist', url_prefix='/map', static_folder='../shared/static/dist', static_url_path="")
 
 flatmaps_root = os.path.join(map_core_blueprint.root_path, 'flatmaps')
 
