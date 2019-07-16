@@ -7,6 +7,7 @@
 from app import app
 from flask import render_template, Blueprint
 from logger import logger
+from flask import current_app
 
 ################
 #### config ####
@@ -20,4 +21,4 @@ sim_core_blueprint = Blueprint('sim_core', __name__, static_folder='../shared/st
  
 @sim_core_blueprint.route('/')
 def index():
-    return render_template('sim_core.html')
+    return render_template('sim.html')

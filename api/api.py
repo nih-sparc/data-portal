@@ -10,7 +10,7 @@ from client import MockSparcPortalApiClient
 from model import SparcPortalSearchParameters
 from serializer import PaginatedDatasetResponseSchema, PaginatedFileResponseSchema, DatasetSchema, ContactRequestSchema
 from app import app
-from flask import render_template, Blueprint, request
+from flask import render_template, Blueprint, request, jsonify
 from logger import logger
 from blackfynn import Blackfynn
 from config import Config
@@ -18,6 +18,7 @@ from flask_marshmallow import Marshmallow
 from neo4j import GraphDatabase, basic_auth
 import json
 import urllib
+import requests
 
 ################
 #### config ####
@@ -26,6 +27,7 @@ import urllib
 api_blueprint = Blueprint('api', __name__, template_folder='templates', url_prefix='/api')
 
 gp = None
+bf = None
 ma = Marshmallow(app)
 client = MockSparcPortalApiClient()
 email_sender = EmailSender()
@@ -50,6 +52,8 @@ def connect_to_graphenedb():
     # graphenedb_user = Config.GRAPHENEDB_BOLT_USER
     # graphenedb_pass = Config.GRAPHENEDB_BOLT_PASSWORD
     # gp = GraphDatabase.driver(graphenedb_url, auth=basic_auth(graphenedb_user, graphenedb_pass))
+
+    # init_sim_db(gp)
 
 #########################
 #### DAT-CORE routes ####
@@ -99,7 +103,6 @@ def search_file():
 @api_blueprint.route("/featured")
 def featured():
     response = client.retrieve_featured_datasets()
-
     marshalled = DatasetSchema().dump(response, many=True)
 
     return json.dumps(marshalled.data)
@@ -112,3 +115,69 @@ def featured():
 #########################
 #### SIM-CORE routes ####
 #########################
+
+import logging
+
+tags = 'tags=simcore'
+
+@api_blueprint.route('/sim/dataset')
+def sim_datasets():
+    if request.method == 'GET':
+        req = requests.get('{}/datasets?{}'.format(Config.DISCOVER_API_HOST, tags))
+        json = req.json()
+        return jsonify(json)
+
+@api_blueprint.route('/sim/search-dataset')
+def sim_search_datasets():
+    if request.method == 'GET':
+        query = request.args.get('query')
+        req = requests.get('{}/search/datasets?query={}'.format(Config.DISCOVER_API_HOST, query))
+        json = req.json()
+        # Filter only datasets with tag 'simcore'
+        json['datasets'] = filter(lambda dataset: ('simcore' in dataset.get('tags', [])), json.get('datasets', []))
+        return jsonify(json)
+
+@api_blueprint.route('/sim/dataset/<id>')
+def sim_dataset(id):
+    if request.method == 'GET':
+        req = requests.get('{}/datasets/{}'.format(Config.DISCOVER_API_HOST, id))
+        json = req.json()
+        inject_markdown(json)
+        inject_template_data(json)
+        return jsonify(json)
+
+def inject_markdown(resp):
+    if 'readme' in resp:
+        mark_req = requests.get(resp.get('readme'))
+        resp['markdown'] = mark_req.text
+
+def inject_template_data(resp):
+    import boto3
+    from botocore.exceptions import ClientError
+    import json
+
+    id = resp.get('id')
+    version = resp.get('version')
+    if (id is None or version is None):
+        return
+
+    try:
+        s3_client = boto3.Session().client('s3', region_name='us-east-1')
+        response = s3_client.get_object(Bucket='blackfynn-discover-use1',
+                                        Key='{}/{}/packages/template.json'.format(id, version),
+                                        RequestPayer='requester')
+    except ClientError as e:
+        logging.error(e)
+        return
+
+    template = response['Body'].read()
+
+    try:
+        template_json = json.loads(template)
+    except ValueError as e:
+        logging.error(e)
+        return
+
+    resp['study'] = {'uuid': template_json.get('uuid'),
+                     'name': template_json.get('name'),
+                     'description': template_json.get('description')}
