@@ -19,7 +19,9 @@
               <h2>{{ dataset.name }}</h2>
               <p>{{ dataset.description }}</p>
               <div class="actions">
+              <a :href="`/browse/#/datasets/${dataset.id}`">
                 <el-button type="primary" class="view-dataset">View dataset</el-button>
+              </a>
               </div>
             </div>
           </div>
@@ -43,7 +45,7 @@
 </template>
 
 <script>
-const SLIDE_DURATION = 5000;
+const SLIDE_DURATION = 4000;
 
 export default {
   name: "carousel",
@@ -62,13 +64,13 @@ export default {
     };
   },
   mounted: function() {
-    this.$http.get("/api/featured").then(
+    this.$http.get("https://api.blackfynn.io/discover/datasets?limit=5&offset=0").then(
       function(response) {
         const component = this;
 
-        this.featured = response.data;
+        this.featured = response.data.datasets;
         this.current = 0;
-        this.numElements = response.data.length;
+        this.numElements = response.data.datasets.length;
 
         const scheduleTimeout = () => {
           setTimeout(() => {
@@ -135,6 +137,7 @@ export default {
 
     h2 {
       font-size: 1.5em;
+      word-break: break-all;
     }
 
     p {
