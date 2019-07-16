@@ -45,7 +45,7 @@
 </template>
 
 <script>
-const SLIDE_DURATION = 4000;
+const SLIDE_DURATION = 5000;
 
 export default {
   name: "carousel",
@@ -64,7 +64,7 @@ export default {
     };
   },
   mounted: function() {
-    this.$http.get("https://api.blackfynn.io/discover/datasets?limit=5&offset=0").then(
+    this.$http.get("https://api.blackfynn.io/discover/search/datasets?limit=5&offset=0&organization=SPARC%20Consortium").then(
       function(response) {
         const component = this;
 
