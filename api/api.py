@@ -26,6 +26,7 @@ import urllib
 api_blueprint = Blueprint('api', __name__, template_folder='templates', url_prefix='/api')
 
 gp = None
+bf = None
 ma = Marshmallow(app)
 client = MockSparcPortalApiClient()
 email_sender = EmailSender()

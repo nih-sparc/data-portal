@@ -10,12 +10,13 @@
     "dev-build-shared": "npm --prefix ./shared/vue_app install && npm --prefix ./shared/vue_app run build",
     "dev-build-dashboard": "npm --prefix ./home/vue_app install && npm --prefix ./home/vue_app run build",
     "dev-build-browse": "npm --prefix ./dat_core/vue_app install && npm --prefix ./dat_core/vue_app run build",
+    "build-map-core": "npm --prefix ./map_core/app install && npm --prefix ./map_core/app run build",
     "prod-build-browse": "npm --prefix ./dat_core/vue_app install && npm --prefix ./dat_core/vue_app --only=dev install && npm --prefix ./dat_core/vue_app run build-prod",
-    "dev-build-map": "npm --prefix ./map_core/vue_app install && npm --prefix ./map_core/vue_app run build",
+    "dev-build-map": "npm --prefix ./map_core/app install && npm --prefix ./map_core/app run build",
     "prod-build-shared": "npm --prefix ./shared/vue_app install && npm --prefix ./shared/vue_app --only=dev install && npm --prefix ./shared/vue_app run build-prod",
     "dev-build-sim": "npm --prefix ./sim_core/vue_app install && npm --prefix ./sim_core/vue_app run build",
     "prod-build-dashboard": "npm --prefix ./home/vue_app install && npm --prefix ./home/vue_app --only=dev install && npm --prefix ./home/vue_app run build-prod",
-    "heroku-postbuild": "npm run prod-build-shared && npm run prod-build-browse && npm run prod-build-dashboard"
+    "heroku-postbuild": "npm run prod-build-shared && npm run prod-build-browse && npm run prod-build-dashboard && npm run build-map-core"
   },
   "repository": {
     "type": "git",
