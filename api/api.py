@@ -5,10 +5,10 @@
 #################
 import boto3
 
-from email_sender import EmailSender
-from client import MockSparcPortalApiClient
-from model import SparcPortalSearchParameters
-from serializer import PaginatedDatasetResponseSchema, PaginatedFileResponseSchema, DatasetSchema, ContactRequestSchema
+from .email_sender import EmailSender
+from .client import MockSparcPortalApiClient
+from .model import SparcPortalSearchParameters
+from .serializer import PaginatedDatasetResponseSchema, PaginatedFileResponseSchema, DatasetSchema, ContactRequestSchema
 from app import app
 from flask import render_template, Blueprint, request, jsonify
 from logger import logger

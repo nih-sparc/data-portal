@@ -36,7 +36,7 @@ class MockSparcPortalApiClient(BaseSparcPortalApiClient):
         return dataset1
 
     def search_datasets(self, params):
-        print params
+        print(params)
 
         return SparcPortalPaginatedDatasetResponse(
             limit=params.limit,
