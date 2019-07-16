@@ -1,11 +1,14 @@
-# browse2
+# vue_app
 
 ## Project setup
 ```
-yarn install
+npm install
 ```
 
-### Compiles for development
+### Compiles and minifies for production
 ```
-yarn build2
+npm run build
 ```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
