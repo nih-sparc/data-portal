@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     submit() {
-      this.$emit('query', this.selectedType, this.terms);
+      this.$emit("query", [this.selectedType, this.terms]);
     }
   }
 };
