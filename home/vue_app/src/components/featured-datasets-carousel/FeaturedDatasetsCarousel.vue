@@ -12,7 +12,7 @@
             class="featured-dataset-image"
             :style="{ backgroundImage: `url('${dataset.banner}')` }"
           ></div>
-        </el-col>\
+        </el-col>
         <el-col :span="12" class="flush-column">
           <div class="featured-dataset-description">
             <div class="content">
