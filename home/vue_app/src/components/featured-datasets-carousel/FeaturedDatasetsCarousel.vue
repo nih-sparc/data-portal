@@ -62,13 +62,13 @@ export default {
     };
   },
   mounted: function() {
-    this.$http.get("/api/featured").then(
+    this.$http.get("https://api.blackfynn.io/discover/datasets?limit=5&offset=0").then(
       function(response) {
         const component = this;
 
-        this.featured = response.data;
+        this.featured = response.data.datasets;
         this.current = 0;
-        this.numElements = response.data.length;
+        this.numElements = response.data.datasets.length;
 
         const scheduleTimeout = () => {
           setTimeout(() => {
