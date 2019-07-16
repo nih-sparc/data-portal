@@ -43,7 +43,7 @@ def contact():
 
     return json.dumps({ "status": "sent" })
 
-  @app.before_first_request
+@app.before_first_request
 def connect_to_graphenedb():
     global gp
     # graphenedb_url = Config.GRAPHENEDB_BOLT_URL
@@ -55,7 +55,7 @@ def connect_to_graphenedb():
 #### DAT-CORE routes ####
 #########################
 
-# Returns a list of public datasets from 
+# Returns a list of public datasets from
 @api_blueprint.route('/datasets')
 def discover():
     resp = bf._api._get('/consortiums/1/datasets')
