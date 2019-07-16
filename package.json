@@ -16,7 +16,7 @@
     "dev-build-map": "npm --prefix ./map_core/app install && npm --prefix ./map_core/app run build",
     "prod-build-shared": "npm --prefix ./shared/vue_app install && npm --prefix ./shared/vue_app --only=dev install && npm --prefix ./shared/vue_app run build-prod",
     "prod-build-dashboard": "npm --prefix ./home/vue_app install && npm --prefix ./home/vue_app --only=dev install && npm --prefix ./home/vue_app run build-prod",
-    "prod-build-sim": "npm --prefix ./sim_core/vue_app install && npm --prefix ./sim_core/vue_app --only=dev install && npm --prefix ./sim_core/vue_app run build",
+    "prod-build-sim": "npm --prefix ./sim_core/vue_app install && npm --prefix ./sim_core/vue_app --only=dev install && npm --prefix ./sim_core/vue_app run build-prod",
     "heroku-postbuild": "npm run prod-build-shared && npm run prod-build-browse && npm run prod-build-dashboard && npm run prod-build-sim"
   },
   "repository": {
