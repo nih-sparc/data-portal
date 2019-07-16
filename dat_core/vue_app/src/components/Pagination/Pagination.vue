@@ -15,15 +15,15 @@ export default {
   name: "pagination",
   props: {
     selected: {
-      type: "Number",
+      type: Number,
       default: 1
     },
     pageSize: {
-      type: "Number",
+      type: Number,
       default: 20
     },
     totalCount: {
-      type: "Number"
+      type: Number
     }
   },
   computed() {
@@ -34,8 +34,11 @@ export default {
     };
   },
   methods: {
-    selectPage: page => {
-      $this.emit("selectPage", page);
+    /**
+     * Emit select-page event
+     */
+    selectPage: function (page) {
+      this.$emit('select-page', page);
     }
   }
 };
