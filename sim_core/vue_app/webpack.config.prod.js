@@ -34,14 +34,14 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, '../../shared/static/dist'),
-    filename: '_build/bundle_map.js'
+    filename: '_build/bundle_sim.js'
   },
   plugins: [
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
-      'template': 'public/map.html',
-      'filename': 'map_core.html',
-      'chunks': ['map'],
+      'template': 'public/index.html',
+      'filename': 'sim.html',
+      'chunks': ['sim'],
       'inject': false
     })
   ],
