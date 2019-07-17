@@ -79,6 +79,12 @@ exports.TabManager = function(parentIn, moduleManagerIn ) {
 		
 	}
 	
+	this.setTitle = function(data, title) {
+		if (data && data.textElem) {
+			data.textElem.innerHTML = title;
+		}
+	}
+	
 	this.createDialog = function(type, options) {
 		let newModule = moduleManager.createModule(type);
 		if (newModule) {
@@ -99,6 +105,10 @@ exports.TabManager = function(parentIn, moduleManagerIn ) {
 				data.textElem.innerHTML = type;
 				tabData.push(data);
 				toggleActiveElement(data);
+				if (type == "Organ Viewer") {
+					data.module.addBroadcastChannels("sparc-mapcore-channel");
+				}
+				
 				return data;
 			}
 		}

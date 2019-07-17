@@ -89,3 +89,11 @@
 .maptab-tab-content.active {
   display: block;
 }
+
+.ui-widget.ui-widget-content {
+	border: none;
+}
+
+ui-widget-content {
+	border: none;
+}
