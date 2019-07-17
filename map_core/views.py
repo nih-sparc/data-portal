@@ -45,7 +45,7 @@ def getStagingModel(p):
     return get_response_from_remote(url)
 
 
-@map_core_blueprint.route('scaffoldmaker/<path:p>')
+@map_core_blueprint.route('exfetch/<path:p>')
 def scaffoldmakerproxy(p = ''):
-    url = 'http://localhost:6565/{0}?{1}'.format(p, str(request.query_string, 'utf-8'))
+    url = '{0}?{1}'.format(p, str(request.query_string, 'utf-8'))
     return get_response_from_remote(url)

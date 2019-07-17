@@ -1,8 +1,8 @@
-var physiomeportal = require('mapcoreintegratedwebapp').physiomeportal;
 var FlatmapsDialog = require('mapcoreintegratedwebapp').FlatmapsDialog;
 var FlatmapsModule = require('mapcoreintegratedwebapp').FlatmapsModule;
 var BFCSVExporterDialog = require('mapcoreintegratedwebapp').BFCSVExporterDialog;
 var BFCSVExporterModule = require('mapcoreintegratedwebapp').BFCSVExporterModule;
+var physiomeportal = require('mapcoreintegratedwebapp').physiomeportal;
 
 main = function()  {
 	var tabManager = undefined;
@@ -37,7 +37,6 @@ main = function()  {
 		return undefined;
 	}
 	
-	
 	var createOrgansViewer = function(manager) {
 		var data = tabManager.createDialog("Organ Viewer");
 		data.module.loadOrgansFromURL("https://mapcore-bucket1.s3-us-west-2.amazonaws.com/ISAN/scaffold/stellate/stellate_metadata.json", 
@@ -47,18 +46,13 @@ main = function()  {
 	}
 	
 	var createPlotViewer = function(manager) {
-		verticalSplit();
-		var bfModule = new BFCSVExporterModule();
-		var four = document.getElementById("four");
-		var bfDialog = new BFCSVExporterDialog(bfModule, four);
-		bfDialog.setTitle("Chart");
-		bfDialog.destroyModuleOnClose = true;
-		bfDialog.hideCloseButton();
-		bfDialog.dock();
-		moduleManager.manageDialog(bfDialog);
-		return bfModule;
+		var data = tabManager.createDialog("Data Viewer");
+		//data.module.loadFromString('{"selectedChannels":["Sweep 3_Membrane Potential (mV)","Sweep 6_Membrane Potential (mV)","Sweep 2_Membrane Potential (mV)"],"csvURL":"https://cors-anywhere.herokuapp.com/https://abi-test.ml/Cors_Test/Sample_1_18907001_channel_1.csv","subplots":false,"plotAll":false,"plotType":"scatter"}');
+		data.module.blackfynnManager.loadState('{"selectedChannels":["Sweep 3_Membrane Potential (mV)","Sweep 6_Membrane Potential (mV)","Sweep 2_Membrane Potential (mV)"],"csvURL":"https://cors-anywhere.herokuapp.com/https://abi-test.ml/Cors_Test/Sample_1_18907001_channel_1.csv","subplots":false,"plotAll":false,"plotType":"scatter"}');
+		return data;
 	}
 	
+	// temporary callback when an object on any of the modules is selected
 	var selectionCallback = function(source) {
 		return function(event) {
 			if (event.eventType === physiomeportal.EVENT_TYPE.SELECTED) {
@@ -94,6 +88,7 @@ main = function()  {
 		}
 	}
 
+	//Resize the required drawing area
 	var resizeMAPDrawingArea = function() {
 		var h = window.innerHeight;
 		var myHeight = h - parent.offsetTop;
@@ -120,12 +115,14 @@ main = function()  {
 			} else {
 				var data = tabManager.createDialog("Flatmap", {flatmapEntry: "NCBITaxon:9606"});
 				createOrgansViewer();
+				createPlotViewer();
 			}
 			moduleManager.serialiseDiv = false;
 		    moduleManager.allowStateChange = true;   
 		}
 	}
 
+	//initialise all required elements/objects
 	var initialise = function() {
 		moduleManager = new physiomeportal.ModuleManager();
 		tabManager = new (require('./tabmanager').TabManager)();
@@ -134,6 +131,7 @@ main = function()  {
 
 	initialise();
 	
+	//Resize when window size has changed
 	window.onresize = function(event) {
 		resizeMAPDrawingArea();
 	}
