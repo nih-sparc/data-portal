@@ -52,7 +52,7 @@ def biolucida_client_proxy(api_method=''):
     url = 'https://sparc.biolucida.net/api/v1/{0}'.format(api_method, 'utf-8')
 
     if request.method == 'POST':
-        request_data = json.loads(request.data)
+        request_data = json.loads(ensure_string(request.data))
 
         if api_method == 'authenticate/':
             request_data['username'] = os.environ['BIOLUCIDA_USERNAME'] if 'BIOLUCIDA_USERNAME' in os.environ else 'major_user'
