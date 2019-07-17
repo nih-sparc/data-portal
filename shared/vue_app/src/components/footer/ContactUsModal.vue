@@ -1,5 +1,5 @@
 <template>
-     <el-dialog :show-close="false" :visible.sync="isDialogVisible" @open="resetForm">
+     <el-dialog :show-close="false" :visible.sync="visible" @open="resetForm">
         <bf-dialog-header slot="title" title="Request a 3rd Reviewer"/>
 
         <dialog-body>
@@ -36,12 +36,11 @@
         </dialog-body>
 
         <div slot="footer" class="dialog-footer">
-          <bf-button class="secondary" @click="">Cancel</bf-button>
+          <bf-button class="secondary">Cancel</bf-button>
 
           <bf-button
             class="primary"
-            :processing=""
-            @click=""
+
           >Send</bf-button>
         </div>
       </el-dialog>
