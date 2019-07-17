@@ -31,6 +31,11 @@ bf = None
 ma = Marshmallow(app)
 client = MockSparcPortalApiClient()
 email_sender = EmailSender()
+s3 = boto3.client('s3',
+    aws_access_key_id=Config.SPARC_PORTAL_AWS_KEY,
+    aws_secret_access_key=Config.SPARC_PORTAL_AWS_SECRET,
+    region_name='us-east-1'
+)
 
 @api_blueprint.route("/contact", methods=["POST"])
 def contact():
@@ -59,11 +64,23 @@ def connect_to_graphenedb():
 #### DAT-CORE routes ####
 #########################
 
-# Returns a list of public datasets from 
+# Returns a list of public datasets from
 @api_blueprint.route('/datasets')
 def discover():
     resp = bf._api._get('/consortiums/1/datasets')
     return json.dumps(resp)
+
+# Download a file from S3
+@api_blueprint.route('/download')
+def create_presigned_url(expiration=3600):
+    bucket_name = 'blackfynn-discover-use1'
+    key = request.args.get('key')
+    response = s3.generate_presigned_url('get_object',
+                                                    Params={'Bucket': bucket_name,
+                                                            'Key': key},
+                                                    ExpiresIn=expiration)
+
+    return response
 
 @api_blueprint.route('/dataset/<int:id>')
 def dataset(id):

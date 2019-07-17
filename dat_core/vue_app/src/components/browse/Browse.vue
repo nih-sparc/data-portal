@@ -28,7 +28,7 @@
     <div class="search section">
       <el-row type="flex" justify="center">
         <el-col :xs="22" :sm="22" :md="12" :lg="8">
-          <search-controls @query="fetchResults" />
+          <search-controls @query="onSearchQuery" />
         </el-col>
       </el-row>
     </div>
@@ -50,11 +50,11 @@
             :cards="results"
           />
 
-          <div class="files-table">
-            <el-table
-              v-if="searchType === 'files'"
-              :data="results"
-            >
+          <div
+            v-if="searchType === 'files'"
+            class="files-table"
+          >
+            <el-table :data="results">
               <el-table-column
                 fixed
                 prop="name"
@@ -74,10 +74,11 @@
               <el-table-column
                 fixed="right"
                 label="Operations"
-                width="112"
+                min-width="132"
+                width="132"
               >
                 <template slot-scope="scope">
-                  <bf-button @click="downloadFile(scope)" >
+                  <bf-button @click="requestDownloadFile(scope)" >
                     Download
                   </bf-button>
                 </template>
@@ -86,13 +87,13 @@
           </div>
         </el-col>
       </el-row>
-      <el-row>
-        <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
+      <el-row type="flex" justify="center">
+        <el-col :xs="22" :sm="22" :md="12" :lg="8">
           <pagination
             :selected="page"
-            :pageSize="limit"
-            :total="totalCount"
-            @selectPage="selectPage"
+            :page-size="limit"
+            :total-count="totalCount"
+            @select-page="selectPage"
           />
         </el-col>
       </el-row>
@@ -100,6 +101,13 @@
   </div>
 </template>
 <script>
+import {
+  compose,
+  last,
+  defaultTo,
+  split,
+  pathOr
+} from 'ramda'
 import Grid from "../grid/Grid.vue";
 import SearchControls from "../search-controls/SearchControls.vue";
 import Pagination from "../Pagination/Pagination.vue";
@@ -127,14 +135,15 @@ export default {
       totalCount: 0,
       limit: 16,
       offset: 0,
-      page: 0,
+      page: 1,
       results: [],
-      searchType: ''
+      searchType: '',
+      searchTerms: ''
     };
   },
 
   mounted: function() {
-    this.fetchResults(['datasets', ''])
+    this.fetchResults('datasets', '')
   },
 
   methods: {
@@ -149,16 +158,28 @@ export default {
       return this.formatMetric(cellValue)
     },
 
+    /**
+     * On search query event from search controls
+     * @param {String} selectedType
+     * @param {String} terms
+     */
+    onSearchQuery: function(selectedType, terms) {
+      this.page = 1
+      this.fetchResults(selectedType, terms)
+    },
+
     selectPage(index) {
       this.page = index;
-      this.fetchResults();
+      this.fetchResults(this.searchType, this.searchTerms);
     },
-    async fetchResults([type, terms]) {
+    async fetchResults(type, terms) {
       this.results = [];
       this.loading = true;
-      this.searchType = type
+      this.searchType = type;
+      this.searchTerms = terms;
 
-      const requestUrl = `https://api.blackfynn.io/discover/search/${type}?query=${terms || ""}&limit=${this.limit}&offset=${this.page * this.offset}&organization=SPARC%20Consortium`;
+      const offset = (this.page - 1) * this.limit
+      const requestUrl = `https://api.blackfynn.io/discover/search/${type}?query=${terms || ""}&limit=${this.limit}&offset=${offset}&organization=SPARC%20Consortium`;
 
       this.$http.get(requestUrl).then(
         function(response) {
@@ -187,10 +208,42 @@ export default {
 
     /**
      * Download file
-     * @param {Object} file
+     * @param {Object} scope
      */
-    downloadFile: function(file) {
+    requestDownloadFile: function(scope) {
+      const filePath = compose(
+        last,
+        defaultTo([]),
+        split('s3://blackfynn-discover-use1/'),
+        pathOr('', ['row', 'uri']),
+      )(scope)
 
+      const fileName = pathOr('', ['row', 'name'], scope)
+
+      const requestUrl = `/api/download?key=${filePath}`
+      this.$http.get(requestUrl).then(
+        response => {
+          this.downloadFile(fileName, response.data)
+        }
+      )
+    },
+
+    /**
+     * Create an `a` tag to trigger downloading file
+     * @param {String} filename
+     * @param {String} url
+     */
+    downloadFile: function(filename, url) {
+      const el = document.createElement('a')
+      el.setAttribute('href', url)
+      el.setAttribute('download', filename)
+
+      el.style.display = 'none'
+      document.body.appendChild(el)
+
+      el.click()
+
+      document.body.removeChild(el)
     }
   }
 };
