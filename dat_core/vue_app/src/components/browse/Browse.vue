@@ -231,11 +231,11 @@ export default {
     /**
      * Create an `a` tag to trigger downloading file
      * @param {String} filename
-     * @param {String} text
+     * @param {String} url
      */
-    downloadFile: function(filename, text) {
+    downloadFile: function(filename, url) {
       const el = document.createElement('a')
-      el.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text))
+      el.setAttribute('href', url)
       el.setAttribute('download', filename)
 
       el.style.display = 'none'
