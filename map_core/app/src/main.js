@@ -79,9 +79,7 @@ main = function()  {
 	
 	//Resize the required drawing area
 	var resizeMAPDrawingArea = function() {
-		var h = window.innerHeight;
-		var myHeight = h - parent.offsetTop;
-		var contentHeight = myHeight - mapContent.offsetTop;
+		var contentHeight = window.innerHeight - document.getElementById("maptab_contents").offsetTop;
 		mapContent.style.height = contentHeight + "px";
 	}
 	
@@ -91,7 +89,7 @@ main = function()  {
 			break;
 		case "flatmap-show":
 			if (message.resource) {
-				tabManager.createDialog("Flatmap", {flatmapEntry: message.resource});
+				createFlatmap(message.resource);
 			}
 			break;
 		case "scaffold-show":
@@ -110,7 +108,6 @@ main = function()  {
 			break;
 		default:
 			break;
-			// code block
 		}
 
 	}
