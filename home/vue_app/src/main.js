@@ -30,7 +30,7 @@ const router = new VueRouter({
       component: SparcAboutPage
     },
     {
-      path: '/dataset',
+      path: '/dataset/:datasetId',
       name: 'Dataset',
       component: DatasetPage
     }

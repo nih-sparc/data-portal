@@ -17,7 +17,11 @@
     "modelling",
     "flatmaps"
   ],
-  "devDependencies": {},
+  "devDependencies": {
+    "html-webpack-plugin": "^3.2.0",
+    "css-loader": "^2.1.1",
+    "style-loader": "^0.21.0"
+  },
   "dependencies": {
     "mapcoreintegratedwebapp": "^0.0.5alpha",
     "split.js": "^1.5.11",
