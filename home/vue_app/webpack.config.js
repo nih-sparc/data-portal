@@ -7,30 +7,31 @@ module.exports = {
   entry: path.resolve(__dirname, 'src/main.js'),
   module: {
     rules: [{
-        test: /\.vue$/,
-        use: 'vue-loader'
+      test: /\.vue$/,
+      use: 'vue-loader'
     },
     {
-        test: /\.(png|svg|jpg|gif)$/,
-        use: [
-            'file-loader'
-        ]
+      test: /\.(png|svg|jpg|gif)$/,
+      use: [
+        'file-loader'
+      ]
     },
     {
-        test: /\.(css|scss)$/,
-        use: [
-          'vue-style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              // enable CSS Modules
-              modules: true,
-              // customize generated class names
-              localIdentName: '[local]'
-            }
-          },
-          'sass-loader'
-    ]}]
+      test: /\.(css|scss)$/,
+      use: [
+        'vue-style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            // enable CSS Modules
+            modules: true,
+            // customize generated class names
+            localIdentName: '[local]'
+          }
+        },
+        'sass-loader'
+      ]
+    }]
   },
   output: {
     path: path.resolve(__dirname, '../../shared/static/dist'),
@@ -42,7 +43,8 @@ module.exports = {
       'template': 'public/index.html',
       'filename': 'home.html',
       'chunks': ['dashboard'],
-      'inject': false}),
+      'inject': false
+    }),
     new filewatcherPlugin({
       watchFileRegex: [
         './src/**/*.vue',

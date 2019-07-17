@@ -1,0 +1,72 @@
+{
+  "limit" : 10,
+  "offset" : 0,
+  "datasets" : [
+    {
+      "id" : 3,
+      "name" : "Fynn Blackwell's Dataset",
+      "description" : "this is a very interesting dataset",
+      "ownerName" : "Fynn Blackwell",
+      "organizationName" : "Blackfynn",
+      "license" : "Apache 2.0",
+      "tags" : [
+        "neurology"
+      ],
+      "version" : 1,
+      "size" : 10000,
+      "contributors" : [
+        "Fynn Blackwell"
+      ],
+      "modelCount" : [
+        {
+          "modelName" : "Specimen",
+          "count" : 125
+        }
+      ],
+      "fileCount" : 220,
+      "recordCount" : 125,
+      "uri" : "s3://bucket/3/1",
+      "arn" : "arn:aws:s3:::bucket/3/1",
+      "status" : "PUBLISH_SUCCEEDED",
+      "doi" : "10.21397/giuz-iqq5",
+      "banner" : "https://discover.blackfynn.com/dataset-assets/3/1/banner.jpg",
+      "readme" : "https://discover.blackfynn.com/dataset-assets/3/1/readme.md",
+      "createdAt" : "2019-06-21T16:04:16.348-04:00",
+      "updatedAt" : "2019-06-21T16:04:16.348-04:00"
+    },
+    {
+      "id" : 1,
+      "name" : "My Blackfynn Dataset",
+      "description" : "This description contains the word Parkinson's",
+      "ownerName" : "Fynn Blackwell",
+      "organizationName" : "Blackfynn",
+      "license" : "Apache 2.0",
+      "tags" : [
+        "research"
+      ],
+      "version" : 1,
+      "size" : 10000,
+      "contributors" : [
+        "SpPqJyzHnJ9BCfU4eAIG",
+        "MW1ByFPiZ9V55mxPl0Z5"
+      ],
+      "modelCount" : [
+        {
+          "modelName" : "Patient",
+          "count" : 10
+        }
+      ],
+      "fileCount" : 55,
+      "recordCount" : 10,
+      "uri" : "s3://bucket/1/1",
+      "arn" : "arn:aws:s3:::bucket/1/1",
+      "status" : "PUBLISH_SUCCEEDED",
+      "doi" : "10.21397/abcd-1234",
+      "banner" : "https://discover.blackfynn.com/dataset-assets/1/1/banner.jpg",
+      "readme" : "https://discover.blackfynn.com/dataset-assets/1/1/readme.md",
+      "createdAt" : "2019-06-21T16:04:16.288-04:00",
+      "updatedAt" : "2019-06-21T16:04:16.288-04:00"
+    }
+  ],
+  "totalCount" : 2
+}

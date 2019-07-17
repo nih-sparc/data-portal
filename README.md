@@ -13,9 +13,11 @@ The Sparc Data Portal is an open source web application that provides insight in
 Make sure you have the correct environment variables set (see wiki). Then, in separate terminal windows, run:
 
 ```
+make clean
 npm run dev-build-shared
 npm run dev-build-dashboard
 npm run dev-build-browse
+npm run dev-build-sim
 make serve
 ```
 
