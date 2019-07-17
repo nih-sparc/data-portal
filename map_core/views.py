@@ -15,19 +15,12 @@ logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 logger = logging.getLogger("flask_mapcore")
 
 # Config
-map_core_blueprint = Blueprint('map_core', __name__, template_folder='templates', url_prefix='/map', static_folder='static')
+map_core_blueprint = Blueprint('map_core', __name__, static_folder='../shared/static/dist', template_folder='./static/dist', url_prefix='/map', static_url_path="")
 
 # Routes
 @map_core_blueprint.route('/')
 def index():
-    return render_template('map_core.html')
-
-
-@map_core_blueprint.route('8ed83a516242675649285ff523ffddb6.svg')
-def getLogo():
-    url = 'map/static/8ed83a516242675649285ff523ffddb6.svg'
-    return redirect(url)
-
+    return render_template('maps.html')
 
 @map_core_blueprint.route('models/<path:p>')
 def getModels(p):
@@ -44,6 +37,12 @@ def getStagingModel(p):
 @map_core_blueprint.route('scaffoldmaker/<path:p>')
 def scaffoldmakerproxy(p = ''):
     url = 'http://localhost:6565/{0}?{1}'.format(p, str(request.query_string, 'utf-8'))
+    return get_response_from_remote(url)
+
+
+@map_core_blueprint.route('exfetch/<path:p>')
+def scaffoldmakerproxy(p = ''):
+    url = '{0}?{1}'.format(p, str(request.query_string, 'utf-8'))
     return get_response_from_remote(url)
 
 

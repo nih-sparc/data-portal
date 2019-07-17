@@ -5,7 +5,7 @@
                 <div class="header">
                     <div class="logo">
                         <sparc-logo/>
-                        <span class="data-portal-title">Data Portal</span>
+                        <!-- <span class="data-portal-title">Data Portal</span> -->
                     </div>
                     <div class="navigation">
                         <ul>
@@ -51,7 +51,7 @@
         },
         {
             title: "Run Simulations",
-            href: "/#"
+            href: "/sim/#"
         }
     ];
 
@@ -81,6 +81,7 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        align-items: flex-end;
 
         .logo {
             height: 40px;

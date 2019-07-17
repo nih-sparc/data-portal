@@ -26,6 +26,7 @@ exports.TabManager = function(parentIn, moduleManagerIn ) {
 	
 	const destroyElement = function(targetData) {
 		if (targetData) {
+			targetData.buttonElem.onclick = undefined;
 			targetData.dialog.close();
 		}
 	}
