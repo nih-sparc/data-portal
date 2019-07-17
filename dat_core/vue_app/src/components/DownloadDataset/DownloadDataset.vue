@@ -21,7 +21,6 @@
         <div class="size">
           {{ formatMetric(datasetDetails.size) }}
         </div>
-        <img src="../../../public/images/illustrations/illo-data-management.svg">
       </div>
       <div :class="[isDatasetSizeLarge ? 'aws-container' : 'aws-block']">
         <button
