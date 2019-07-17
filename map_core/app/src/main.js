@@ -2,6 +2,7 @@ var FlatmapsDialog = require('mapcoreintegratedwebapp').FlatmapsDialog;
 var FlatmapsModule = require('mapcoreintegratedwebapp').FlatmapsModule;
 var BFCSVExporterDialog = require('mapcoreintegratedwebapp').BFCSVExporterDialog;
 var BFCSVExporterModule = require('mapcoreintegratedwebapp').BFCSVExporterModule;
+var fdi_kb_query_module = require('fdikbquery').FDI_KB_Query_Module;
 var physiomeportal = require('mapcoreintegratedwebapp').physiomeportal;
 require('./css/mapcore.css');
 
@@ -12,6 +13,7 @@ main = function()  {
 	var nav_bar = document.querySelector(".nav");
 	var parent = document.getElementById("MAPcorePortalArea");
 	var mapContent = document.querySelector(".maptab-contents");
+	var fdikbquery = undefined;
 	var flatmapsDialog = undefined;
 	var channel = undefined;
 	var _this = this;
@@ -93,14 +95,13 @@ main = function()  {
 	var resizeMAPDrawingArea = function() {
 		var h = window.innerHeight;
 		var myHeight = h - parent.offsetTop;
-		parent.style.height = myHeight + "px";
 		var contentHeight = myHeight - mapContent.offsetTop;
 		mapContent.style.height = contentHeight + "px";
 	}
 
 	/**
 	 * Initialise all the panels required for PJP to function correctly.
-	 * Modules used incude - {@link PJP.ModelsLoader}, {@link PJP.BodyViewer},
+	 * Modules used include - {@link PJP.ModelsLoader}, {@link PJP.BodyViewer},
 	 * {@link PJP.OrgansViewer}, {@link PJP.TissueViewer}, {@link PJP.CellPanel}
 	 * and {@link PJP.ModelPanel}.
 	 */
@@ -109,7 +110,7 @@ main = function()  {
 			resizeMAPDrawingArea();
 			moduleManager.addConstructor("Flatmap", FlatmapsModule, FlatmapsDialog ); 
 			moduleManager.addConstructor("Data Viewer", BFCSVExporterModule, BFCSVExporterDialog );
-			var tabContainment = document.getElementById("maptab-container");
+			var tabContainment = document.getElementById("maptab_container");
 			tabManager = new (require('./tabmanager').TabManager)(tabContainment, moduleManager);
 			if (window.location.hash !== "") {
 				tabManager.processHash(window.location.hash);
@@ -126,12 +127,12 @@ main = function()  {
 	//initialise all required elements/objects
 	var initialise = function() {
 		moduleManager = new physiomeportal.ModuleManager();
-		tabManager = new (require('./tabmanager').TabManager)();
+		fdikbquery = new fdi_kb_query_module(parent);
 		initialiseMain();
 	}	
 
 	initialise();
-	
+
 	//Resize when window size has changed
 	window.onresize = function(event) {
 		resizeMAPDrawingArea();

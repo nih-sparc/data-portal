@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "mapcoreintegratedwebapp": "^0.0.5alpha",
+    "fdikbquery": "^0.1.0",
     "split.js": "^1.5.11",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3"
