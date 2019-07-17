@@ -99,7 +99,6 @@ main = function()  {
 	var resizeMAPDrawingArea = function() {
 		var h = window.innerHeight;
 		var myHeight = h - parent.offsetTop;
-		parent.style.height = myHeight + "px";
 		var contentHeight = myHeight - mapContent.offsetTop;
 		mapContent.style.height = contentHeight + "px";
 	}
@@ -135,7 +134,7 @@ main = function()  {
 	}	
 
 	initialise();
-	
+
 	window.onresize = function(event) {
 		resizeMAPDrawingArea();
 	}

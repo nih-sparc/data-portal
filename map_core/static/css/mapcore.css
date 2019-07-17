@@ -1,4 +1,8 @@
 
+#MAPcore_Banner {
+  height: 100px;
+}
+
 .mapcore-gradient-background {
   background-image: linear-gradient(to right, rgba(25,6,204), rgba(255,0,61));
 }
@@ -10,7 +14,6 @@
   align-items: flex-end;
 }
 
-
 /* Create an active/current tablink class */
 .maptab-tabbar .tablinks.active {
   background-color: white;
@@ -18,6 +21,7 @@
 
 /* Style the buttons that are used to open the tab content */
 .maptab-tabbar .tablinks {
+  color: #8300BF;
   display: flex;
   float: left;
   outline: none;
@@ -35,10 +39,8 @@
 }
 
 /* Change background color of buttons on hover */
-
 .maptab-tabbar .tablinks:hover:not(.active) {
-  background-color: #6abbec;
-
+  color: #8300BF;
 }
 
 .maptab-tabbar .tablinks button {
@@ -53,9 +55,15 @@
 .maptab-tabbar .tablinks button:hover {
   background-color: gray;
 }
+
 .maptab-tabbar .tablinks:not(.active) {
   background-color: darkgray;
+  color: black;
   cursor: pointer;
+}
+
+.maptab-contents {
+  position: relative;
 }
 
 /* Style the tab content */
@@ -70,10 +78,4 @@
 /* Style the tab content */
 .maptab-tab-content.active {
   display: block;
-}
-
-#maptab_container {
-  position: absolute;
-  height:100%;
-  width:100%;
 }
