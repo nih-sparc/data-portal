@@ -9,6 +9,11 @@ module.exports = {
 	    path: path.resolve(__dirname, '../../shared/static/dist'),
 	    filename: '_build/bundle_map.js'
   },
+  module: {
+	    rules: [
+	      { test: /\.css$/, use: [ 'style-loader', 'css-loader' ] },
+	      ]
+  },
   plugins: [
         new HtmlWebpackPlugin({
           'template': 'templates/map_core.html',

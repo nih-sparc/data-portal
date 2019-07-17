@@ -3,6 +3,7 @@ var FlatmapsModule = require('mapcoreintegratedwebapp').FlatmapsModule;
 var BFCSVExporterDialog = require('mapcoreintegratedwebapp').BFCSVExporterDialog;
 var BFCSVExporterModule = require('mapcoreintegratedwebapp').BFCSVExporterModule;
 var physiomeportal = require('mapcoreintegratedwebapp').physiomeportal;
+require('./css/mapcore.css');
 
 main = function()  {
 	var tabManager = undefined;
