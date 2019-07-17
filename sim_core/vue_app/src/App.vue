@@ -11,7 +11,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 #sim-app {
   margin-top: 6em;
 }
