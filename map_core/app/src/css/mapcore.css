@@ -1,10 +1,20 @@
 
+#map-app {
+  margin-top: 6em;
+}
+
 #MAPcore_Banner {
   height: 100px;
 }
 
 .mapcore-gradient-background {
   background-image: linear-gradient(to right, rgba(25,6,204), rgba(255,0,61));
+}
+
+#mapcore_banner_text {
+  color: white;
+  margin-left: 178px;
+  padding-top: 20px;
 }
 
 /* Style the tab */
