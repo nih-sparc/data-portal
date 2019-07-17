@@ -69,6 +69,14 @@ main = function()  {
 		}
 	}
 	
+	var createFlatmap = function(entry) {
+		if (tabManager) {
+			var data = tabManager.createDialog("Flatmap", {flatmapEntry: entry});
+			var title = entry + "(Flatmap)";
+			tabManager.setTitle(data, title);
+		}
+	}
+	
 	//Resize the required drawing area
 	var resizeMAPDrawingArea = function() {
 		var h = window.innerHeight;
@@ -80,6 +88,11 @@ main = function()  {
 	var processMessage = function(message) {
 		switch(message.action) {
 		case "query-data":
+			break;
+		case "flatmap-show":
+			if (message.resource) {
+				tabManager.createDialog("Flatmap", {flatmapEntry: message.resource});
+			}
 			break;
 		case "scaffold-show":
 			if (message.resource) {
@@ -120,7 +133,7 @@ main = function()  {
 			if (window.location.hash !== "") {
 				tabManager.processHash(window.location.hash);
 			} else {
-				var data = tabManager.createDialog("Flatmap", {flatmapEntry: "NCBITaxon:9606"});
+				createFlatmap("NCBITaxon:9606");
 			}
 			moduleManager.serialiseDiv = false;
 		    moduleManager.allowStateChange = true;   
