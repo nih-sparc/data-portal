@@ -134,7 +134,7 @@ def sim_search_datasets():
         req = requests.get('{}/search/datasets?query={}'.format(Config.DISCOVER_API_HOST, query))
         json = req.json()
         # Filter only datasets with tag 'simcore'
-        json['datasets'] = filter(lambda dataset: ('simcore' in dataset.get('tags', [])), json.get('datasets', []))
+        json['datasets'] = list(filter(lambda dataset: ('simcore' in dataset.get('tags', [])), json.get('datasets', [])))
         return jsonify(json)
 
 @api_blueprint.route('/sim/dataset/<id>')
