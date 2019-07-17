@@ -23,8 +23,9 @@
     "style-loader": "^0.21.0"
   },
   "dependencies": {
-    "mapcoreintegratedwebapp": "^0.0.6alpha",
+    "broadcast-channel": "^2.1.12",
     "fdikbquery": "^0.1.0",
+    "mapcoreintegratedwebapp": "^0.0.7alpha",
     "split.js": "^1.5.11",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3"

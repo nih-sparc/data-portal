@@ -16,6 +16,7 @@ main = function()  {
 	var fdikbquery = undefined;
 	var flatmapsDialog = undefined;
 	var channel = undefined;
+	var channelName = "sparc-mapcore-channel";
 	var _this = this;
 	
 	var findItemWithTypeNameInManager = function(manager, typeName) {
@@ -40,63 +41,65 @@ main = function()  {
 		return undefined;
 	}
 	
-	var createOrgansViewer = function(manager) {
-		var data = tabManager.createDialog("Organ Viewer");
-		data.module.loadOrgansFromURL("https://mapcore-bucket1.s3-us-west-2.amazonaws.com/ISAN/scaffold/stellate/stellate_metadata.json", 
-			"human", "nervous", "stellate",
-			"https://mapcore-bucket1.s3-us-west-2.amazonaws.com/ISAN/scaffold/stellate/stellate_view.json");
-		return data;
+	var createOrganViewer = function(species, organ, annotation, url) {
+		if (tabManager) {
+			var data = tabManager.createDialog("Organ Viewer");
+			data.module.loadOrgansFromURL(url, species, organ, annotation);
+			var title = annotation + "(Scaffold)";
+			tabManager.setTitle(data, title);
+			return data;
+		}
+		return undefined;
 	}
 	
-	var createPlotViewer = function(manager) {
-		var data = tabManager.createDialog("Data Viewer");
-		//data.module.loadFromString('{"selectedChannels":["Sweep 3_Membrane Potential (mV)","Sweep 6_Membrane Potential (mV)","Sweep 2_Membrane Potential (mV)"],"csvURL":"https://cors-anywhere.herokuapp.com/https://abi-test.ml/Cors_Test/Sample_1_18907001_channel_1.csv","subplots":false,"plotAll":false,"plotType":"scatter"}');
-		data.module.blackfynnManager.loadState('{"selectedChannels":["Sweep 3_Membrane Potential (mV)","Sweep 6_Membrane Potential (mV)","Sweep 2_Membrane Potential (mV)"],"csvURL":"https://cors-anywhere.herokuapp.com/https://abi-test.ml/Cors_Test/Sample_1_18907001_channel_1.csv","subplots":false,"plotAll":false,"plotType":"scatter"}');
-		return data;
-	}
-	
-	// temporary callback when an object on any of the modules is selected
-	var selectionCallback = function(source) {
-		return function(event) {
-			if (event.eventType === physiomeportal.EVENT_TYPE.SELECTED) {
-				if (event.identifiers.length > 0) {
-					if (source === flatmapsDialog) {
-						var annotation = event.identifiers[0];
-						if (annotation.data.part) {
-							if (annotation.data.part == "Lungs" || annotation.data.part == "Liver" || 
-								(annotation.data.part == "Stellate Ganglia")) {
-								var organsViewer = findModulesWithTypeNameInManager(moduleManager, "Organs Viewer");
-								if (organsViewer === undefined) 
-									organsViewer = createOrgansViewer();
-								if (organsViewer) {
-									if (annotation.data.part == "Stellate Ganglia")
-										organsViewer.loadOrgansFromURL("static/stellate/stellate.json", "human", "nervous", "stellate",
-											"static/stellate/stellate_view.json");
-									else if (annotation.data.part == "Lungs")
-										organsViewer.loadOrgans("human", "Respiratory", "Lungs");
-									else if (annotation.data.part == "Liver")
-										organsViewer.loadOrgans("human", "Digestive", "Liver");
-								}
-							}
-						}
-					} else if (source.typeName === "Organ Viewer") {
-						var plotViewer = findModulesWithTypeNameInManager(moduleManager, "Data Viewer");
-						if (plotViewer === undefined) 
-							plotViewer = createPlotViewer();
-						if (plotViewer)
-							plotViewer.openCSV("static/Sample_1_18907001_channel_1.csv");
+	var createDataViewer = function(annotation, url, channelNames) {
+		if (tabManager) {
+			var data = tabManager.createDialog("Data Viewer");
+			data.module.plotManager.openCSV(url).then(function() {
+				if (channelNames) {
+					for (var i = 0; i < channelNames.length; i++) {
+						data.module.plotManager.plotByName(channelNames[i]);
 					}
+				} else {
+					data.module.plotManager.plotAll();
 				}
-			}
+				var title = annotation + "(Data)";
+				tabManager.setTitle(data, title);
+			});
 		}
 	}
-
+	
 	//Resize the required drawing area
 	var resizeMAPDrawingArea = function() {
 		var h = window.innerHeight;
 		var myHeight = h - parent.offsetTop;
 		var contentHeight = myHeight - mapContent.offsetTop;
 		mapContent.style.height = contentHeight + "px";
+	}
+	
+	var processMessage = function(message) {
+		switch(message.action) {
+		case "query-data":
+			break;
+		case "scaffold-show":
+			if (message.resource) {
+				var annotation = message.data ? message.data.annotation : undefined;
+				var species = message.data ? message.data.species : undefined;
+				var organ = message.data ? message.data.organ : undefined;
+				createOrganViewer(species, organ, annotation, message.resource);
+			}
+			break;
+		case "‘data-viewer-show":
+			if (message.resource) {
+				var annotation = message.data ? message.data.annotation : undefined;
+				createDataViewer(annotation, message.resource);
+			}
+			break;
+		default:
+			break;
+			// code block
+		}
+
 	}
 
 	/**
@@ -107,6 +110,8 @@ main = function()  {
 	 */
 	var initialiseMain = function() {	
 		if (moduleManager) {
+			var channel = new (require('broadcast-channel')).default(channelName);
+			channel.onmessage = processMessage;
 			resizeMAPDrawingArea();
 			moduleManager.addConstructor("Flatmap", FlatmapsModule, FlatmapsDialog ); 
 			moduleManager.addConstructor("Data Viewer", BFCSVExporterModule, BFCSVExporterDialog );
