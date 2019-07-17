@@ -89,7 +89,7 @@ main = function()  {
 				createOrganViewer(species, organ, annotation, message.resource);
 			}
 			break;
-		case "‘data-viewer-show":
+		case "data-viewer-show":
 			if (message.resource) {
 				var annotation = message.data ? message.data.annotation : undefined;
 				createDataViewer(annotation, message.resource);
@@ -121,8 +121,6 @@ main = function()  {
 				tabManager.processHash(window.location.hash);
 			} else {
 				var data = tabManager.createDialog("Flatmap", {flatmapEntry: "NCBITaxon:9606"});
-				createOrgansViewer();
-				createPlotViewer();
 			}
 			moduleManager.serialiseDiv = false;
 		    moduleManager.allowStateChange = true;   
