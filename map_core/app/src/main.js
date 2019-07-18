@@ -109,22 +109,7 @@ main = function()  {
 		default:
 			break;
 		}
-	}
-	
-	var toggleHelp = function(flag) {
-		var helpContainer = document.getElementById("doc-container");
-		var display = "none";
-		if (flag === true)
-			display = "block";
-		helpContainer.style.display = display;
-	}
-	
-	/* enable onclick event for documentation ifram */
-	var enableHelp = function() {
-		var helpButton = document.getElementById("help-button");
-		var helpContainer = document.getElementById("doc-container");
-		helpButton.onclick = function() {toggleHelp(true)};
-		helpContainer.onclick = function() {toggleHelp(false)};
+
 	}
 
 	/**
@@ -157,7 +142,6 @@ main = function()  {
 		moduleManager = new physiomeportal.ModuleManager();
 		fdikbquery = new fdi_kb_query_module(parent);
 		initialiseMain();
-		enableHelp();
 	}	
 
 	initialise();
