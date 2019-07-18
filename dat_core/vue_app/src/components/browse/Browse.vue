@@ -63,6 +63,7 @@
                 fixed
                 prop="name"
                 label="Name"
+                min-width="300"
               />
               <el-table-column
                 prop="fileType"
@@ -76,15 +77,32 @@
                 :formatter="formatStorage"
               />
               <el-table-column
+                align="right"
                 fixed="right"
-                label="Operations"
-                min-width="132"
-                width="132"
+                label="Operation"
+                min-width="100"
+                width="100"
               >
                 <template slot-scope="scope">
-                  <bf-button @click="requestDownloadFile(scope)" >
-                    Download
-                  </bf-button>
+                  <el-dropdown
+                    trigger="click"
+                    @command="onCommandClick"
+                  >
+                    <el-button
+                      icon="el-icon-more"
+                      size="small"
+                    />
+                    <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item
+                        :command="{
+                          type: 'requestDownloadFile',
+                          scope
+                        }"
+                      >
+                        Download
+                      </el-dropdown-item>
+                    </el-dropdown-menu>
+                  </el-dropdown>
                 </template>
               </el-table-column>
             </el-table>
@@ -110,8 +128,8 @@ import {
   last,
   defaultTo,
   split,
-  path,
-  pathOr
+  pathOr,
+  propOr
 } from 'ramda'
 import Grid from "../grid/Grid.vue";
 import SearchControls from "../search-controls/SearchControls.vue";
@@ -167,6 +185,16 @@ export default {
     onSearchQuery: function(selectedType, terms) {
       this.page = 1
       this.fetchResults(selectedType, terms)
+    },
+
+    onCommandClick: function(evt) {
+      const scope = propOr({}, 'scope', evt)
+      const type = propOr({}, 'type', evt)
+      const handler = this[type]
+
+      if (typeof handler === 'function') {
+        handler(scope)
+      }
     },
 
     selectPage(index) {
