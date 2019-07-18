@@ -109,7 +109,11 @@
           </div>
         </el-col>
       </el-row>
-      <el-row type="flex" justify="center">
+      <el-row
+        v-if="totalCount > 0"
+        type="flex"
+        justify="center"
+      >
         <el-col :xs="22" :sm="22" :md="12" :lg="8">
           <pagination
             :selected="page"
