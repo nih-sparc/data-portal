@@ -13,7 +13,7 @@
           </el-row>
         </el-col>
         <el-col :sm="16">
-          <h2>{{ dataset.name }}</h2>
+          <h2 class="dataset-title">{{ dataset.name }}</h2>
           <h4><p>{{ dataset.description }}</p></h4>
           <div class="updated information">
             Updated on {{ updatedDate }}
@@ -66,6 +66,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.dataset-title {
+  @media screen and (max-width: 768px) {
+    margin-top: 1em;
+  }
+}
 .markdown {
   margin-top: 30px;
 }
