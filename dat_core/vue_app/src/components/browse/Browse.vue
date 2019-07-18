@@ -30,6 +30,7 @@
         <el-col :xs="22" :sm="22" :md="12" :lg="8">
           <search-controls
             :search-on-load="true"
+            submit-text="Go"
             @query="onSearchQuery"
           />
         </el-col>
