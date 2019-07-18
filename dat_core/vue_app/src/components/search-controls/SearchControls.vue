@@ -28,7 +28,18 @@
 </template>
 
 <script>
+import {
+  pathOr
+} from 'ramda'
+
 export default {
+  props: {
+    searchOnLoad: {
+      type: Boolean,
+      default: false
+    }
+  },
+
   data() {
     return {
       selectedType: "datasets",
@@ -46,7 +57,25 @@ export default {
       ]
     };
   },
+
+  mounted: function() {
+    if (this.searchOnLoad) {
+      this.setSearchOnLoad()
+    }
+  },
+
   methods: {
+    /**
+     * Set search and execute search
+     */
+    setSearchOnLoad: function() {
+      const terms = pathOr('', ['query', 'searchTerms'], this.$route)
+      const type = pathOr('datasets', ['query', 'searchType'], this.$route)
+      this.selectedType = type
+      this.terms = terms
+      this.submit()
+    },
+
     submit() {
       this.$emit('query', this.selectedType, this.terms);
     }

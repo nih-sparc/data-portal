@@ -28,7 +28,10 @@
     <div class="search section">
       <el-row type="flex" justify="center">
         <el-col :xs="22" :sm="22" :md="12" :lg="8">
-          <search-controls @query="onSearchQuery" />
+          <search-controls
+            :search-on-load="true"
+            @query="onSearchQuery"
+          />
         </el-col>
       </el-row>
     </div>
@@ -106,6 +109,7 @@ import {
   last,
   defaultTo,
   split,
+  path,
   pathOr
 } from 'ramda'
 import Grid from "../grid/Grid.vue";
@@ -140,10 +144,6 @@ export default {
       searchType: '',
       searchTerms: ''
     };
-  },
-
-  mounted: function() {
-    this.fetchResults('datasets', '')
   },
 
   methods: {
