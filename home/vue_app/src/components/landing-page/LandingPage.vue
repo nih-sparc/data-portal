@@ -69,7 +69,7 @@
                 <img v-bind:src="core.image" class="image" />
                 <div class="content">
                   <p>{{core.name}}</p>
-                  <p>{{core.description}}</p>
+                  <p v-html="core.description"></p>
                   <div class="bottom clearfix">
                     <el-button type="text" class="button">{{core.linkText}}</el-button>
                   </div>
@@ -148,7 +148,7 @@ import irregularBlob1 from "../../assets/images/irregular-blob-1.svg";
 import irregularBlob2 from "../../assets/images/irregular-blob-2.svg";
 import transparentBlob3 from "../../assets/images/transparent-blob-3.svg";
 import mapCore from "../../assets/images/map-core.png";
-import simulationCore from "../../assets/images/simulation-core.png";
+import simulationCore from "../../assets/images/osparc-human.png";
 import dataCore from "../../assets/images/data-core.png";
 import datasetAbstractImage from "../../assets/images/dataset-abstract-image.png";
 import SparcFooter from "../../../../../shared/vue_app/src/components/footer/Footer.vue";
@@ -172,11 +172,11 @@ const cores = [
     image: mapCore
   },
   {
-    name: "Simulation Core",
+    name: "Virtual studies",
     description:
-      "An online simulation platform enables predictive modeling of neuromodulation effects.",
-    link: "/simulation-core",
-    linkText: "Explore Simulation Models",
+      "An online platform, o<sup>2</sup>S<sup>2</sup>PARC,  enables data analyses and predictive simulations.",
+    link: "https://osparc.io",
+    linkText: "Run computations",
     image: simulationCore
   }
 ];

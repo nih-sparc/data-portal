@@ -179,10 +179,9 @@ def inject_template_data(resp):
         return
 
     try:
-        s3_client = boto3.Session().client('s3', region_name='us-east-1')
-        response = s3_client.get_object(Bucket='blackfynn-discover-use1',
-                                        Key='{}/{}/packages/template.json'.format(id, version),
-                                        RequestPayer='requester')
+        response = s3.get_object(Bucket='blackfynn-discover-use1',
+                                 Key='{}/{}/packages/template.json'.format(id, version),
+                                 RequestPayer='requester')
     except ClientError as e:
         logging.error(e)
         return
