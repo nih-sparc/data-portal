@@ -9,6 +9,9 @@
   <title>MAP</title>
 {% endblock %}
 {% block app %}
+	<div id="doc-container">
+		<iframe src="https://mapcore-documentation.readthedocs.io/en/latest/index.html"></iframe>
+	</div>
 	<div id="map-app">
 		<div id="MAPcore_Banner" class="mapcore-gradient-background">
 			<div id="mapcore_banner_text">
@@ -19,8 +22,12 @@
 
 		<div id="MAPcorePortalArea">
 			<div id="maptab_container">
-				<div id="maptab_tabbar" class="maptab-tabbar mapcore-gradient-background"></div>
-				<div id="maptab_contents" class="maptab-contents"></div>
+				<div id="maptab_tabbar" class="maptab-tabbar mapcore-gradient-background">
+				<div id="help-button">&#x3f;</div>
+				</div>
+				<div id="maptab_contents" class="maptab-contents">
+
+				</div>
 			</div>
 		</div>
 	</div>
@@ -28,3 +35,4 @@
 {% block javascript %}
 	<script type="text/javascript" src="_build/bundle_map.js"></script>
 {% endblock %}
+
