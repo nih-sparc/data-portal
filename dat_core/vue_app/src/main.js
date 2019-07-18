@@ -32,7 +32,11 @@ const router = new VueRouter({
     {
       path: '/',
       name: 'Browse',
-      component: SparcBrowse
+      component: SparcBrowse,
+      query: {
+        searchType: '',
+        searchTerms: ''
+      }
     },
     {
       path: '/datasets/:datasetId',
