@@ -50,7 +50,7 @@
             active: pathOrHashContainsString("/map")
         },
         {
-            title: "Run Simulations",
+            title: "Analyze & Simulate",
             href: "/sim/#"
         }
     ];
