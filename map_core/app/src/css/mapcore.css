@@ -1,0 +1,108 @@
+
+#map-app {
+  margin-top: 6em;
+}
+
+#MAPcore_Banner {
+  height: 100px;
+}
+
+.mapcore-gradient-background {
+  background-image: linear-gradient(to right, rgba(25,6,204), rgba(255,0,61));
+}
+
+#mapcore_banner_text {
+  color: white;
+  margin-left: 178px;
+  padding-top: 20px;
+}
+
+/* Style the tab */
+.maptab-tabbar {
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+}
+
+/* Create an active/current tablink class */
+.maptab-tabbar .tablinks.active {
+  background-color: white;
+}
+
+/* Style the buttons that are used to open the tab content */
+.maptab-tabbar .tablinks {
+  color: #8300BF;
+  display: flex;
+  float: left;
+  outline: none;
+  cursor: default;
+  padding: 2px 6px;
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  margin-right: 1px;
+  border-color: black;
+  border-width: 4px;
+}
+
+/* Change background color of buttons on hover */
+.maptab-tabbar .tablinks:hover:not(.active) {
+  color: #8300BF;
+}
+
+.maptab-tabbar .tablinks button {
+  border-radius:10px;
+  margin-left: 3px;
+  cursor: pointer;
+  vertical-align: middle;
+  border: none;
+  background-color: inherit;
+}
+
+.maptab-tabbar .tablinks button:hover {
+  background-color: gray;
+}
+
+.maptab-tabbar .tablinks:not(.active) {
+  background-color: darkgray;
+  color: black;
+  cursor: pointer;
+}
+
+.maptab-contents {
+  position: relative;
+}
+
+/* Style the tab content */
+.maptab-tab-content {
+  display: none;
+  padding: 0px 0px;
+  border: 1px solid #ccc;
+  border-top: none;
+  height: 100%;
+}
+
+/* Style the tab content */
+.maptab-tab-content.active {
+  display: block;
+}
+
+.ui-widget.ui-widget-content {
+	border: none;
+}
+
+ui-widget-content {
+	border: none;
+}
+
+#help-button {
+	color: white;
+    position: absolute;
+    right: 10px;
+    font-size: 25px;
+    cursor: pointer;
+    text-decoration: none;
+}
