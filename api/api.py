@@ -76,8 +76,11 @@ def create_presigned_url(expiration=3600):
     bucket_name = 'blackfynn-discover-use1'
     key = request.args.get('key')
     response = s3.generate_presigned_url('get_object',
-                                                    Params={'Bucket': bucket_name,
-                                                            'Key': key},
+                                                    Params={
+                                                        'Bucket': bucket_name,
+                                                        'Key': key,
+                                                        'RequestPayer': 'requester'
+                                                    },
                                                     ExpiresIn=expiration)
 
     return response
