@@ -192,7 +192,11 @@ export default {
      * @param {String} terms
      */
     onSearchQuery: function(selectedType, terms) {
-      window.location.href = `/browse/#/?searchType=${selectedType}&searchTerms=${terms}`
+      const url = terms === null
+        ? `/browse/#/?searchType=${selectedType}`
+        : `/browse/#/?searchType=${selectedType}&searchTerms=${terms}`
+
+      window.location.href = url
     }
   }
 };
