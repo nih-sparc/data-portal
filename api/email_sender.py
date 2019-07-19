@@ -12,10 +12,6 @@ ses_client = boto3.client(
 
 class EmailSender(object):
 
-    print(Config.SPARC_PORTAL_AWS_KEY)
-    print(Config.SPARC_PORTAL_AWS_SECRET)
-    print(Config.AWS_REGION)
-
     def __init__(self):
         self.default_subject = "Message from SPARC Portal"
         self.charset = "UTF-8"
