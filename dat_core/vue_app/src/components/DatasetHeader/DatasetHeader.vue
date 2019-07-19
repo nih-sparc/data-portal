@@ -509,6 +509,7 @@ export default {
     font-weight: bold;
     margin: 0 0 64px;
     line-height: 40px;
+    word-break: break-word;
   }
 }
 .dataset-description {
