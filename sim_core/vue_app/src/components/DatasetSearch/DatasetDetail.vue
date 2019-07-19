@@ -22,17 +22,18 @@
             <p>
               Organization: {{ dataset.organizationName }}<br>
               Owner: {{ dataset.ownerName }}<br>
-              <div v-if="dataset.contributors.length">
-                Contributors: <span v-for="(contributor, i) in dataset.contributors" :key="contributor">{{ contributor }}{{ i === dataset.contributors.length-1 ? "." : ", "}}</span>
-              </div>
+            </p>
+            <p v-if="dataset.contributors.length">
+              Contributors: <span v-for="(contributor, i) in dataset.contributors" :key="contributor">{{ contributor }}{{ i === dataset.contributors.length-1 ? "." : ", "}}</span>
             </p>
           </div>
-          <a v-if="dataset.study" :href="`https://discover.blackfynn.com/datasets/${this.dataset.id}`" target="_blank">
-            <el-button type="warning">Get dataset</el-button>
-          </a>
-          <a v-if="dataset.study" :href="`http://master.osparc.io/study/${dataset.study.uuid}`" target="_blank">
-            <el-button type="warning">Run simulation</el-button>
-          </a>
+          <div class="actions">
+            <a v-if="dataset.study" :href="`http://master.osparc.io/study/${dataset.study.uuid}`" target="_blank">
+              <el-button type="warning">Run simulation</el-button>
+            </a>
+            <el-link type="warning" v-if="dataset.study" :href="`https://discover.blackfynn.com/datasets/${this.dataset.id}`" target="_blank">Get dataset</el-link>
+            <el-link type="warning" v-if="dataset.study" href="https://docs.osparc.io" target="_blank">oSPARC Docs</el-link>
+          </div>
         </el-col>
       </el-row>
       <el-row class="markdown">
@@ -79,5 +80,8 @@ export default {
 }
 .updated {
   font-size: 0.9em;
+}
+.actions a {
+  margin-right: 20px;
 }
 </style>
