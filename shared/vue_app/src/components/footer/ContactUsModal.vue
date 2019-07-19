@@ -6,14 +6,13 @@
     <dialog-body>
       <el-form ref="contactForm" :label-position="labelPosition" label-width="100px" :model="contactUsForm" :rules="contactUsFormRules">
         <el-form-item prop="name" label="Your Name">
-          <el-input required aria-placeholder="Enter your name" v-model="contactUsForm.name"></el-input>
+          <el-input aria-placeholder="Enter your name" v-model="contactUsForm.name"></el-input>
         </el-form-item>
         <el-form-item prop="email" label="Your Email">
           <el-input aria-placeholder="Enter your email" type="email" v-model="contactUsForm.email"></el-input>
         </el-form-item>
         <el-form-item prop="message" label="Your Message">
           <el-input
-            required
             aria-placeholder="Your message"
             type="textarea"
             v-model="contactUsForm.message"
