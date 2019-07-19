@@ -12,8 +12,8 @@ class Config(object):
     GRAPHENEDB_BOLT_PASSWORD=os.environ.get("GRAPHENEDB_BOLT_PASSWORD")
     GRAPHENEDB_BOLT_URL=os.environ.get("GRAPHENEDB_BOLT_URL")
     GRAPHENEDB_BOLT_USER=os.environ.get("GRAPHENEDB_BOLT_USER")
-    MONGODB_COLLECTION="sparc-embargo"
-    MONGODB_NAME="sparc-embargo"
+    MONGODB_COLLECTION=os.environ.get("MONGODB_COLLECTION")
+    MONGODB_NAME=os.environ.get("MONGODB_NAME")
     MONGODB_URI=os.environ.get("MONGODB_URI")
     SES_ARN=os.environ.get("SES_ARN")
     SES_SENDER=os.environ.get("SES_SENDER")
