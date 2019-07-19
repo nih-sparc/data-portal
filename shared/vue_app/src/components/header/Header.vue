@@ -32,7 +32,11 @@
         {
             title: "Overview",
             href: "/",
-            active: pathOrHashContainsString("/") && !pathOrHashContainsString("/about") && !pathOrHashContainsString("/browse") && !pathOrHashContainsString("/map")
+            active: pathOrHashContainsString("/")
+                && !pathOrHashContainsString("/about")
+                && !pathOrHashContainsString("/browse")
+                && !pathOrHashContainsString("/map")
+                && !pathOrHashContainsString("/sim")
         },
         {
             title: "About",
@@ -51,7 +55,8 @@
         },
         {
             title: "Analyze & Simulate",
-            href: "/sim/#"
+            href: "/sim/#",
+            active: pathOrHashContainsString("/sim")
         }
     ];
 
