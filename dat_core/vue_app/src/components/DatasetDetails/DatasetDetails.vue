@@ -279,12 +279,10 @@ export default {
       }
       this.citationLoading = true
       this.activeCitation = citationType
-      // find all citation types at https://github.com/citation-style-language/styles
-      return this.sendXhr(
-        this.DOIlink,
-        { header: { Accept: `text/x-bibliography; style=${citationType}` } },
-        true
-      )
+      // find all citation types at https://github.com/citation-style-language/style
+      const doi = propOr('', 'doi', this.datasetDetails)
+      const url = `https://citation.crosscite.org/format?doi=${doi}&style=${citationType}&lang=en-US`
+      return fetch(url)
         .then(response => {
           return response.text()
         })
