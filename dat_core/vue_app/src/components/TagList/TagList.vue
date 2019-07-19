@@ -4,17 +4,9 @@
       v-for="tag in tags"
       :key="tag"
     >
-      <router-link
-        class="tag-list-tag"
-        :to="{
-          name: 'Browse',
-          query: {
-            tag: tag
-          }
-        }"
-      >
+      <span class="tag-list-tag">
         {{ tag }}
-      </router-link>
+      </span>
     </li>
   </ul>
 </template>
@@ -52,9 +44,5 @@ export default {
   padding: 8px;
   text-align: center;
   text-decoration: none;
-  &:hover, &:focus {
-    background-color: white;
-    text-decoration: none;
-  }
 }
 </style>
