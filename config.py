@@ -14,4 +14,4 @@ class Config(object):
     SES_ARN=os.environ.get("SES_ARN")
     SPARC_PORTAL_AWS_KEY=os.environ.get("SPARC_PORTAL_USER_ID")
     SPARC_PORTAL_AWS_SECRET=os.environ.get("SPARC_PORTAL_USER_SECRET")
-    AWS_REGION=os.environ.get("AWS_REGION")
+    AWS_REGION=os.environ.get("AWS_REGION", "us-east-1")

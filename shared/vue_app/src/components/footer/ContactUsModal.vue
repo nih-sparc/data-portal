@@ -1,21 +1,21 @@
 <template>
-  <el-dialog :show-close="true" :visible.sync="visible" @open="resetForm">
+  <el-dialog :show-close="true" :visible.sync="visible" @open="onOpen" @close="onClose">
     <div class="header">
       <h2>Send Us a Message</h2>
     </div>
     <dialog-body>
-      <el-form :label-position="labelPosition" label-width="100px" :model="contactUsForm">
-        <el-form-item label="Your Name">
-          <el-input aria-placeholder="Enter your name" v-model="contactUsForm.name"></el-input>
+      <el-form ref="contactForm" :label-position="labelPosition" label-width="100px" :model="contactUsForm" :rules="contactUsFormRules">
+        <el-form-item prop="name" label="Your Name">
+          <el-input required aria-placeholder="Enter your name" v-model="contactUsForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="Your Email">
+        <el-form-item prop="email" label="Your Email">
           <el-input aria-placeholder="Enter your email" type="email" v-model="contactUsForm.email"></el-input>
         </el-form-item>
-        <el-form-item label="Your Message">
+        <el-form-item prop="message" label="Your Message">
           <el-input
+            required
             aria-placeholder="Your message"
             type="textarea"
-            height="90"
             v-model="contactUsForm.message"
           ></el-input>
         </el-form-item>
@@ -28,6 +28,13 @@
 </template>
 
 <script>
+
+const contactForm = {
+  name: null,
+  email: null,
+  message: null,
+}
+
 export default {
   name: "ContactUsModal",
   data() {
@@ -37,8 +44,35 @@ export default {
         name: "",
         email: "",
         message: ""
-      }
-    };
+      },
+      contactUsFormRules: {
+        name: [
+          {
+            required: true,
+            message: 'Please enter your name',
+            trigger: 'change'
+
+          }
+        ],
+
+        email: [
+          {
+          required: true,
+          message: 'Please enter your email',
+          trigger: 'change'
+        }
+        ],
+
+        message: [
+          {
+          required: true,
+          message: 'Please enter a message',
+          trigger: 'change'
+        }
+        ]
+
+      },
+    }
   },
   props: {
     visible: {
@@ -49,7 +83,7 @@ export default {
 
   methods: {
     submitContactForm: function() {
-      this.$refs.contactUsForm.validate(valid => {
+      this.$refs.contactForm.validate(valid => {
         if (!valid) {
           return;
         }
@@ -59,6 +93,20 @@ export default {
 
     sendRequest: function() {
       // send request logic goes here
+      this.$http.post("/api/contact", {
+        name: this.contactUsForm.name,
+        email: this.contactUsForm.email,
+        message: this.contactUsForm.message
+      })
+      this.onClose()
+    },
+
+    onClose: function(){
+      this.$emit('on-close-dialog')
+    },
+
+    onOpen: function() {
+      this.contactForm = Object.assign({}, contactForm)
     }
   }
 };
@@ -121,6 +169,7 @@ h2 {
 }
 
 /deep/ .el-textarea {
+  height: 80px;
   .el-textarea__inner {
     border-radius: 4px;
     border: 1px solid #909399;

@@ -52,7 +52,7 @@
                 </div>
             </el-col>
         </el-row>
-        <contact-us-modal :visible="contactModalVisible"/>
+        <contact-us-modal :visible="contactModalVisible" @on-close-dialog="dialogClosed"/>
     </div>
 </template>
 
@@ -186,6 +186,10 @@
         methods: {
             isContactModalVisible: function() {
                 this.contactModalVisible = true
+            },
+
+            dialogClosed: function() {
+                this.contactModalVisible = false
             }
         }
     }
@@ -205,6 +209,7 @@
 
     .uppercase {
         text-transform: uppercase;
+        margin-bottom: 1em;
     }
 
 
