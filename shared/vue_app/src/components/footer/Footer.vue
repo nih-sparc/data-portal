@@ -184,10 +184,16 @@
         }),
 
         methods: {
+            /**
+             * Allows contact us modal to be visible
+             */
             isContactModalVisible: function() {
                 this.contactModalVisible = true
             },
 
+            /**
+             * Allows contact us modal to not be visible
+             */
             dialogClosed: function() {
                 this.contactModalVisible = false
             }

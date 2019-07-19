@@ -15,8 +15,8 @@ class Config(object):
     MONGODB_COLLECTION="sparc-embargo"
     MONGODB_NAME="sparc-embargo"
     MONGODB_URI=os.environ.get("MONGODB_URI")
-    SES_ARN=os.environ.get("SES_ARN")
-    SES_SENDER=os.environ.get("SES_SENDER")
-    SPARC_PORTAL_AWS_KEY=os.environ.get("SPARC_PORTAL_USER_ID")
-    SPARC_PORTAL_AWS_SECRET=os.environ.get("SPARC_PORTAL_USER_SECRET")
+    SES_ARN=os.environ.get("SES_ARN", "arn:aws:ses:us-east-1:028531118218:identity/sparc.science")
+    SES_SENDER=os.environ.get("SES_SENDER", "support@sparc.science")
+    SPARC_PORTAL_AWS_KEY=os.environ.get("SPARC_PORTAL_USER_ID", "AKIAQNJEWKCFIAQ7UM6C")
+    SPARC_PORTAL_AWS_SECRET=os.environ.get("SPARC_PORTAL_USER_SECRET", "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")
     AWS_REGION=os.environ.get("AWS_REGION", "us-east-1")

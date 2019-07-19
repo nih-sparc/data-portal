@@ -375,7 +375,7 @@ export default {
     /**
      * Opens the version history modal
      */
-    getVersionHisxtory: function () {
+    getVersionHistory: function () {
       this.isVersionModalVisible = true
     },
 

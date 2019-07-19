@@ -15,14 +15,16 @@ class EmailSender(object):
     def __init__(self):
         self.default_subject = "Message from SPARC Portal"
         self.charset = "UTF-8"
+        self.ses_sender = Config.SES_SENDER
+        self.ses_arn = Config.SES_ARN
 
     def send_email(self, name, email_address, message):
-        body = name + "\n" + message
+        body = name + "\n" + email_address + "\n" + message
         ses_client.send_email(
             Source=self.ses_sender,
             Destination={
                 "ToAddresses": [
-                    email_address
+                    self.ses_sender
                 ]
             },
             Message={

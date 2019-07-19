@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :show-close="true" :visible.sync="visible" @open="onOpen" @close="onClose">
+  <el-dialog :show-close="true" :visible.sync="visible" @close="onClose">
     <div class="header">
       <h2>Send Us a Message</h2>
     </div>
@@ -102,11 +102,9 @@ export default {
 
     onClose: function(){
       this.$emit('on-close-dialog')
+      this.$refs.contactForm.resetFields();
     },
 
-    onOpen: function() {
-      this.contactForm = Object.assign({}, contactForm)
-    }
   }
 };
 </script>
