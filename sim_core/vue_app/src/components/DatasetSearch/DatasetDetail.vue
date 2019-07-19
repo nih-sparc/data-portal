@@ -13,8 +13,8 @@
           </el-row>
         </el-col>
         <el-col :sm="16">
-          <h2 class="dataset-title">{{ dataset.name }}</h2>
-          <h4><p>{{ dataset.description }}</p></h4>
+          <h3 class="dataset-title">{{ dataset.name }}</h3>
+          <p>{{ dataset.description }}</p>
           <div class="updated information">
             Updated on {{ updatedDate }}
           </div>
