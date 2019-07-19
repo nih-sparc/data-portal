@@ -16,6 +16,7 @@ from blackfynn import Blackfynn
 from config import Config
 from flask_marshmallow import Marshmallow
 from neo4j import GraphDatabase, basic_auth
+from pymongo import MongoClient
 import json
 import urllib
 import requests
@@ -27,6 +28,7 @@ import requests
 api_blueprint = Blueprint('api', __name__, template_folder='templates', url_prefix='/api')
 
 gp = None
+mongo = None
 bf = None
 ma = Marshmallow(app)
 client = MockSparcPortalApiClient()
@@ -51,6 +53,16 @@ def contact():
     return json.dumps({ "status": "sent" })
 
 @app.before_first_request
+def connect_to_blackfynn():
+    global bf
+    bf = Blackfynn(
+        api_token=Config.BLACKFYNN_API_TOKEN,
+        api_secret=Config.BLACKFYNN_API_SECRET,
+        env_override=False,
+        host=Config.BLACKFYNN_API_HOST
+    )
+
+@app.before_first_request
 def connect_to_graphenedb():
     global gp
     # graphenedb_url = Config.GRAPHENEDB_BOLT_URL
@@ -60,15 +72,27 @@ def connect_to_graphenedb():
 
     # init_sim_db(gp)
 
+@app.before_first_request
+def connect_to_mongodb():
+    global mongo
+    mongo = MongoClient(Config.MONGODB_URI)
+
 #########################
 #### DAT-CORE routes ####
 #########################
 
-# Returns a list of public datasets from
+# Returns a list of public datasets
 @api_blueprint.route('/datasets')
 def discover():
     resp = bf._api._get('/consortiums/1/datasets')
     return json.dumps(resp)
+
+# Returns a list of embargoed (unpublished) datasets
+@api_blueprint.route('/datasets/embargo')
+def embargo():
+    collection = mongo[Config.MONGODB_NAME][Config.MONGODB_COLLECTION]
+    embargo_list = list(collection.find({}, {'_id':0}))
+    return json.dumps(embargo_list)
 
 # Download a file from S3
 @api_blueprint.route('/download')
@@ -76,8 +100,11 @@ def create_presigned_url(expiration=3600):
     bucket_name = 'blackfynn-discover-use1'
     key = request.args.get('key')
     response = s3.generate_presigned_url('get_object',
-                                                    Params={'Bucket': bucket_name,
-                                                            'Key': key},
+                                                    Params={
+                                                        'Bucket': bucket_name,
+                                                        'Key': key,
+                                                        'RequestPayer': 'requester'
+                                                    },
                                                     ExpiresIn=expiration)
 
     return response

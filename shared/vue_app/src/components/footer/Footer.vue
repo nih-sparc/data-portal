@@ -21,6 +21,9 @@
                                 <p>Facebook</p>
                             </div>
                             <div class="external-link uppercase">
+                                <a href="#" @click.prevent="isContactModalVisible">Contact Us</a>
+                            </div>
+                            <div class="external-link uppercase">
                                 <a href="https://nih.gov">Visit the NIH site ></a>
                             </div>
                         </el-col>
@@ -49,11 +52,13 @@
                 </div>
             </el-col>
         </el-row>
+        <contact-us-modal :visible="contactModalVisible" @on-close-dialog="dialogClosed"/>
     </div>
 </template>
 
 <script>
     import SparcLogo from "../logo/SparcLogo.vue";
+    import ContactUsModal from "../footer/ContactUsModal.vue"
 
     const footerAddress = {
         name: "National Institutes of Health",
@@ -165,7 +170,8 @@
     export default {
         name: "sparc-footer",
         components: {
-            SparcLogo
+            SparcLogo,
+            ContactUsModal
         },
         data: () => ({
             footerLinks,
@@ -174,7 +180,24 @@
             footerEmailAddress,
             footerTwitterHandle,
             footerFacebookHandle,
-        })
+            contactModalVisible: false
+        }),
+
+        methods: {
+            /**
+             * Allows contact us modal to be visible
+             */
+            isContactModalVisible: function() {
+                this.contactModalVisible = true
+            },
+
+            /**
+             * Allows contact us modal to not be visible
+             */
+            dialogClosed: function() {
+                this.contactModalVisible = false
+            }
+        }
     }
 </script>
 
@@ -192,6 +215,7 @@
 
     .uppercase {
         text-transform: uppercase;
+        margin-bottom: 1em;
     }
 
 
