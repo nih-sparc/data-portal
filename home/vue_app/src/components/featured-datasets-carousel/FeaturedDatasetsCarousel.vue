@@ -36,6 +36,7 @@
               v-for="(elem, index) in featured"
               v-bind:key="index"
               :class="{active: index === current}"
+              @click="current = index"
             ></li>
           </ul>
         </div>
@@ -45,7 +46,7 @@
 </template>
 
 <script>
-const SLIDE_DURATION = 4000;
+const SLIDE_DURATION = 5000;
 
 export default {
   name: "carousel",
@@ -64,7 +65,7 @@ export default {
     };
   },
   mounted: function() {
-    this.$http.get("https://api.blackfynn.io/discover/datasets?limit=5&offset=0").then(
+    this.$http.get("https://api.blackfynn.io/discover/search/datasets?limit=5&offset=0&organization=SPARC%20Consortium").then(
       function(response) {
         const component = this;
 
@@ -110,13 +111,15 @@ export default {
     height: 100%;
 
     li {
+      cursor: pointer;
       padding: 0;
       display: inline-block;
       margin: 0 0.3em;
       min-width: 2em;
       border-bottom: 5px solid #909399;
 
-      &.active {
+      &.active,
+      &:hover {
         border-bottom: 5px solid #24245b;
       }
     }

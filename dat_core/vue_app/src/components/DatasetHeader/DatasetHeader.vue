@@ -41,13 +41,13 @@
                 </template>
               </div>
             </div>
-            <a :href="discoverLink">
-              <bf-button
-                class="get-dataset-button"
-              >
-                Get Dataset
-              </bf-button>
-            </a>
+
+            <bf-button
+              class="get-dataset-button"
+              @click="isDownloadModalVisible = true"
+            >
+              Get Dataset
+            </bf-button>
 
             <div class="header-stats-section">
               <div class="header-stats-block">
@@ -126,6 +126,12 @@
         </el-row>
       </el-col>
     </el-row>
+    <download-dataset
+      :visible.sync="isDownloadModalVisible"
+      :dataset-details="datasetDetails"
+      :download-size="getDownloadSize"
+      @close-download-dialog="isDownloadModalVisible = false"
+    />
   </div>
 </template>
 
@@ -133,6 +139,8 @@
 import BfButton from '../shared/BfButton/BfButton.vue'
 
 import DatasetBannerImage from '../DatasetBannerImage/DatasetBannerImage.vue'
+import DownloadDataset from '../DownloadDataset/DownloadDataset.vue'
+
 import FormatDate from '../../mixins/format-date'
 
 import FormatStorage from '../../mixins/bf-storage-metrics'
@@ -148,7 +156,8 @@ export default {
 
   components: {
     BfButton,
-    DatasetBannerImage
+    DatasetBannerImage,
+    DownloadDataset
   },
 
   mixins: [FormatDate, FormatStorage],
