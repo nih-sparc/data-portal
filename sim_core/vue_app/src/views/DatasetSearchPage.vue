@@ -7,8 +7,8 @@
             <div class="breadcrumb">
               <el-row>
                 <el-col :xs="24" :lg="12">
-                  <h3>Find oSPARC data</h3>
-                  <p>Search and run simulations in the oSPARC platform.</p>
+                  <h3>Analyses and simulations</h3>
+                  <p>o<sup>2</sup>S<sup>2</sup>PARC, a powerful computing platform, enables modeling, simulation, data analysis, and visualization directly within your web browser. The o<sup>2</sup>S<sup>2</sup>PARC platform supports simulations that predict the effects of autonomic neuromodulation on organ function. A growing list of curated computational studies from various SPARC-funded teams is available for virtual experimentation on o<sup>2</sup>S<sup>2</sup>PARC.</p>
                 </el-col>
               </el-row>
             </div>
