@@ -85,8 +85,10 @@ if __name__ == '__main__':
     for ds in all_datasets:
         print(ds)
         # skip if dataset is published or isn't part of Embargoed Data Team:
+        print( api._get(api._uri('/datasets/{dsid}/collaborators/teams', dsid=ds['content']['id'])) )
         if ds['content']['intId'] in publishedIds or not any(t['id'] == Config.BLACKFYNN_EMBARGO_TEAM_ID for t in \
             api._get(api._uri('/datasets/{dsid}/collaborators/teams', dsid=ds['content']['id']))):
+            print('skipping')
             continue
         entry = transform(ds)
         entries.append(entry)
