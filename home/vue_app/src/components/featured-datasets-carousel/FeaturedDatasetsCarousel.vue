@@ -36,6 +36,7 @@
               v-for="(elem, index) in featured"
               v-bind:key="index"
               :class="{active: index === current}"
+              @click="current = index"
             ></li>
           </ul>
         </div>
@@ -110,13 +111,15 @@ export default {
     height: 100%;
 
     li {
+      cursor: pointer;
       padding: 0;
       display: inline-block;
       margin: 0 0.3em;
       min-width: 2em;
       border-bottom: 5px solid #909399;
 
-      &.active {
+      &.active,
+      &:hover {
         border-bottom: 5px solid #24245b;
       }
     }
