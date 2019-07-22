@@ -17,8 +17,8 @@
             <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
               <el-row>
                 <el-col :xs="22" :sm="22" :md="12" :lg="12">
-                  <h1 class="hero-header">A modern view into the autonomic nervous system.</h1>
-                  <el-button type="primary" class="explore-the-data">Explore the data</el-button>
+                  <h1 class="hero-header">Advancing bioelectronic medicine through open science.</h1>
+                  <a href=/browse><el-button type="primary" class="explore-the-data">Explore the data</el-button></a>
                 </el-col>
               </el-row>
             </el-col>
@@ -71,7 +71,7 @@
                   <p>{{core.name}}</p>
                   <p v-html="core.description"></p>
                   <div class="bottom clearfix">
-                    <el-button type="text" class="button">{{core.linkText}}</el-button>
+                    <a :href="core.link"><el-button type="text" class="button">{{core.linkText}}</el-button></a>
                   </div>
                 </div>
               </el-card>
@@ -116,26 +116,23 @@ import SearchControls from "../../../../../dat_core/vue_app/src/components/searc
 
 const cores = [
   {
-    name: "Data Core",
-    description:
-      "A collection of curated data provides new insights into the autonomic nervous system. ",
-    link: "/data-core",
-    linkText: "Explore SPARC Datasets",
+    name: "Data",
+    description:"A collection of curated data provides new insights into the autonomic nervous system. ",
+    link: "/browse",
+    linkText: "Dive into the data",
     image: dataCore
   },
   {
-    name: "Map Core",
-    description:
-      "Interactive visualizations facilitate exploration of nerve-organ anatomy and function.",
-    link: "/map-core",
-    linkText: "View Interactive Maps",
+    name: "Maps",
+    description:"Interactive visualizations facilitate exploration of nerve-organ anatomy and function.",
+    link: "/map",
+    linkText: "View the maps",
     image: mapCore
   },
   {
     name: "Virtual studies",
-    description:
-      "An online platform, o<sup>2</sup>S<sup>2</sup>PARC,  enables data analyses and predictive simulations.",
-    link: "https://osparc.io",
+    description:"An online platform called o<sup>2</sup>S<sup>2</sup>PARC enables data analyses and predictive simulations.",
+    link: "/sim",
     linkText: "Run computations",
     image: simulationCore
   }
@@ -150,9 +147,9 @@ export default {
 
   data: () => ({
     textBlocks: {
-      goal: 'The SPARC Portal is a free, open-source platform that aims to catalyze development of next-generation bioelectronic medicines.',
-      current: 'The SPARC Portal provides a growing collection of autonomic neuroscience datasets, maps, and computational models ⁠— as well as the ability to interact with those resources all within your web browser.',
-      future: 'Launched in July 2019, the SPARC Portal will enable users to run advanced analytics and multiscale simulations for predicting the effects of neuromodulation on organ function.'
+      goal: 'Catalyze the development of next-generation bioelectronic medicines by providing access to high-value datasets, maps, and predictive simulations.',
+      current: 'Launched in July 2019, the SPARC Portal is an open-source web application that provides access to a growing collection of interactive autonomic neuroscience resources.',
+      future: 'The SPARC Portal will enable users to run advanced analytics and computational studies to predict the effects of neuromodulation on organ function.'
     },
     activeTextBlock: 'goal',
     irregularBlob1,
@@ -360,7 +357,7 @@ export default {
 
 .head {
   position: relative;
-  z-index: -1;
+  z-index: 1;
 
   .content {
     .hero {
