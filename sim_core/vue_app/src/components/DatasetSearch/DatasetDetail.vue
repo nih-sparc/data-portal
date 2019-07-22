@@ -28,7 +28,7 @@
             </p>
           </div>
           <div class="actions">
-            <a v-if="dataset.study" :href="`http://master.osparc.io/study/${dataset.study.uuid}`" target="_blank">
+            <a v-if="dataset.study" :href="`${osparcUrl}/study/${dataset.study.uuid}`" target="_blank">
               <el-button type="warning">Run simulation</el-button>
             </a>
             <el-link type="warning" v-if="dataset.study" :href="`https://discover.blackfynn.com/datasets/${this.dataset.id}`" target="_blank">Get dataset</el-link>
@@ -55,6 +55,11 @@ import Markdown from '../Markdown/Markdown.vue';
 export default {
   name: 'dataset-detail',
   props: ['dataset', 'isFetching'],
+  data() {
+    return {
+      osparcUrl: dataPortal.osparcUrl // injected in index.html
+    }
+  },
   computed: {
     updatedDate() {
       return moment.utc(this.dataset.updatedAt).format('MMMM D, YYYY')
