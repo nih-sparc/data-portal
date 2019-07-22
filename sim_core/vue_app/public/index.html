@@ -14,4 +14,9 @@
 {% endblock %}
 {% block javascript %}
 <script type="text/javascript" src="_build/bundle_sim.js"></script>
+<script type="text/javascript">
+  (function(dataPortal) {
+    dataPortal.osparcUrl = "%% osparc_url %%";
+  })(window.dataPortal = window.dataPortal || {})
+</script>
 {% endblock %}

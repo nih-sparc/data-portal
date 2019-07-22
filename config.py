@@ -16,3 +16,4 @@ class Config(object):
     SPARC_PORTAL_AWS_KEY=os.environ.get("SPARC_PORTAL_USER_ID")
     SPARC_PORTAL_AWS_SECRET=os.environ.get("SPARC_PORTAL_USER_SECRET")
     AWS_REGION=os.environ.get("AWS_REGION")
+    OSPARC_HOST=os.environ.get("OSPARC_HOST", "https://osparc.io")

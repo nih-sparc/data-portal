@@ -4,6 +4,7 @@
  
 from flask import Flask
 from flask_cors import CORS
+from config import Config
 import os
  
 ################
@@ -47,3 +48,8 @@ app.register_blueprint(shared_blueprint)
 # don't cache static assets in jinja templates
 if (os.environ.get('FLASK_ENV') == 'development'):
     app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+
+@app.context_processor
+def inject_osparc_url():
+    return dict(osparc_url = Config.OSPARC_HOST)
+    
