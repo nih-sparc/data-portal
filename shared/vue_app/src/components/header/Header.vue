@@ -45,7 +45,7 @@
         },
         {
             title: "Browse Data",
-            href: "/browse/#",
+            href: "/browse",
             active: pathOrHashContainsString("/browse")
         },
         {
@@ -55,7 +55,7 @@
         },
         {
             title: "Analyze & Simulate",
-            href: "/sim/#",
+            href: "/sim",
             active: pathOrHashContainsString("/sim")
         }
     ];
