@@ -20,6 +20,7 @@
         v-model="terms"
         placeholder="Search..."
         suffix-icon="el-icon-search"
+        @keyup.native.enter="submit"
       />
     </div>
     <div class="search-button">
