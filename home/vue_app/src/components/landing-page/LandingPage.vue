@@ -88,48 +88,7 @@
       </el-row>
       <el-row type="flex" justify="center">
         <el-col :xs="22" :sm="22" :md="12" :lg="8">
-          <div class="controls">
-            <el-row justify="center" type="flex" gutter="5">
-              <el-col :xs="8" :sm="6">
-                <div class="control">
-                  <el-select
-                    v-model="value2"
-                    multiple
-                    collapse-tags
-                    size="large"
-                    style="width: 100%; height: 100%; margin: 0; padding: 0; border-radius: 0"
-                    placeholder="Select"
-                  >
-                    <el-option key="datasets" label="Datasets" value="datasets"></el-option>
-                    <el-option key="files" label="Files" value="files"></el-option>
-                  </el-select>
-                </div>
-              </el-col>
-              <el-col :xs="16" :sm="18">
-                <div class="control">
-                  <el-autocomplete
-                    v-model="state"
-                    size="large"
-                    :fetch-suggestions="querySearch"
-                    placeholder="Start typing..."
-                    style="width: 100%; height: 100%; border-radius: 0; padding: 0; margin: 0;"
-                    @select="handleSelect"
-                  >
-                    <i class="el-icon-search el-input__icon" slot="suffix" @click="handleIconClick"></i>
-                    <template slot-scope="{ item }">
-                      <div class="value">{{ item.value }}</div>
-                      <span class="link">{{ item.link }}</span>
-                    </template>
-                  </el-autocomplete>
-                </div>
-              </el-col>
-            </el-row>
-            <el-row>
-              <div class="search-button">
-                <el-button type="primary" class="view-search-results">View Results</el-button>
-              </div>
-            </el-row>
-          </div>
+          <search-controls @query="onSearchQuery" />
         </el-col>
       </el-row>
     </div>
@@ -153,6 +112,7 @@ import dataCore from "../../assets/images/data-core.png";
 import datasetAbstractImage from "../../assets/images/dataset-abstract-image.png";
 import SparcFooter from "../../../../../shared/vue_app/src/components/footer/Footer.vue";
 import FeaturedDatasets from "../featured-datasets-carousel/FeaturedDatasetsCarousel.vue";
+import SearchControls from "../../../../../dat_core/vue_app/src/components/search-controls/SearchControls.vue";
 
 const cores = [
   {
@@ -184,7 +144,8 @@ const cores = [
 export default {
   name: "landing-page",
   components: {
-    FeaturedDatasets
+    FeaturedDatasets,
+    SearchControls
   },
 
   data: () => ({
@@ -226,10 +187,16 @@ export default {
     },
 
     /**
-     * @TODO temp function
+     * Navigate to the browse page with search
+     * @param {String} selectedType
+     * @param {String} terms
      */
-    handleIconClick: function() {
+    onSearchQuery: function(selectedType, terms) {
+      const url = terms === null
+        ? `/browse/#/?searchType=${selectedType}`
+        : `/browse/#/?searchType=${selectedType}&searchTerms=${terms}`
 
+      window.location.href = url
     }
   }
 };

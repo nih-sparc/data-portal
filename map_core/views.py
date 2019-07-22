@@ -1,36 +1,23 @@
 # map_core/views.py
 
-#################
-#### imports ####
-#################
-
-from app import app
-from flask import render_template, Blueprint, request, make_response, url_for
-from flask import jsonify, send_file, send_from_directory, redirect, abort
-import io
+# Imports
+import os
 import json
-from landez.sources import MBTilesReader, ExtractionError
-from logger import logger
-import os.path
-import pathlib
 import requests
 
-from .knowledgebase import KnowledgeBase
+from flask import render_template, Blueprint, request, make_response, redirect
 
-################
-#### config ####
-################
- 
+import sys
+import logging
+
+
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+logger = logging.getLogger("flask_mapcore")
+
+# Config
 map_core_blueprint = Blueprint('map_core', __name__, static_folder='../shared/static/dist', template_folder='./static/dist', url_prefix='/map', static_url_path="")
 
-#map_core_blueprint = Blueprint('map_core', __name__, template_folder='./static/dist', url_prefix='/map', static_folder='../shared/static/dist', static_url_path="")
-
-flatmaps_root = os.path.join(map_core_blueprint.root_path, 'flatmaps')
-
-################
-#### routes ####
-################
-
+# Routes
 @map_core_blueprint.route('/')
 def index():
     return render_template('maps.html')
@@ -38,13 +25,51 @@ def index():
 @map_core_blueprint.route('models/<path:p>')
 def getModels(p):
     url = 'map/static/models/{0}'.format(p)
-    #print(url_for('static', filename=url))
     return redirect(url)
 
-def getResponseFromRemote(url):
+
+@map_core_blueprint.route('staging_model/<path:p>')
+def getStagingModel(p):
+    url = 'https://staging.physiomeproject.org/workspace/{0}'.format(p)
+    return get_response_from_remote(url)
+
+
+@map_core_blueprint.route('exfetch/<path:p>')
+def scaffoldmakerproxy(p = ''):
+    url = '{0}?{1}'.format(p, str(request.query_string, 'utf-8'))
+    return get_response_from_remote(url)
+
+
+@map_core_blueprint.route('knowledgebase/<path:data_set>')
+def knowledge_base_proxy(data_set=''):
+    query_string = ensure_string(request.query_string)
+    url = 'https://scicrunch.org/api/1/dataservices/federation/data/{0}?{1}&{2}'.format(data_set, query_string, 'key={}'.format(os.environ['KNOWLEDGEBASE_KEY']), 'utf-8')
+    return get_response_from_remote(url)
+
+
+@map_core_blueprint.route('biolucida/<path:api_method>', methods=['GET', 'POST'])
+def biolucida_client_proxy(api_method=''):
+    url = 'https://sparc.biolucida.net/api/v1/{0}'.format(api_method, 'utf-8')
+
+    if request.method == 'POST':
+        request_data = json.loads(ensure_string(request.data))
+
+        if api_method == 'authenticate/':
+            request_data['username'] = os.environ['BIOLUCIDA_USERNAME'] if 'BIOLUCIDA_USERNAME' in os.environ else 'major_user'
+            request_data['password'] = os.environ['BIOLUCIDA_PASSWORD'] if 'BIOLUCIDA_PASSWORD' in os.environ else 'password'
+
+        return post_response_from_remote(url, data=request_data)
+    else:
+        return get_response_from_remote(url, headers={'token': request.headers['token']})
+
+
+def get_response_from_remote(url, headers=None):
     try:
         session = requests.Session()
-        r = session.get(url, cookies = request.cookies)
+        if headers is not None:
+            session.headers.update(headers)
+
+        r = session.get(url, cookies=request.cookies)
     except Exception as e:
         return "proxy service error: " + str(e), 503
     resp = make_response(r.content)
@@ -52,83 +77,26 @@ def getResponseFromRemote(url):
         resp.set_cookie('sessionid', r.cookies.get('sessionid'))
     return resp
 
-@map_core_blueprint.route('staging_model/<path:p>')
-def getStagingModel(p):
-    url = 'https://staging.physiomeproject.org/workspace/{0}'.format(p)
-    return getResponseFromRemote(url)
 
-@map_core_blueprint.route('scaffoldmaker/<path:p>')
-def scaffoldmakerproxy(p = ''):
-    url = 'http://localhost:6565/{0}?{1}'.format(p, str(request.query_string, 'utf-8'))
-    return getResponseFromRemote(url)
+def post_response_from_remote(url, data=None):
+    try:
+        session = requests.Session()
+        r = session.post(url, data=data)
+    except Exception as e:
+        return "proxy service error: " + str(e), 503
 
-################
-### flatmaps ###
-################
+    resp = make_response(r.content)
 
-@map_core_blueprint.route('flatmap/')
-def maps():
-    maps = []
-    for path in pathlib.Path(flatmaps_root).iterdir():
-        mbtiles = os.path.join(flatmaps_root, path, 'index.mbtiles')
-        if os.path.isdir(path) and os.path.exists(mbtiles):
-            reader = MBTilesReader(mbtiles)
-            source_row = reader._query("SELECT value FROM metadata WHERE name='source';").fetchone()
-            if source_row is not None:
-                maps.append({ 'id': path.name, 'source': source_row[0] })
-    return jsonify(maps)
+    if r.cookies.get('sessionid'):
+        resp.set_cookie('sessionid', r.cookies.get('sessionid'))
 
-@map_core_blueprint.route('flatmap/<string:map>/')
-def map(map):
-    filename = os.path.join(flatmaps_root, map, 'index.json')
-    return send_file(filename)
+    return resp
 
-@map_core_blueprint.route('flatmap/<string:map>/style')
-def style(map):
-    filename = os.path.join(flatmaps_root, map, 'style.json')
-    return send_file(filename)
 
-@map_core_blueprint.route('flatmap/<string:map>/annotations')
-def map_annotations(map):
-    mbtiles = os.path.join(flatmaps_root, map, 'index.mbtiles')
-    reader = MBTilesReader(mbtiles)
-    rows = reader._query("SELECT value FROM metadata WHERE name='annotations';").fetchone()
-    if rows is None:
-        annotations = {}
+def ensure_string(data):
+    if type(data) == bytes:
+        string = data.decode()
     else:
-        annotations = json.loads(rows[0])
-    return jsonify(annotations)
+        string = data
 
-@map_core_blueprint.route('flatmap/<string:map>/images/<string:image>')
-def map_background(map, image):
-    filename = os.path.join(flatmaps_root, map, 'images', image)
-    return send_file(filename)
-
-@map_core_blueprint.route('flatmap/<string:map>/mvtiles/<int:z>/<int:x>/<int:y>')
-def vector_tiles(map, z, y, x):
-    try:
-        mbtiles = os.path.join(flatmaps_root, map, 'index.mbtiles')
-        reader = MBTilesReader(mbtiles)
-        return send_file(io.BytesIO(reader.tile(z, x, y)), mimetype='application/octet-stream')
-    except ExtractionError:
-        pass
-    return ('', 204)
-
-@map_core_blueprint.route('flatmap/<string:map>/tiles/<string:layer>/<int:z>/<int:x>/<int:y>')
-def image_tiles(map, layer, z, y, x):
-    try:
-        mbtiles = os.path.join(flatmaps_root, map, '{}.mbtiles'.format(layer))
-        reader = MBTilesReader(mbtiles)
-        return send_file(io.BytesIO(reader.tile(z, x, y)), mimetype='image/png')
-    except ExtractionError:
-        pass
-    return ('', 204)
-
-@map_core_blueprint.route('query', methods=['POST'])
-def kb_query():
-    query = request.get_json()
-    try:
-        with KnowledgeBase(os.path.join(flatmaps_root, 'KnowledgeBase.sqlite')) as graph:
-            return jsonify(graph.query(query.get('sparql')))
-    except RuntimeError:
-        abort(404, 'Cannot open knowledge base')
+    return string

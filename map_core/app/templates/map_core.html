@@ -6,31 +6,28 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link rel="icon" href="favicon.ico">
   <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-  <link rel="stylesheet" href="mapcore.css">
 {% endblock %}
 {% block app %}
-	<div id="MAPcore Banner" style="height: 100px;position: relative;background-image: linear-gradient(to right, rgba(0,38,255), rgba(248,0,69));">
-		<div style="position: relative;
-		    height: 100%;
-		    top: 10px;
-		    left: 5%;
-		    z-index: 1;
-		    font: 32px bold;
-		    color: white;
-		    font-family: sans-serif;">
-			MAPCore 
-    	</div>
-	</div>
-	<div id="MAPcorePortalArea" style="height:1000px;position:relative;">
-		<div class="flex" style="height:100%;">
-		    <div id="one" style="width:100%"></div>
-		    <div id="two" class="flex-column">
-		    	<div id="three" style="height:100%;"></div>
-		    	<div id="four"></div>
-		    </div>
+	<div id="map-app">
+		<div id="MAPcore_Banner" class="mapcore-gradient-background">
+			<div id="mapcore_banner_text">
+				<h3>Find SPARC maps</h3>
+				<p>Investigate interactive maps of the autonomic nervous system.</p>
+			</div>
+		</div>
+		<div id="MAPcorePortalArea">
+			<div id="maptab_container">
+				<div id="maptab_tabbar" class="maptab-tabbar mapcore-gradient-background">
+				<a id="help-button" href="https://mapcore-documentation.readthedocs.io/en/latest/index.html" target="_blank">&#x3f;</a>
+				</div>
+				<div id="maptab_contents" class="maptab-contents">
+
+				</div>
+			</div>
 		</div>
 	</div>
 {% endblock %}
 {% block javascript %}
 	<script type="text/javascript" src="_build/bundle_map.js"></script>
 {% endblock %}
+

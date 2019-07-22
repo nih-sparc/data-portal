@@ -1,6 +1,6 @@
 {
   "name": "MAPcoreDataPortal",
-  "version": "0.0.3alpha",
+  "version": "0.0.5alpha",
   "private": true,
   "description": "MAPcore Integrated Webapp At Data Portal",
   "scripts": {
@@ -18,10 +18,14 @@
     "flatmaps"
   ],
   "devDependencies": {
-    "html-webpack-plugin": "^3.2.0"
+    "html-webpack-plugin": "^3.2.0",
+    "css-loader": "^2.1.1",
+    "style-loader": "^0.21.0"
   },
   "dependencies": {
-    "mapcoreintegratedwebapp": "^0.0.3alpha",
+    "broadcast-channel": "^2.1.12",
+    "fdikbquery": "^0.1.1",
+    "mapcoreintegratedwebapp": "^0.0.8alpha",
     "split.js": "^1.5.11",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3"

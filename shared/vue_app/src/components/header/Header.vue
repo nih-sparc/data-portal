@@ -7,7 +7,28 @@
                         <sparc-logo/>
                         <!-- <span class="data-portal-title">Data Portal</span> -->
                     </div>
-                    <div class="navigation">
+                    <button
+                        class="btn-menu"
+                        @click="menuOpen = true"
+                    >
+                        <i class="el-icon-s-fold"></i>
+                    </button>
+                    <div
+                        class="navigation"
+                        :class="{ 'open': menuOpen }"
+                    >
+                        <div class="mobile-navigation-header">
+                            <sparc-logo
+                                aria-hidden=”true”
+                                role="presentation"
+                            />
+                            <button
+                                class="btn-menu"
+                                @click="menuOpen = false"
+                            >
+                                <i class="el-icon-close"></i>
+                            </button>
+                        </div>
                         <ul>
                             <li :key="link.href" v-for="link in links">
                                 <a v-bind:class="{active: link.active}" :href="link.href">{{ link.title }}</a>
@@ -66,7 +87,8 @@
             SparcLogo
         },
         data: () => ({
-            links
+            links,
+            menuOpen: false
         })
     }
 </script>
@@ -87,38 +109,98 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: flex-end;
+        @media screen and (max-width: 767px) {
+            align-items: center;
+        }
 
         .logo {
             height: 40px;
             white-space: nowrap;
         }
+    }
 
-        .navigation {
-            padding: 0px;
-            height: 100%;
+    .btn-menu {
+        background: none;
+        border: none;
+        display: none;
+        font-size: 24px;
+        margin: 0;
+        padding: 10px;
+        transform: translate(12px, -8px);
+        -webkit-appearance: none;
 
-            ul {
-                li {
-                    display: inline;
-                    margin: 0px 10px;
+        @media screen and (max-width: 767px) {
+            & {
+                display: block;
+            }
+        }
+        i {
+            display: block;
+        }
+    }
 
-                    a {
-                        text-decoration: none;
-                        color: black;
-                        padding-bottom: 10px;
+    .navigation {
+        padding: 0px;
+        height: 100%;
 
-                        &.active {
-                            border-bottom: 2px solid #8300BF;
-                            color: #8300BF;
-                        }
+        ul {
+            li {
+                display: inline;
+                margin: 0px 10px;
 
-                        &:hover {
-                            color: #8300BF;
-                        }
+                a {
+                    text-decoration: none;
+                    color: black;
+                    padding-bottom: 10px;
+
+                    &.active {
+                        border-bottom: 2px solid #8300BF;
+                        color: #8300BF;
                     }
 
-
+                    &:hover {
+                        color: #8300BF;
+                    }
                 }
+
+
+            }
+        }
+        .mobile-navigation-header {
+            display: none;
+        }
+
+        @media screen and (max-width: 767px) {
+            & {
+                background: #F7FAFF;
+                bottom: 0;
+                display: none;
+                flex-direction: column;
+                left: 0;
+                padding: 1em;
+                position: fixed;
+                right: 0;
+                top: 0;
+                z-index: 9999;
+                &.open {
+                    display: flex;
+                }
+            }
+            ul {
+                display: flex;
+                flex: 1;
+                flex-direction: column;
+                margin: 0;
+                padding: 0;
+                li {
+                    margin: 1.25em 0;
+                }
+            }
+            .mobile-navigation-header {
+                align-items: center;
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 1em;
             }
         }
     }
