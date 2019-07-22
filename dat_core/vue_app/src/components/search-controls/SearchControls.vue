@@ -18,7 +18,7 @@
     <div class="control control-search-input">
       <el-input
         v-model="terms"
-        placeholder="Start typing..."
+        placeholder="Search..."
         suffix-icon="el-icon-search"
       />
     </div>
