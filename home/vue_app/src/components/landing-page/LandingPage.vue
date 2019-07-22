@@ -108,7 +108,7 @@ import irregularBlob2 from "../../assets/images/irregular-blob-2.svg";
 import transparentBlob3 from "../../assets/images/transparent-blob-3.svg";
 import mapCore from "../../assets/images/map-core.png";
 import simulationCore from "../../assets/images/osparc-human.png";
-import dataCore from "../../assets/images/data-core.png";
+import dataCore from "../../assets/images/datcore-card-image.svg";
 import datasetAbstractImage from "../../assets/images/dataset-abstract-image.png";
 import SparcFooter from "../../../../../shared/vue_app/src/components/footer/Footer.vue";
 import FeaturedDatasets from "../featured-datasets-carousel/FeaturedDatasetsCarousel.vue";
