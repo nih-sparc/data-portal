@@ -31,6 +31,13 @@
       >
         {{ submitText }}
       </el-button>
+      <el-button
+        v-if="isClearSearchVisible"
+        class="btn-clear-search"
+        @click.native="clearSearch"
+      >
+        Clear filter
+      </el-button>
     </div>
   </div>
 </template>
@@ -49,7 +56,11 @@ export default {
     submitText: {
       type: String,
       default: 'View Results'
-    }
+    },
+    isClearSearchVisible: {
+      type: Boolean,
+      default: false
+    },
   },
 
   data() {
@@ -77,6 +88,14 @@ export default {
   },
 
   methods: {
+    /**
+     * Clear search
+     */
+    clearSearch: function() {
+      this.terms = ''
+      this.submit()
+    },
+
     /**
      * Set search and execute search
      */
@@ -128,5 +147,12 @@ export default {
     border: 0;
     height: 40px;
   }
+}
+
+.btn-clear-search {
+  background: none;
+  border: none;
+  color: #8300bf;
+  padding: 0;
 }
 </style>
