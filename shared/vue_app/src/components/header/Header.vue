@@ -62,7 +62,7 @@
         },
         {
             title: "Browse Data",
-            href: "/browse/#",
+            href: "/browse",
             active: pathOrHashContainsString("/browse")
         },
         {
