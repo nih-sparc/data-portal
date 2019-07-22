@@ -6,9 +6,10 @@
 import boto3
 
 from .email_sender import EmailSender
+from .listserv_subscriber import ListservSubscriber
 from .client import MockSparcPortalApiClient
 from .model import SparcPortalSearchParameters
-from .serializer import PaginatedDatasetResponseSchema, PaginatedFileResponseSchema, DatasetSchema, ContactRequestSchema
+from .serializer import PaginatedDatasetResponseSchema, PaginatedFileResponseSchema, DatasetSchema, ContactRequestSchema, ListservSubscribeSchema
 from app import app
 from flask import render_template, Blueprint, request, jsonify
 from logger import logger
@@ -33,6 +34,7 @@ bf = None
 ma = Marshmallow(app)
 client = MockSparcPortalApiClient()
 email_sender = EmailSender()
+listserv_subscriber = ListservSubscriber()
 s3 = boto3.client('s3',
     aws_access_key_id=Config.SPARC_PORTAL_AWS_KEY,
     aws_secret_access_key=Config.SPARC_PORTAL_AWS_SECRET,
@@ -49,6 +51,18 @@ def contact():
     message = contact_request["message"]
 
     email_sender.send_email(name, email, message)
+
+    return json.dumps({ "status": "sent" })
+
+@api_blueprint.route("/listserv-subscribe", methods=["POST"])
+def listserv_subscribe():
+    data = json.loads(request.data)
+    listserv_subscribe = ListservSubscribeSchema().load(data).data
+
+    name = listserv_subscribe["name"]
+    email = listserv_subscribe["email"]
+
+    listserv_subscriber.send_email(name, email)
 
     return json.dumps({ "status": "sent" })
 

@@ -21,7 +21,10 @@
                                 <p>Facebook</p>
                             </div>
                             <div class="external-link uppercase">
-                                <a href="#" @click.prevent="isContactModalVisible">Contact Us</a>
+                                <a href="#" @click.prevent="isContactModalVisible = true">Contact Us</a>
+                            </div>
+                            <div class="external-link uppercase">
+                                <a href="#" @click.prevent="isListservModalVisible = true">Subscribe to mailing list</a>
                             </div>
                             <div class="external-link uppercase">
                                 <a href="https://nih.gov">Visit the NIH site ></a>
@@ -52,13 +55,15 @@
                 </div>
             </el-col>
         </el-row>
-        <contact-us-modal :visible="contactModalVisible" @on-close-dialog="dialogClosed"/>
+        <contact-us-modal :visible.sync="isContactModalVisible" />
+        <listserv-modal :visible.sync="isListservModalVisible" />
     </div>
 </template>
 
 <script>
     import SparcLogo from "../logo/SparcLogo.vue";
     import ContactUsModal from "../footer/ContactUsModal.vue"
+    import ListservModal from "../ListservModal/ListservModal.vue"
 
     const footerAddress = {
         name: "National Institutes of Health",
@@ -171,7 +176,8 @@
         name: "sparc-footer",
         components: {
             SparcLogo,
-            ContactUsModal
+            ContactUsModal,
+            ListservModal
         },
         data: () => ({
             footerLinks,
@@ -180,24 +186,9 @@
             footerEmailAddress,
             footerTwitterHandle,
             footerFacebookHandle,
-            contactModalVisible: false
-        }),
-
-        methods: {
-            /**
-             * Allows contact us modal to be visible
-             */
-            isContactModalVisible: function() {
-                this.contactModalVisible = true
-            },
-
-            /**
-             * Allows contact us modal to not be visible
-             */
-            dialogClosed: function() {
-                this.contactModalVisible = false
-            }
-        }
+            isContactModalVisible: false,
+            isListservModalVisible: false
+        })
     }
 </script>
 
