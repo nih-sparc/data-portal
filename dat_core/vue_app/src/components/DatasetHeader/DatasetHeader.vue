@@ -8,6 +8,19 @@
         :lg="18"
         :xl="16"
       >
+        <el-row class="breadcrumb">
+          <el-col
+            :xs="24"
+            :sm="12"
+          >
+            <router-link
+              :to="{ name: 'Browse' }"
+            >
+              <i class="el-icon-arrow-left" />
+              View all Datasets
+            </router-link>
+          </el-col>
+        </el-row>
         <el-row>
           <el-col
             :xs="24"
@@ -463,6 +476,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.breadcrumb {
+  margin-bottom: 24px;
+  a {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 16px;
+    text-decoration: none;
+  }
+}
 .header-image-section {
   .dataset-image {
     display: block;
