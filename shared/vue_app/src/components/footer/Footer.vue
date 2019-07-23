@@ -27,7 +27,7 @@
                                 <a href="https://nih.gov">Visit the NIH site ></a>
                             </div>
                         </el-col>
-                        <el-col :md="16">
+                        <!-- <el-col :md="16">
                             <el-row type="flex" class="link-sections">
                                 <el-col :key="section.title" :sm="12" :lg="8" class="link-section" v-for="section in footerLinks">
                                     <p class="link-header">{{ section.title }}</p>
@@ -38,7 +38,7 @@
                                     </ul>
                                 </el-col>
                             </el-row>
-                        </el-col>
+                        </el-col> -->
                     </el-row>
                 </div>
             </el-col>
