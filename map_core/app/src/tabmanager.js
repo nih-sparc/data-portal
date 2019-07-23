@@ -96,7 +96,6 @@ exports.TabManager = function(parentIn, moduleManagerIn ) {
 				newDialog.destroyModuleOnClose = true;
 				contents.appendChild(data.contentElem);
 				maptab.appendChild(data.buttonElem);
-				moduleManager.manageDialog(newDialog);
 				newDialog.dock();
 				newDialog.showCloseButton();
 				newDialog.beforeCloseCallbacks.push(dialogDestroyed(data));
@@ -108,7 +107,6 @@ exports.TabManager = function(parentIn, moduleManagerIn ) {
 				if (type == "Organ Viewer") {
 					data.module.addBroadcastChannels("sparc-mapcore-channel");
 				}
-				
 				return data;
 			}
 		}
