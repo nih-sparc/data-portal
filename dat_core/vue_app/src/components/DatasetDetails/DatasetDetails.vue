@@ -18,6 +18,17 @@
     <div class="discover-content container-fluid">
       <dataset-header :dataset-details="datasetDetails" />
     </div>
+
+    <el-row type="flex" justify="center">
+      <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
+        <div
+          v-loading="loadingMarkdown"
+          class="col-xs-12 description-container"
+          v-html="parsedMarkdown"
+        />
+      </el-col>
+    </el-row>
+
     <div class="dataset-info">
       <div class="discover-content container-fluid dataset-info-container">
         <el-row type="flex" justify="center">
@@ -99,6 +110,7 @@
 </template>
 
 <script>
+import marked from 'marked'
 import {
   compose,
   head,
@@ -112,6 +124,9 @@ import TagList from '../TagList/TagList.vue'
 import Request from '../../mixins/request'
 import DateUtils from '../../mixins/format-date'
 
+marked.setOptions({
+  sanitize: true
+})
 
 export default {
   name: 'DatasetDetails',
@@ -146,11 +161,20 @@ export default {
       isTombStone: false,
       isLoadingDataset: false,
       datasetDetails: {},
-      errorLoading: false
+      errorLoading: false,
+      loadingMarkdown: false,
+      markdown: ''
     }
   },
 
   computed: {
+    /**
+     * Parses the markdown text
+     */
+    parsedMarkdown: function () {
+      return marked(this.markdown)
+    },
+
     /**
      * Get formatted originally published date
      * @return {String}
@@ -241,6 +265,13 @@ export default {
         }
       },
       immediate: true
+    },
+
+    datasetDetails: {
+      handler: function () {
+        this.getMarkdown()
+      },
+      immediate: true
     }
   },
 
@@ -292,6 +323,25 @@ export default {
         .finally(() => {
           this.citationLoading = false
         })
+    },
+
+    /**
+     * Get markdown logic from details response
+     */
+    getMarkdown: function () {
+      this.loadingMarkdown = true
+      const readme = propOr('', 'readme', this.datasetDetails)
+      if (readme !== '') {
+        fetch(readme)
+          .then(response => response.text())
+          .then(response => {
+            this.loadingMarkdown = false
+            this.markdown = response
+          })
+          .catch(error => {
+            throw (error)
+          })
+      }
     }
   },
 
@@ -452,6 +502,100 @@ h3 {
     &.active {
       text-decoration: none;
       color: #fff;
+    }
+  }
+}
+
+// Markdown styles
+.description-container {
+  color: #000;
+  font-size: 16px;
+  line-height: 24px;
+  padding-bottom: 92px;
+
+  /deep/ {
+    h1,
+    p,
+    h2,
+    h3,
+    blockquote,
+    h4,
+    pre {
+      max-width: 616px;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      margin: 0 0 8px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: bold;
+      line-height: 40px;
+    }
+
+    p {
+      margin-bottom: 16px;
+    }
+
+    img {
+      height: auto;
+      max-width: 170%;
+      margin-bottom: 20px;
+      flex-basis: 50%;
+      margin-top: 24px;
+    }
+
+    h2 {
+      font-size: 24px;
+      font-weight: bold;
+      line-height: 32px;
+    }
+
+    h3 {
+      font-size: 20px;
+      font-weight: bold;
+      line-height: 24px;
+      letter-spacing: 0px;
+    }
+
+    h4 {
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 24px;
+      text-transform: uppercase;
+      letter-spacing: 0px;
+    }
+
+    ul {
+      margin: 0 0 16px;
+      padding: 0 0 0 18px;
+    }
+
+    blockquote {
+      font-weight: normal;
+      line-height: 24px;
+      font-size: 16px;
+      border-left: 8px solid #2760ff;
+      margin-left: 0;
+
+      p {
+        margin-left: 16px;
+      }
+    }
+    pre {
+      background-color: #f1f1f3;
+      line-height: 24px;
+      padding: 16px;
+
+      code {
+        font-weight: normal;
+        font-size: 14px;
+      }
     }
   }
 }

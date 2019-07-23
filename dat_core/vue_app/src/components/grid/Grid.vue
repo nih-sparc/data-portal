@@ -79,7 +79,7 @@ export default {
   .title {
     font-size: 1.2rem;
     margin-bottom: 1rem;
-    word-break: break-all;
+    word-break: break-word;
   }
 
   .description {

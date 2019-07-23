@@ -83,6 +83,7 @@ main = function()  {
 		mapContent.style.height = contentHeight + "px";
 	}
 	
+	//Messages come in from various module, this method determine what to do with them
 	var processMessage = function(message) {
 		switch(message.action) {
 		case "query-data":
@@ -120,6 +121,13 @@ main = function()  {
 	 */
 	var initialiseMain = function() {	
 		if (moduleManager) {
+			
+			const COMUNICA_SPARQL_RDFJS = 'http://rdf.js.org/comunica-browser/versions/1/packages/actor-init-sparql-rdfjs/comunica-browser.js';
+
+			const comunicaScript = document.createElement('script');
+			document.head.appendChild(comunicaScript);
+			comunicaScript.setAttribute('src', COMUNICA_SPARQL_RDFJS);
+			
 			var channel = new (require('broadcast-channel')).default(channelName);
 			channel.onmessage = processMessage;
 			resizeMAPDrawingArea();
