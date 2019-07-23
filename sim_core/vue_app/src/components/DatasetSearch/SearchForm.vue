@@ -2,7 +2,7 @@
   <el-form :inline="true" :model="simcoreSearchForm" class="search-form" @submit.prevent.native="onSubmit">
     <el-row :gutter="8">
       <el-col :sm="16">
-        <el-input v-model="simcoreSearchForm.search" placeholder="Type your search"></el-input>
+        <el-input v-model="simcoreSearchForm.search" placeholder="Type your search" suffix-icon="el-icon-search"></el-input>
       </el-col>
       <el-col :sm="8">
         <el-button class="search-button" type="warning" native-type="submit" :loading="isFetching ? true : false">Search</el-button>
