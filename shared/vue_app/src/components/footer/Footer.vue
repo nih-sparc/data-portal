@@ -24,7 +24,7 @@
                                 <a href="#" @click.prevent="isContactModalVisible = true">Contact Us</a>
                             </div>
                             <div class="external-link uppercase">
-                                <a href="#" @click.prevent="isListservModalVisible = true">Subscribe to mailing list</a>
+                                <a href="https://list.nih.gov/cgi-bin/wa.exe?SUBED1=NIH-SPARC-INFO&A=1" target="_blank">Subscribe to mailing list</a>
                             </div>
                             <div class="external-link uppercase">
                                 <a href="https://nih.gov">Visit the NIH site ></a>
@@ -56,14 +56,12 @@
             </el-col>
         </el-row>
         <contact-us-modal :visible.sync="isContactModalVisible" />
-        <listserv-modal :visible.sync="isListservModalVisible" />
     </div>
 </template>
 
 <script>
     import SparcLogo from "../logo/SparcLogo.vue";
     import ContactUsModal from "../footer/ContactUsModal.vue"
-    import ListservModal from "../ListservModal/ListservModal.vue"
 
     const footerAddress = {
         name: "National Institutes of Health",
@@ -176,8 +174,7 @@
         name: "sparc-footer",
         components: {
             SparcLogo,
-            ContactUsModal,
-            ListservModal
+            ContactUsModal
         },
         data: () => ({
             footerLinks,
@@ -186,8 +183,7 @@
             footerEmailAddress,
             footerTwitterHandle,
             footerFacebookHandle,
-            isContactModalVisible: false,
-            isListservModalVisible: false
+            isContactModalVisible: false
         })
     }
 </script>
