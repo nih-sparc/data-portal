@@ -99,10 +99,16 @@ ui-widget-content {
 }
 
 #help-button {
-	color: white;
+border-radius: 5px 5px 5px 5px;
+    color: #8300BF;
     position: absolute;
     right: 10px;
-    font-size: 25px;
+    font-size: 15px;
     cursor: pointer;
     text-decoration: none;
+    background: white;
+    padding: 2px;
+    border: white;
+    border-bottom-color: rgb(250, 0, 64);
+    border-style: solid;
 }
