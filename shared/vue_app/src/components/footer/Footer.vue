@@ -21,7 +21,10 @@
                                 <p>Facebook</p>
                             </div>
                             <div class="external-link uppercase">
-                                <a href="#" @click.prevent="isContactModalVisible">Contact Us</a>
+                                <a href="#" @click.prevent="isContactModalVisible = true">Contact Us</a>
+                            </div>
+                            <div class="external-link uppercase">
+                                <a href="https://list.nih.gov/cgi-bin/wa.exe?SUBED1=NIH-SPARC-INFO&A=1" target="_blank">Subscribe to mailing list</a>
                             </div>
                             <div class="external-link uppercase">
                                 <a href="https://nih.gov">Visit the NIH site ></a>
@@ -52,7 +55,7 @@
                 </div>
             </el-col>
         </el-row>
-        <contact-us-modal :visible="contactModalVisible" @on-close-dialog="dialogClosed"/>
+        <contact-us-modal :visible.sync="isContactModalVisible" />
     </div>
 </template>
 
@@ -180,24 +183,8 @@
             footerEmailAddress,
             footerTwitterHandle,
             footerFacebookHandle,
-            contactModalVisible: false
-        }),
-
-        methods: {
-            /**
-             * Allows contact us modal to be visible
-             */
-            isContactModalVisible: function() {
-                this.contactModalVisible = true
-            },
-
-            /**
-             * Allows contact us modal to not be visible
-             */
-            dialogClosed: function() {
-                this.contactModalVisible = false
-            }
-        }
+            isContactModalVisible: false
+        })
     }
 </script>
 
