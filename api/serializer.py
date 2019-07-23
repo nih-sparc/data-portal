@@ -5,6 +5,10 @@ class ContactRequestSchema(Schema):
     email = fields.Str()
     message = fields.Str()
 
+class ListservSubscribeSchema(Schema):
+    name = fields.Str()
+    email = fields.Str()
+
 class TagSchema(Schema):
     tag = fields.Str()
 
