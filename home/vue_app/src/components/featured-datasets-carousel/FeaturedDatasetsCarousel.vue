@@ -97,6 +97,11 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   border-radius: 0.3em 0 0 0.3em;
+  @media (max-width: 767px) {
+    & {
+      border-radius: 0;
+    }
+  }
 }
 
 .featured-dataset-carousel-navigation {
@@ -133,6 +138,11 @@ export default {
   justify-content: center;
   flex-direction: column;
   border-radius: 0 0.3em 0.3em 0;
+  @media (max-width: 767px) {
+    & {
+      border-radius: 0;
+    }
+  }
 
   .content {
     padding: 3em 1.5em;
