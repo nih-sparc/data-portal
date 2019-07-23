@@ -6,14 +6,14 @@
       </el-col>
     </el-row>
     <div v-for="(dataset, index) in featured" v-bind:key="dataset.id">
-      <el-row v-if="index === current" type="flex" justify="flex-start">
-        <el-col :span="12" class="flush-column">
+      <el-row class="featured-dataset-row" v-if="index === current" type="flex" justify="flex-start">
+        <el-col :sm="12" class="flush-column">
           <div
             class="featured-dataset-image"
             :style="{ backgroundImage: `url('${dataset.banner}')` }"
           ></div>
         </el-col>
-        <el-col :span="12" class="flush-column">
+        <el-col :sm="12" class="flush-column">
           <div class="featured-dataset-description">
             <div class="content">
               <h2>{{ dataset.name }}</h2>
@@ -73,18 +73,18 @@ export default {
         this.current = 0;
         this.numElements = response.data.datasets.length;
 
-        const scheduleTimeout = () => {
-          setTimeout(() => {
-            if (component.current === component.numElements - 1) {
-              component.current = 0;
-            } else {
-              component.current = component.current + 1;
-            }
-            scheduleTimeout();
-          }, SLIDE_DURATION);
-        };
+        // const scheduleTimeout = () => {
+        //   setTimeout(() => {
+        //     if (component.current === component.numElements - 1) {
+        //       component.current = 0;
+        //     } else {
+        //       component.current = component.current + 1;
+        //     }
+        //     scheduleTimeout();
+        //   }, SLIDE_DURATION);
+        // };
 
-        scheduleTimeout();
+        // scheduleTimeout();
       }.bind(this)
     );
   }
@@ -155,6 +155,11 @@ export default {
         border: 0;
       }
     }
+  }
+}
+.featured-dataset-row {
+  @media (max-width: 767px) {
+    flex-direction: column;
   }
 }
 </style>
