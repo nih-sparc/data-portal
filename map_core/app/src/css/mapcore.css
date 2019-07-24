@@ -87,7 +87,7 @@
 
 /* Style the tab content */
 .maptab-tab-content.active {
-  display: block;
+  display: inline-block;
 }
 
 .ui-widget.ui-widget-content {

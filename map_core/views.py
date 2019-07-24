@@ -63,13 +63,47 @@ def biolucida_client_proxy(api_method=''):
         return get_response_from_remote(url, headers={'token': request.headers['token']})
 
 
+@map_core_blueprint.route('osparc/<int:mode>/<float:level>', methods=['GET'])
+def osparc_client_proxy(mode=1, level=0.5):
+    study_id = '194bb264-a717-11e9-9dff-02420aff2767'
+    web_hook = ''
+    # url = 'https://osparc.io/study/194bb264-a717-11e9-9dff-02420aff2767?stimulation_mode=1&stimulation_level=0.5'
+    webhook = 'http://163.47.115.91:5000/osparc_webhook?simulation_id=123456'
+    url = 'https://osparc.io/study/{0}?stimulation_mode={1}&stimulation_level={2}&webhook_done={3}'.format(study_id, mode, level, webhook, 'utf-8')
+    print(url)
+    logger.info(mode)
+    logger.info(level)
+    logger.info(url)
+    print("==================")
+    # print(dir(request))
+    # request.set_cookie("user", value="h.sorby@auckland.ac.nz")
+    # request.set_cookie("API_SESSION", value="gAAAAABdLkIw88gtEgcMAHGmlnTHafVmsAkAJRVWFSlT7j9kpDo2Jxtknxr9lQYcSnCC5UGo9IdzzyMEOPhijLvDqdyo7lEwznXmz0ZEubecPL9QohDHcUyZzMfUif8WNjZv4MXEaIKIWwfppbfSbrJBPqtewjVLSsc1PAF5UahV77qA8nyxaAip1qR1bSj-JJiBkkV4LnmP")
+    # print("==================")
+    # print(dir(request))
+    # print(request.cookies)
+    return get_response_from_remote(url)
+
+
+@map_core_blueprint.route('osparc_webhook/', methods=['GET', 'POST'])
+def osparc_webhook():
+    print(request.get_json())
+    if request.method == 'POST':
+        print('received a post')
+    else:
+        print('received a get')
+
+
 def get_response_from_remote(url, headers=None):
     try:
         session = requests.Session()
         if headers is not None:
             session.headers.update(headers)
 
-        r = session.get(url, cookies=request.cookies)
+        my_cookies = request.cookies
+        # my_cookies = {}
+        # my_cookies["user"] = "h.sorby@auckland.ac.nz"
+        # my_cookies["API_SESSION"] = "gAAAAABdLkIw88gtEgcMAHGmlnTHafVmsAkAJRVWFSlT7j9kpDo2Jxtknxr9lQYcSnCC5UGo9IdzzyMEOPhijLvDqdyo7lEwznXmz0ZEubecPL9QohDHcUyZzMfUif8WNjZv4MXEaIKIWwfppbfSbrJBPqtewjVLSsc1PAF5UahV77qA8nyxaAip1qR1bSj-JJiBkkV4LnmP"
+        r = session.get(url, cookies=my_cookies)
     except Exception as e:
         return "proxy service error: " + str(e), 503
     resp = make_response(r.content)
