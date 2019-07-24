@@ -71,7 +71,7 @@
                   <p>{{core.name}}</p>
                   <p v-html="core.description"></p>
                   <div class="bottom clearfix">
-                    <el-button type="text" class="button">{{core.linkText}}</el-button>
+                    <a :href="core.link"><el-button type="text" class="button">{{core.linkText}}</el-button></a>
                   </div>
                 </div>
               </el-card>
@@ -118,8 +118,8 @@ const cores = [
   {
     name: "Data Core",
     description:
-      "A collection of curated data provides new insights into the autonomic nervous system. ",
-    link: "/data-core",
+      "A collection of curated data provides new insights into the autonomic nervous system.",
+    link: "/browse/#",
     linkText: "Explore SPARC Datasets",
     image: dataCore
   },
@@ -127,7 +127,7 @@ const cores = [
     name: "Map Core",
     description:
       "Interactive visualizations facilitate exploration of nerve-organ anatomy and function.",
-    link: "/map-core",
+    link: "/map",
     linkText: "View Interactive Maps",
     image: mapCore
   },
@@ -135,7 +135,7 @@ const cores = [
     name: "Virtual studies",
     description:
       "An online platform, o<sup>2</sup>S<sup>2</sup>PARC,  enables data analyses and predictive simulations.",
-    link: "https://osparc.io",
+    link: "/sim/#",
     linkText: "Run computations",
     image: simulationCore
   }

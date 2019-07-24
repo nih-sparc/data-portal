@@ -4,7 +4,6 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config(object):
-    AWS_REGION = os.environ.get("AWS_REGION")
     BLACKFYNN_API_HOST = os.environ.get("BLACKFYNN_API_HOST")
     BLACKFYNN_API_SECRET = os.environ.get('BLACKFYNN_API_SECRET', 'local-secret-key')
     BLACKFYNN_API_TOKEN = os.environ.get('BLACKFYNN_API_TOKEN', 'local-api-key')
@@ -20,6 +19,7 @@ class Config(object):
     SES_SENDER = os.environ.get("SES_SENDER")
     SPARC_PORTAL_AWS_KEY = os.environ.get("SPARC_PORTAL_USER_ID")
     SPARC_PORTAL_AWS_SECRET = os.environ.get("SPARC_PORTAL_USER_SECRET")
+    OSPARC_HOST = os.environ.get("OSPARC_HOST", "https://osparc.io")
     AWS_REGION = os.environ.get("AWS_REGION", "us-east-1")
     BIOLUCIDA_USERNAME = os.environ.get('BIOLUCIDA_USERNAME', 'major-user')
     BIOLUCIDA_PASSWORD = os.environ.get('BIOLUCIDA_PASSWORD', 'local-password')
