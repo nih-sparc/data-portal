@@ -1,11 +1,11 @@
 # map_core/views.py
 
 # Imports
-import os
 import json
 import requests
 
 from flask import render_template, Blueprint, request, make_response, redirect
+from config import Config
 
 import sys
 import logging
@@ -43,7 +43,8 @@ def scaffoldmakerproxy(p = ''):
 @map_core_blueprint.route('knowledgebase/<path:data_set>')
 def knowledge_base_proxy(data_set=''):
     query_string = ensure_string(request.query_string)
-    url = 'https://scicrunch.org/api/1/dataservices/federation/data/{0}?{1}&{2}'.format(data_set, query_string, 'key={}'.format(os.environ['KNOWLEDGEBASE_KEY']), 'utf-8')
+    url = 'https://scicrunch.org/api/1/dataservices/federation/data/{0}?{1}&{2}'.format(
+        data_set, query_string, 'key={}'.format(Config.KNOWLEDGEBASE_KEY, 'utf-8'))
     return get_response_from_remote(url)
 
 
@@ -55,8 +56,8 @@ def biolucida_client_proxy(api_method=''):
         request_data = json.loads(ensure_string(request.data))
 
         if api_method == 'authenticate/':
-            request_data['username'] = os.environ['BIOLUCIDA_USERNAME'] if 'BIOLUCIDA_USERNAME' in os.environ else 'major_user'
-            request_data['password'] = os.environ['BIOLUCIDA_PASSWORD'] if 'BIOLUCIDA_PASSWORD' in os.environ else 'password'
+            request_data['username'] = Config.BIOLUCIDA_USERNAME
+            request_data['password'] = Config.BIOLUCIDA_PASSWORD
 
         return post_response_from_remote(url, data=request_data)
     else:
