@@ -17,6 +17,10 @@
   padding-top: 20px;
 }
 
+#maptab_container {
+  display: inline-block;
+}
+
 /* Style the tab */
 .maptab-tabbar {
   overflow: hidden;
@@ -102,7 +106,7 @@ ui-widget-content {
 border-radius: 5px 5px 5px 5px;
     color: #8300BF;
     position: absolute;
-    right: 10px;
+    right: 20px;
     font-size: 15px;
     cursor: pointer;
     text-decoration: none;
