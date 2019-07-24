@@ -4,6 +4,8 @@ dist
 node_modules
 
 venv/
+env/
+.env
 
 *.pyc
 __pycache__/

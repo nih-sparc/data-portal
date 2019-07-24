@@ -1,0 +1,25 @@
+{
+  "limit": 10,
+  "offset": 0,
+  "files": [
+    {
+      "name": "test.jpg",
+      "datasetId": 3,
+      "datasetVersion": 1,
+      "size": 5555,
+      "fileType": "JPG",
+      "uri": "s3://bucket/3/1/packages/test.jpg",
+      "createdAt": "2019-06-21T16:51:04.453-04:00"
+    },
+    {
+      "name": "brain.jpg",
+      "datasetId": 3,
+      "datasetVersion": 1,
+      "size": 12345,
+      "fileType": "JPG",
+      "uri": "s3://bucket/3/1/packages/brain.jpg",
+      "createdAt": "2019-06-21T16:51:04.453-04:00"
+    }
+  ],
+  "totalCount": 2
+}

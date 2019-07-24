@@ -4,10 +4,10 @@
       <div class="texture">
         <el-row class="blob-row" type="flex" justify="center">
           <el-col class="blob-column" :sm="24" :md="12" :lg="12" :xl="12">
-            <img class="blob1" alt="Irregular blob" :src="irregularBlob1">
+            <img class="blob1" alt="Irregular blob" :src="irregularBlob1" />
           </el-col>
           <el-col class="blob-column" :sm="24" :md="12" :lg="12" :xl="12">
-            <img class="blob2" alt="Irregular blob" :src="irregularBlob2">
+            <img class="blob2" alt="Irregular blob" :src="irregularBlob2" />
           </el-col>
         </el-row>
       </div>
@@ -17,10 +17,8 @@
             <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
               <el-row>
                 <el-col :xs="22" :sm="22" :md="12" :lg="12">
-                  <h1 class="hero-header">
-                    A modern view into the autonomic nervous system.
-                  </h1>
-                  <el-button type="primary" class="explore-the-data">Explore the data</el-button>
+                  <h1 class="hero-header">Advancing bioelectronic medicine through open science.</h1>
+                  <a href=/browse><el-button type="primary" class="explore-the-data">Explore the data</el-button></a>
                 </el-col>
               </el-row>
             </el-col>
@@ -32,10 +30,10 @@
       <div class="texture">
         <el-row class="blob-row" type="flex" justify="space-between">
           <el-col class="blob-column" :sm="24" :md="12" :lg="12" :xl="12">
-            <img class="blob3" alt="Irregular blob" :src="transparentBlob3">
+            <img class="blob3" alt="Irregular blob" :src="transparentBlob3" />
           </el-col>
           <el-col class="blob-column" :sm="24" :md="12" :lg="12" :xl="12">
-            <img class="blob4" alt="Irregular blob" :src="transparentBlob3">
+            <img class="blob4" alt="Irregular blob" :src="transparentBlob3" />
           </el-col>
         </el-row>
       </div>
@@ -68,12 +66,12 @@
           <el-row class="cards" type="flex" justify="center" :gutter="20">
             <el-col :xs="20" :sm="8" v-for="core in cores" v-bind:key="core.name">
               <el-card class="core-card" shadow="never" :body-style="{ padding: '0px' }">
-                <img v-bind:src="core.image" class="image">
+                <img v-bind:src="core.image" class="image" />
                 <div class="content">
                   <p>{{core.name}}</p>
-                  <p>{{core.description}}</p>
+                  <p v-html="core.description"></p>
                   <div class="bottom clearfix">
-                    <el-button type="text" class="button">{{core.linkText}}</el-button>
+                    <a :href="core.link"><el-button type="text" class="button">{{core.linkText}}</el-button></a>
                   </div>
                 </div>
               </el-card>
@@ -90,95 +88,14 @@
       </el-row>
       <el-row type="flex" justify="center">
         <el-col :xs="22" :sm="22" :md="12" :lg="8">
-          <div class="controls">
-            <el-row justify="center" type="flex" gutter="5">
-              <el-col :xs="8" :sm="6">
-                <div class="control">
-                  <el-select
-                    v-model="value2"
-                    multiple
-                    collapse-tags
-                    size="large"
-                    style="width: 100%; height: 100%; margin: 0; padding: 0; border-radius: 0"
-                    placeholder="Select"
-                  >
-                    <el-option key="1" label="Datasets" value="datasets"></el-option>
-                  </el-select>
-                </div>
-              </el-col>
-              <el-col :xs="16" :sm="18">
-                <div class="control">
-                  <el-autocomplete
-                    v-model="state"
-                    size="large"
-                    :fetch-suggestions="querySearch"
-                    placeholder="Start typing..."
-                    style="width: 100%; height: 100%; border-radius: 0; padding: 0; margin: 0;"
-                    @select="handleSelect"
-                  >
-                    <i class="el-icon-search el-input__icon" slot="suffix" @click="handleIconClick"></i>
-                    <template slot-scope="{ item }">
-                      <div class="value">{{ item.value }}</div>
-                      <span class="link">{{ item.link }}</span>
-                    </template>
-                  </el-autocomplete>
-                </div>
-              </el-col>
-            </el-row>
-            <el-row>
-              <div class="search-button">
-                <el-button type="primary" class="view-search-results">View Results</el-button>
-              </div>
-            </el-row>
-          </div>
+          <search-controls @query="onSearchQuery" />
         </el-col>
       </el-row>
     </div>
     <div class="section">
       <el-row type="flex" justify="center">
         <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
-          <div>
-            <el-row>
-              <el-col>
-                <h2 class="section-header">Featured datasets</h2>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="flex-start">
-              <el-col :span="12" class="flush-column">
-                <div
-                  class="featured-dataset-image"
-                  :style="{ backgroundImage: `url('${datasetAbstractImage}')` }"
-                ></div>
-              </el-col>
-              <el-col :span="12" class="flush-column">
-                <div class="featured-dataset-description">
-                  <div class="content">
-                    <h2>Powley 2018 VNS-Gastric MRI Study</h2>
-                    <p>
-                      Lu, K. H., et al. (2018). Vagus nerve stimulation promotes gastric emptying
-                      by increasing pyloric opening measured with magnetic resonance imaging.
-                    </p>
-                    <div class="actions">
-                      <el-button type="primary" class="view-dataset">View dataset</el-button>
-                    </div>
-                  </div>
-                </div>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col>
-                <div class="featured-dataset-carousel-navigation">
-                  <ul>
-                    <li class="active"></li>
-                    <li class></li>
-                    <li class></li>
-                    <li class></li>
-                    <li class></li>
-                  </ul>
-                </div>
-              </el-col>
-            </el-row>
-          </div>
+          <featured-datasets />
         </el-col>
       </el-row>
     </div>
@@ -189,46 +106,50 @@
 import irregularBlob1 from "../../assets/images/irregular-blob-1.svg";
 import irregularBlob2 from "../../assets/images/irregular-blob-2.svg";
 import transparentBlob3 from "../../assets/images/transparent-blob-3.svg";
-import mapCore from "../../assets/images/map-core.png";
-import simulationCore from "../../assets/images/simulation-core.png";
-import dataCore from "../../assets/images/data-core.png";
+import mapCore from "../../assets/images/map-core-image.jpg";
+import simulationCore from "../../assets/images/osparc-human.png";
+import dataCore from "../../assets/images/datcore-card-image.svg";
 import datasetAbstractImage from "../../assets/images/dataset-abstract-image.png";
+import SparcFooter from "../../../../../shared/vue_app/src/components/footer/Footer.vue";
+import FeaturedDatasets from "../featured-datasets-carousel/FeaturedDatasetsCarousel.vue";
+import SearchControls from "../../../../../dat_core/vue_app/src/components/search-controls/SearchControls.vue";
 
 const cores = [
   {
-    name: "Data Core",
-    description:
-      "A collection of curated data provides new insights into the autonomic nervous system. ",
-    link: "/data-core",
-    linkText: "Explore SPARC Datasets",
+    name: "Data",
+    description:"A collection of curated data provides new insights into the autonomic nervous system. ",
+    link: "/browse",
+    linkText: "Dive into the data",
     image: dataCore
   },
   {
-    name: "Map Core",
-    description:
-      "Interactive visualizations facilitate exploration of nerve-organ anatomy and function.",
-    link: "/map-core",
-    linkText: "View Interactive Maps",
+    name: "Maps",
+    description:"Interactive visualizations facilitate exploration of nerve-organ anatomy and function.",
+    link: "/map",
+    linkText: "View the maps",
     image: mapCore
   },
   {
-    name: "Simulation Core",
-    description:
-      "An online simulation platform enables predictive modeling of neuromodulation effects.",
-    link: "/simulation-core",
-    linkText: "Explore Simulation Models",
+    name: "Virtual studies",
+    description:"An online platform called o<sup>2</sup>S<sup>2</sup>PARC enables data analyses and predictive simulations.",
+    link: "/sim",
+    linkText: "Run computations",
     image: simulationCore
   }
 ];
 
 export default {
-  name: 'landing-page',
+  name: "landing-page",
+  components: {
+    FeaturedDatasets,
+    SearchControls
+  },
 
   data: () => ({
     textBlocks: {
-      goal: 'The SPARC Portal is a free, open-source platform that aims to catalyze development of next-generation bioelectronic medicines.',
-      current: 'The SPARC Portal provides a growing collection of autonomic neuroscience datasets, maps, and computational models ⁠— as well as the ability to interact with those resources all within your web browser.',
-      future: 'Launched in July 2019, the SPARC Portal will enable users to run advanced analytics and multiscale simulations for predicting the effects of neuromodulation on organ function.'
+      goal: 'Catalyze the development of next-generation bioelectronic medicines by providing access to high-value datasets, maps, and predictive simulations.',
+      current: 'Launched in July 2019, the SPARC Portal is an open-source web application that provides access to a growing collection of interactive autonomic neuroscience resources.',
+      future: 'The SPARC Portal will enable users to run advanced analytics and computational studies to predict the effects of neuromodulation on organ function.'
     },
     activeTextBlock: 'goal',
     irregularBlob1,
@@ -263,10 +184,16 @@ export default {
     },
 
     /**
-     * @TODO temp function
+     * Navigate to the browse page with search
+     * @param {String} selectedType
+     * @param {String} terms
      */
-    handleIconClick: function() {
+    onSearchQuery: function(selectedType, terms) {
+      const url = terms === null
+        ? `/browse/#/?searchType=${selectedType}`
+        : `/browse/#/?searchType=${selectedType}&searchTerms=${terms}`
 
+      window.location.href = url
     }
   }
 };
@@ -288,70 +215,6 @@ export default {
 
 .flush-column {
   overflow: hidden;
-}
-
-.featured-dataset-image {
-  min-height: 25em;
-  background-size: cover;
-  background-repeat: no-repeat;
-  border-radius: 0.3em 0 0 0.3em;
-}
-
-.featured-dataset-carousel-navigation {
-  width: 100%;
-  text-align: center;
-  user-select: none;
-  margin: 0.2em 0;
-
-  ul {
-    padding: 0;
-    margin: 0;
-    height: 100%;
-
-    li {
-      padding: 0;
-      display: inline-block;
-      margin: 0 0.3em;
-      min-width: 2em;
-      border-bottom: 5px solid #909399;
-      cursor: pointer;
-
-      &.active {
-        border-bottom: 5px solid #24245b;
-      }
-    }
-  }
-}
-
-.featured-dataset-description {
-  height: 100%;
-  background: #24245b;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  border-radius: 0 0.3em 0.3em 0;
-
-  .content {
-    padding: 3em 1.5em;
-    color: white;
-
-    h2 {
-      font-size: 1.5em;
-    }
-
-    p {
-    }
-
-    .actions {
-      margin-top: 2em;
-
-      .view-dataset {
-        background: #8300bf;
-        text-transform: uppercase;
-        border: 0;
-      }
-    }
-  }
 }
 
 .core-card {
@@ -494,7 +357,7 @@ export default {
 
 .head {
   position: relative;
-  z-index: -1;
+  z-index: 1;
 
   .content {
     .hero {
