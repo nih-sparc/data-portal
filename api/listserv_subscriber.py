@@ -1,8 +1,6 @@
 from config import Config
 import boto3
 
-subject = "Message from SPARC Portal"
-
 ses_client = boto3.client(
     "ses",
     aws_access_key_id=Config.SPARC_PORTAL_AWS_KEY,
@@ -10,21 +8,21 @@ ses_client = boto3.client(
     region_name=Config.AWS_REGION
 )
 
-class EmailSender(object):
+class ListservSubscriber(object):
 
     def __init__(self):
-        self.default_subject = "Message from SPARC Portal"
+        self.default_subject = "LISTSERV from SPARC Portal"
         self.charset = "UTF-8"
         self.ses_sender = Config.SES_SENDER
         self.ses_arn = Config.SES_ARN
 
-    def send_email(self, name, email_address, message):
-        body = name + "\n" + email_address + "\n" + message
+    def send_email(self, name, email_address):
+        body = "SUBscribe NIH-SPARC-INFO " + name
         ses_client.send_email(
-            Source=self.ses_sender,
+            Source=email_address,
             Destination={
                 "ToAddresses": [
-                    self.ses_sender
+                    "listserv@list.nih.gov"
                 ]
             },
             Message={
