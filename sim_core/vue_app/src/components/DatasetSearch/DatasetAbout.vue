@@ -13,11 +13,9 @@
         </div>
         <div class="tags">
           <h4>Tags</h4>
-          <!-- <ul> -->
             <el-tag type="warning" :key="tag" v-for="tag in dataset.tags">
               {{ tag }}
             </el-tag>
-          <!-- </ul> -->
         </div>
       </el-col>
     </el-row>
@@ -43,6 +41,9 @@ h3.dataset-about-header {
 }
 .el-tag {
   margin-right: 8px;
+  @media screen and (max-width: 768px) {
+    margin-top: 8px;
+  }
 }
 .information {
   font-size: 0.9em;
