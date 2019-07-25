@@ -17,6 +17,10 @@
   padding-top: 20px;
 }
 
+#maptab_container {
+  display: inline-block;
+}
+
 /* Style the tab */
 .maptab-tabbar {
   overflow: hidden;
@@ -87,7 +91,7 @@
 
 /* Style the tab content */
 .maptab-tab-content.active {
-  display: block;
+  display: inline-block;
 }
 
 .ui-widget.ui-widget-content {
@@ -102,7 +106,7 @@ ui-widget-content {
 border-radius: 5px 5px 5px 5px;
     color: #8300BF;
     position: absolute;
-    right: 10px;
+    right: 20px;
     font-size: 15px;
     cursor: pointer;
     text-decoration: none;
@@ -111,4 +115,11 @@ border-radius: 5px 5px 5px 5px;
     border: white;
     border-bottom-color: rgb(250, 0, 64);
     border-style: solid;
+}
+
+#mapcore_content_panel {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
