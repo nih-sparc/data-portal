@@ -16,15 +16,6 @@
         </el-row>
       </div>
     </div>
-    <!-- <div class="top section">
-      <el-row type="flex" justify="center">
-        <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
-          <div class="header">
-            <h2>Browse the Meta Data</h2>
-          </div>
-        </el-col>
-      </el-row>
-    </div> -->
     <div class="search section">
       <el-row type="flex" justify="center">
         <el-col :xs="22" :sm="22" :md="12" :lg="8">
@@ -55,10 +46,15 @@
             :cards="results"
           />
 
+          <grid-embargo
+            v-if="searchType === 'embargo'"
+            v-loading="loading"
+            :cards="results"
+          />
+
           <div
             v-if="searchType === 'files'"
-            class="files-table"
-          >
+            class="files-table">
             <el-table :data="results">
               <el-table-column
                 fixed
@@ -137,6 +133,8 @@ import {
   propOr
 } from 'ramda'
 import Grid from "../grid/Grid.vue";
+import GridEmbargo from "../gridEmbargo/GridEmbargo.vue";
+
 import SearchControls from "../search-controls/SearchControls.vue";
 import Pagination from "../Pagination/Pagination.vue";
 import BfButton from '../shared/BfButton/BfButton.vue'
@@ -150,7 +148,8 @@ export default {
     BfButton,
     Grid,
     SearchControls,
-    Pagination
+    Pagination,
+    GridEmbargo
   },
 
   mixins: [
@@ -224,7 +223,21 @@ export default {
       this.searchTerms = terms;
 
       const offset = (this.page - 1) * this.limit
-      const requestUrl = `https://api.blackfynn.io/discover/search/${type}?query=${terms || ""}&limit=${this.limit}&offset=${offset}&organization=SPARC%20Consortium`;
+      let requestUrl = ''
+
+      switch (type) {
+        case "datasets":
+          requestUrl = `https://api.blackfynn.io/discover/search/${type}?query=${terms || ""}&limit=${this.limit}&offset=${offset}&organization=SPARC%20Consortium`;
+          break;
+        case "files":
+          requestUrl = `https://api.blackfynn.io/discover/search/${type}?query=${terms || ""}&limit=${this.limit}&offset=${offset}&organization=SPARC%20Consortium`;
+          break;
+        case "embargo":
+          requestUrl = `/api/datasets/embargo`;
+          break;
+      }
+
+      // const requestUrl = `https://api.blackfynn.io/discover/search/${type}?query=${terms || ""}&limit=${this.limit}&offset=${offset}&organization=SPARC%20Consortium`;
 
       this.$http.get(requestUrl).then(
         function(response) {
@@ -244,6 +257,10 @@ export default {
                 fileType: response.fileType
               }));
               break;
+            case "embargo":
+              this.results = response.data
+              this.limit = response.data.length;
+              this.offset = 0;
           }
 
           this.loading = false;
