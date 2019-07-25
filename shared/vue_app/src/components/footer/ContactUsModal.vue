@@ -1,9 +1,9 @@
 <template>
   <el-dialog :show-close="true" :visible.sync="visible" @close="onClose">
-    <div class="header">
-      <h2>Send Us a Message</h2>
-    </div>
-    <dialog-body>
+    <div class="dialog-body">
+      <div class="header">
+        <h2>Send Us a Message</h2>
+      </div>
       <el-form ref="contactForm" :label-position="labelPosition" label-width="100px" :model="contactUsForm" :rules="contactUsFormRules">
         <el-form-item prop="name" label="Your Name">
           <el-input aria-placeholder="Enter your name" v-model="contactUsForm.name"></el-input>
@@ -22,7 +22,7 @@
           <el-button class="send-button" @click="submitContactForm">Send</el-button>
         </el-form-item>
       </el-form>
-    </dialog-body>
+    </div>
   </el-dialog>
 </template>
 
@@ -101,7 +101,7 @@ export default {
     },
 
     onClose: function(){
-      this.$emit('on-close-dialog')
+      this.$emit('update:visible', false)
       this.$refs.contactForm.resetFields();
     },
 
@@ -111,40 +111,50 @@ export default {
 
 <style lang="scss" scoped>
 .send-button {
-  display: flex;
-  justify-content: center;
   background-color: #24245b;
   color: white;
-  height: 40px;
-  width: 128px;
+  display: block;
   border-radius: 4px;
-  margin-bottom: 148px;
-  margin-left: 121px;
+  margin: 0 auto;
+  padding: 12px 46px;
 }
 
 .header {
   margin-left: 1px;
+  @media (max-width: 767px) {
+    text-align: center;
+    width: 90vw;
+  }
 }
 
 h2 {
   color: #24245b;
   font-weight: normal;
   font-size: 46px;
-  line-height: 46px;
-  padding-top: 148px;
-  padding-bottom: 32px;
-  width: 117%;
+  line-height: 1;
+  margin-bottom: 32px;
   text-transform: none;
+  @media (max-width: 767px) {
+    & {
+      font-size: 24px;
+    }
+  }
 }
 
 /deep/ .el-dialog {
-  width: 1280px;
-  height: 800px;
+  background: none;
+  display: flex;
+  height: 100vh;
+  margin: 0 !important;
+  width: 100vw;
 
   .el-dialog__body {
-    background-color: #edf1fc;
-    padding-left: 441px;
-    padding-right: 462px;
+    align-items: center;
+    background-color: rgba(237, 241, 252, 0.9);;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    padding: 0;
   }
 
   .el-dialog__header {
@@ -158,6 +168,15 @@ h2 {
   }
 }
 
+.el-form {
+  margin: 0 auto;
+  max-width: 317px;
+}
+
+/deep/ .el-form-item__label {
+  line-height: 1.2
+}
+
 /deep/ .el-input {
   .el-input__inner {
     border-radius: 4px;
@@ -165,8 +184,14 @@ h2 {
   }
 }
 
+/deep/ .el-form-item {
+  margin-bottom: 26px;
+  &:last-child {
+    margin: 0;
+  }
+}
+
 /deep/ .el-textarea {
-  height: 80px;
   .el-textarea__inner {
     border-radius: 4px;
     border: 1px solid #909399;
