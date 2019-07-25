@@ -100,7 +100,9 @@ main = function()  {
 		case "flatmap-show":
 			if (message.resource) {
 				var species = message.data ? message.data.species : undefined;
-				createFlatmap(species, message.resource);
+				var index = message.resource.indexOf('NCBITaxon');
+				if (index > -1)
+					createFlatmap(species, message.resource.slice(index));
 			}
 			break;
 		case "scaffold-show":
