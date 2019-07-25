@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 export default {
   name: 'search-form',
   data() {
@@ -33,10 +33,12 @@ export default {
         this.fetchDatasets();
       }
     },
-    ...mapActions([
-      'searchDatasets',
-      'fetchDatasets'
-    ])
+    searchDatasets() {
+      return this.$store.dispatch('searchDatasets');
+    },
+    fetchDatasets() {
+      return this.$store.dispatch('fetchDatasets');
+    }
   }
 }
 </script>

@@ -47,11 +47,9 @@ export default {
     SearchForm,
     DatasetList
   },
-  methods: {
-    ...mapActions([
-      'firstFetch'
-    ])
-  },
+  methods: mapActions([
+    'firstFetch'
+  ]),
   created() {
     this.firstFetch();
   }
