@@ -116,3 +116,10 @@ border-radius: 5px 5px 5px 5px;
     border-bottom-color: rgb(250, 0, 64);
     border-style: solid;
 }
+
+#mapcore_content_panel {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
