@@ -50,7 +50,7 @@ def transform(ds):
         'organizationId': org['organization']['intId'],
         'modelCount': {name: m.count for name,m in models.items()},
         'fileCount': Counter(),
-        'recordCount': sum(m.count for m in models.values()),
+        'recordCount': sum(m.count for m in models.values())
         'banner': api._get(api._uri('/datasets/{dsid}/banner', dsid=content['id'])).get('banner', None)
     }
 

@@ -92,6 +92,7 @@ def discover():
 def embargo():
     collection = mongo[Config.MONGODB_NAME][Config.MONGODB_COLLECTION]
     embargo_list = list(collection.find({}, {'_id':0}))
+    print(embargo_list)
     return json.dumps(embargo_list)
 
 # Download a file from S3
