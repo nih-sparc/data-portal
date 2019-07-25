@@ -15,7 +15,7 @@
         />
       </el-select>
     </div>
-    <div class="control control-search-input">
+    <div class="control control-search-input" v-if="isSearchVisible">
       <el-input
         v-model="terms"
         placeholder="Search..."
@@ -23,7 +23,7 @@
         @keyup.native.enter="submit"
       />
     </div>
-    <div class="search-button">
+    <div class="search-button" v-if="isSearchVisible">
       <el-button
         type="primary"
         class="view-search-results"
@@ -61,6 +61,10 @@ export default {
       type: Boolean,
       default: false
     },
+    isSearchVisible: {
+      type: Boolean,
+      default: true
+    }
   },
 
   data() {
@@ -76,9 +80,24 @@ export default {
         {
           label: "Files",
           key: "files"
+        },
+        {
+          label: "Embargoed",
+          key: "embargo"
         }
       ]
     };
+  },
+  watch: {
+    selectedType: function(value) {
+      if (value === "embargo"){
+        this.isSearchVisible = false
+        this.submit()
+      } else {
+        this.isSearchVisible = true
+        this.submit()
+      }
+    }
   },
 
   mounted: function() {
@@ -133,7 +152,7 @@ export default {
 
 .control-search-type {
   margin-right: 8px;
-  width: 115px;
+  width: 120px;
 }
 .control-search-input {
   flex: 1;
