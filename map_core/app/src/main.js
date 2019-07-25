@@ -46,6 +46,8 @@ main = function()  {
 			var data = tabManager.createDialog("Organ Viewer");
 			data.module.loadOrgansFromURL(url, species, organ, annotation);
 			var title = annotation + "(Scaffold)";
+			if (organ)
+				title = organ + " " + title;
 			data.module.setName(title);
 			tabManager.setTitle(data, title);
 
@@ -54,10 +56,12 @@ main = function()  {
 		return undefined;
 	}
 	
-	var createDataViewer = function(annotation, url, channelNames) {
+	var createDataViewer = function(organ,  annotation, url, channelNames) {
 		if (tabManager) {
 			var data = tabManager.createDialog("Data Viewer");
 			var title = annotation + "(Data)";
+			if (organ)
+				title = organ + " " + title;
 			data.module.setName(title);
 			tabManager.setTitle(data, title);
 			data.module.plotManager.openCSV(url).then(function() {
@@ -71,10 +75,12 @@ main = function()  {
 		}
 	}
 	
-	var createFlatmap = function(entry) {
+	var createFlatmap = function(species, entry) {
 		if (tabManager) {
 			var data = tabManager.createDialog("Flatmap", {flatmapEntry: entry});
 			var title = entry + "(Flatmap)";
+			if (species)
+				title = species + " " + title;
 			data.module.setName(title);
 			tabManager.setTitle(data, title);
 		}
@@ -93,7 +99,10 @@ main = function()  {
 			break;
 		case "flatmap-show":
 			if (message.resource) {
-				createFlatmap(message.resource);
+				var species = message.data ? message.data.species : undefined;
+				var index = message.resource.indexOf('NCBITaxon');
+				if (index > -1)
+					createFlatmap(species, message.resource.slice(index));
 			}
 			break;
 		case "scaffold-show":
@@ -106,8 +115,14 @@ main = function()  {
 			break;
 		case "data-viewer-show":
 			if (message.resource) {
+				var organ = message.data ? message.data.organ : undefined;
 				var annotation = message.data ? message.data.annotation : undefined;
-				createDataViewer(annotation, message.resource);
+				createDataViewer(organ, annotation, message.resource);
+			}
+			break;
+		case "image-show":
+			if (message.resource) {
+				window.open(message.resource, '_blank');
 			}
 			break;
 		default:
@@ -134,7 +149,7 @@ main = function()  {
 			if (window.location.hash !== "") {
 				tabManager.processHash(window.location.hash);
 			} else {
-				createFlatmap("NCBITaxon:9606");
+				createFlatmap("Human", "NCBITaxon:9606");
 			}
 		}
 	}
