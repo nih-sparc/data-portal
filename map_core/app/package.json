@@ -24,8 +24,8 @@
   },
   "dependencies": {
     "broadcast-channel": "^2.1.12",
-    "fdikbquery": "^0.1.3",
-    "mapcoreintegratedwebapp": "^0.1.2",
+    "fdikbquery": "^0.1.4",
+    "mapcoreintegratedwebapp": "^0.2.0",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3"
   }
