@@ -7,8 +7,8 @@
             <div class="breadcrumb">
               <el-row>
                 <el-col :xs="24" :lg="12">
-                  <h3>Find SPARC data</h3>
-                  <p>A growing list of SPARC datasets provides insight into neural control of organ function and datasets are annotated with a common standard.</p>
+                  <h3>Data</h3>
+                  <p>A growing collection of SPARC data provides insight into neural control of organ function. Datasets are annotated with common standards, allowing users to perform cross-dataset comparisons and analyses.</p>
                 </el-col>
               </el-row>
             </div>
