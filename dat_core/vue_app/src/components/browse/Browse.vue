@@ -30,6 +30,7 @@
         <el-col :xs="22" :sm="22" :md="12" :lg="8">
           <search-controls
             :search-on-load="true"
+            :is-clear-search-visible="isClearSearchVisible"
             submit-text="Go"
             @query="onSearchQuery"
           />
@@ -167,6 +168,17 @@ export default {
       searchType: '',
       searchTerms: ''
     };
+  },
+
+  computed: {
+    /**
+     * Compute if the clear search
+     * button is visible
+     * @returns {Boolean}
+     */
+    isClearSearchVisible: function() {
+      return this.searchTerms !== ''
+    },
   },
 
   methods: {

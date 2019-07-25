@@ -74,6 +74,7 @@ exports.TabManager = function(parentIn, moduleManagerIn ) {
 			if (setting.dialog) {
 				let data = _this.createDialog(setting.dialog);
 				data.module.importSettings(setting);
+				_this.setTitle(data, data.module.instanceName);
 			}
 		}
 		
