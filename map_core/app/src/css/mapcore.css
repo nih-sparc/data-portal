@@ -19,6 +19,7 @@
 
 #maptab_container {
   display: inline-block;
+  width:72%;
 }
 
 /* Style the tab */
@@ -78,6 +79,7 @@
 
 .maptab-contents {
   position: relative;
+  width: 100%;
 }
 
 /* Style the tab content */
@@ -87,6 +89,8 @@
   border: 1px solid #ccc;
   border-top: none;
   height: 100%;
+  position: absolute;
+  width: 100%;
 }
 
 /* Style the tab content */
