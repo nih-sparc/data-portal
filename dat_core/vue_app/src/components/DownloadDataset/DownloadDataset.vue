@@ -13,7 +13,7 @@
         class="download-block"
       >
         <h1>Direct Download</h1>
-        <p>You can download the raw files and metadata directly to your computer as a zip archive.</p>
+        <p>You can download the raw files and metadata directly to your computer as a zip archive free of charge.</p>
         <a :href="downloadUrl">
           <bf-button class="download-button">Download Dataset</bf-button>
         </a>

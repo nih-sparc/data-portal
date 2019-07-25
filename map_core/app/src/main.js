@@ -46,7 +46,9 @@ main = function()  {
 			var data = tabManager.createDialog("Organ Viewer");
 			data.module.loadOrgansFromURL(url, species, organ, annotation);
 			var title = annotation + "(Scaffold)";
+			data.module.setName(title);
 			tabManager.setTitle(data, title);
+
 			return data;
 		}
 		return undefined;
@@ -55,17 +57,17 @@ main = function()  {
 	var createDataViewer = function(annotation, url, channelNames) {
 		if (tabManager) {
 			var data = tabManager.createDialog("Data Viewer");
+			var title = annotation + "(Data)";
+			data.module.setName(title);
+			tabManager.setTitle(data, title);
 			data.module.plotManager.openCSV(url).then(function() {
 				if (channelNames) {
 					for (var i = 0; i < channelNames.length; i++) {
 						data.module.plotManager.plotByName(channelNames[i]);
 					}
-				} else {
-					data.module.plotManager.plotAll();
 				}
-				var title = annotation + "(Data)";
-				tabManager.setTitle(data, title);
 			});
+			return data;
 		}
 	}
 	
@@ -73,6 +75,7 @@ main = function()  {
 		if (tabManager) {
 			var data = tabManager.createDialog("Flatmap", {flatmapEntry: entry});
 			var title = entry + "(Flatmap)";
+			data.module.setName(title);
 			tabManager.setTitle(data, title);
 		}
 	}
@@ -121,13 +124,6 @@ main = function()  {
 	 */
 	var initialiseMain = function() {	
 		if (moduleManager) {
-			
-			const COMUNICA_SPARQL_RDFJS = 'http://rdf.js.org/comunica-browser/versions/1/packages/actor-init-sparql-rdfjs/comunica-browser.js';
-
-			const comunicaScript = document.createElement('script');
-			document.head.appendChild(comunicaScript);
-			comunicaScript.setAttribute('src', COMUNICA_SPARQL_RDFJS);
-			
 			var channel = new (require('broadcast-channel')).default(channelName);
 			channel.onmessage = processMessage;
 			resizeMAPDrawingArea();
@@ -140,14 +136,14 @@ main = function()  {
 			} else {
 				createFlatmap("NCBITaxon:9606");
 			}
-			moduleManager.serialiseDiv = false;
-		    moduleManager.allowStateChange = true;   
 		}
 	}
 
 	//initialise all required elements/objects
 	var initialise = function() {
 		moduleManager = new physiomeportal.ModuleManager();
+		moduleManager.serialiseDiv = false;
+	    moduleManager.allowStateChange = true;  
 		fdikbquery = new fdi_kb_query_module(parent);
 		initialiseMain();
 	}	
