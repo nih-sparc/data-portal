@@ -17,11 +17,33 @@
   padding-top: 20px;
 }
 
+#maptab_container {
+  display: inline-block;
+  width:72%;
+}
+
 /* Style the tab */
 .maptab-tabbar {
-  overflow: hidden;
+  overflow-x: auto;
   display: flex;
   align-items: flex-end;
+}
+
+/* width */
+.maptab-tabbar::-webkit-scrollbar {
+  height: 8px;
+}
+
+/* Track */
+.maptab-tabbar::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+
+/* Handle */
+.maptab-tabbar::-webkit-scrollbar-thumb {
+  background: #e6a23c; 
+  border-radius: 10px;
 }
 
 /* Create an active/current tablink class */
@@ -74,6 +96,7 @@
 
 .maptab-contents {
   position: relative;
+  width: 100%;
 }
 
 /* Style the tab content */
@@ -83,11 +106,13 @@
   border: 1px solid #ccc;
   border-top: none;
   height: 100%;
+  position: absolute;
+  width: 100%;
 }
 
 /* Style the tab content */
 .maptab-tab-content.active {
-  display: block;
+  display: inline-block;
 }
 
 .ui-widget.ui-widget-content {
@@ -102,7 +127,7 @@ ui-widget-content {
 border-radius: 5px 5px 5px 5px;
     color: #8300BF;
     position: absolute;
-    right: 10px;
+    right: 20px;
     font-size: 15px;
     cursor: pointer;
     text-decoration: none;
@@ -111,4 +136,11 @@ border-radius: 5px 5px 5px 5px;
     border: white;
     border-bottom-color: rgb(250, 0, 64);
     border-style: solid;
+}
+
+#mapcore_content_panel {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
