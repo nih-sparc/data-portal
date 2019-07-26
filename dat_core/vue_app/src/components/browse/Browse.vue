@@ -32,7 +32,7 @@
       <el-row type="flex" justify="center">
         <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
           <div class="tableMetadata">
-            <div class="number-of-records">Showing {{ totalCount }} records</div>
+            <div class="number-of-records">Showing {{ totalCount }} datasets</div>
           </div>
         </el-col>
       </el-row>
