@@ -57,8 +57,10 @@ form.search-form {
   }
   .search-button {
     width: 100%;
+  }
+  .el-col {
     @media screen and (max-width: 768px) {
-      margin: 1em 0;
+      margin: 0.2em 0;
     }
   }
 }

@@ -20,7 +20,7 @@
       <el-row type="flex" justify="center">
         <el-col :sm="18">
           <el-row type="flex" justify="center">
-            <el-col :sm="18" :lg="12">
+            <el-col :sm="24" :lg="18" :xl="12">
               <search-form />
             </el-col>
           </el-row>
