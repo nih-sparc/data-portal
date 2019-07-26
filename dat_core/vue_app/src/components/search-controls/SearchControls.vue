@@ -36,7 +36,7 @@
         class="btn-clear-search"
         @click.native="clearSearch"
       >
-        Clear filter
+        Clear search
       </el-button>
     </div>
   </div>
