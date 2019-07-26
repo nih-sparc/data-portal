@@ -36,8 +36,8 @@ export default {
         this.fetchDatasets();
       }
     },
-    searchDatasets() {
-      return this.$store.dispatch('searchDatasets');
+    searchDatasets(query) {
+      return this.$store.dispatch('searchDatasets', query);
     },
     fetchDatasets() {
       return this.$store.dispatch('fetchDatasets');
