@@ -1,11 +1,14 @@
 <template>
   <el-form :inline="true" :model="simcoreSearchForm" class="search-form" @submit.prevent.native="onSubmit">
     <el-row :gutter="8">
-      <el-col :sm="16">
+      <el-col :sm="14">
         <el-input v-model="simcoreSearchForm.search" placeholder="Type your search" suffix-icon="el-icon-search"></el-input>
       </el-col>
-      <el-col :sm="8">
+      <el-col :sm="5">
         <el-button class="search-button" type="warning" native-type="submit" :loading="isFetching ? true : false">Search</el-button>
+      </el-col>
+      <el-col :sm="5">
+        <el-button class="search-button" @click="clearDatasets">Clear search</el-button>
       </el-col>
     </el-row>
   </el-form>
@@ -38,6 +41,9 @@ export default {
     },
     fetchDatasets() {
       return this.$store.dispatch('fetchDatasets');
+    },
+    clearDatasets() {
+      return this.$store.dispatch('clearDatasets');
     }
   }
 }
