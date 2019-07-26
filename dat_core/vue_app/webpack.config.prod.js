@@ -10,25 +10,6 @@ module.exports = {
         use: 'vue-loader'
     },
     {
-      test: /\.js?$/,
-      exclude: /node_modules/,
-      loader: 'babel-loader',
-      query: {
-        presets: [
-          [
-            'env',
-            {
-              targets: {
-                browsers: [
-                  'ie >= 11'
-                ]
-              }
-            }
-          ]
-        ]
-      }
-    },
-    {
         test: /\.(png|svg|jpg|gif)$/,
         use: [
             'file-loader'
