@@ -11,6 +11,7 @@
             Version: {{ dataset.version }}
           </p>
         </div>
+        <dataset-cite :dataset="dataset" />
         <div class="tags">
           <h4>Tags</h4>
             <el-tag type="warning" :key="tag" v-for="tag in dataset.tags">
@@ -23,9 +24,13 @@
 </template>
 
 <script>
+import DatasetCite from '../DatasetDetail/DatasetCite.vue';
 export default {
   name: 'dataset-about',
-  props: ['dataset']
+  props: ['dataset'],
+  components: {
+    DatasetCite
+  }
 }
 </script>
 
