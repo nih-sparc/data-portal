@@ -20,7 +20,7 @@
       <el-row type="flex" justify="center">
         <el-col :sm="18">
           <el-row type="flex" justify="center">
-            <el-col :sm="12" :lg="10">
+            <el-col :sm="24" :lg="18" :xl="12">
               <search-form />
             </el-col>
           </el-row>
@@ -47,11 +47,9 @@ export default {
     SearchForm,
     DatasetList
   },
-  methods: {
-    ...mapActions([
-      'firstFetch'
-    ])
-  },
+  methods: mapActions([
+    'firstFetch'
+  ]),
   created() {
     this.firstFetch();
   }
