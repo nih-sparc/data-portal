@@ -7,7 +7,7 @@
             <div class="breadcrumb">
               <el-row>
                 <el-col :span="24">
-                  Data Core / {{ datasetName }}
+                  Browse Data / {{ datasetName }}
                 </el-col>
               </el-row>
             </div>
