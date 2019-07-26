@@ -4,6 +4,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
   entry: path.resolve(__dirname, 'src/main.js'),
+  mode: 'production',
   module: {
     rules: [{
         test: /\.vue$/,

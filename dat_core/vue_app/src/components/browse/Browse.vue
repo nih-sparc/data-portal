@@ -141,6 +141,8 @@ import BfButton from '../shared/BfButton/BfButton.vue'
 
 import FormatStorage from '../../mixins/bf-storage-metrics/index'
 
+import "regenerator-runtime/runtime";
+
 export default {
   name: "browse",
 
