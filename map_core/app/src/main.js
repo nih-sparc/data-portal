@@ -71,6 +71,17 @@ main = function()  {
 		}
 	}
 	
+	var createSimulationViewer = function(annotation, url, channelNames) {
+		if (tabManager) {
+			var data = tabManager.createDialog("Data Viewer");
+			var title = annotation + "(Simulation)";
+			data.module.setName(title);
+			tabManager.setTitle(data, title);
+			data.module.plotManager.initialiseForSim()
+			return data;
+		}
+	}
+
 	var createFlatmap = function(entry) {
 		if (tabManager) {
 			var data = tabManager.createDialog("Flatmap", {flatmapEntry: entry});
@@ -110,6 +121,11 @@ main = function()  {
 				createDataViewer(annotation, message.resource);
 			}
 			break;
+		case "simulation-show":
+		    if (message.resource) {
+		    console.log(message.resource)
+		        createDataViewer("Simulation", message.resource)
+		    }
 		default:
 			break;
 		}
