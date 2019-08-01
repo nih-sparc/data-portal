@@ -3,10 +3,30 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
   entry: path.resolve(__dirname, 'src/main.js'),
+  mode: 'production',
   module: {
     rules: [{
         test: /\.vue$/,
         use: 'vue-loader'
+    },
+    {
+      test: /\.js?$/,
+      exclude: /node_modules/,
+      loader: 'babel-loader',
+      query: {
+        presets: [
+          [
+            'env',
+            {
+              targets: {
+                browsers: [
+                  'ie >= 11'
+                ]
+              }
+            }
+          ]
+        ]
+      }
     },
     {
         test: /\.(png|svg|jpg|gif)$/,

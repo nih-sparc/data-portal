@@ -6,7 +6,7 @@
           <div class="breadcrumb">
             <el-row>
               <el-col :span="24">
-                Simulation Core / {{ dataset.name }}
+                Analyze & Simulate / {{ dataset.name }}
               </el-col>
             </el-row>
           </div>

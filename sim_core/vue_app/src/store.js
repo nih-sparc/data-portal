@@ -37,9 +37,16 @@ export default new Vuex.Store({
     },
     SET_FIRST_FETCH(state, firstFetch) {
       state.simcoreSearch.firstFetch = firstFetch;
+    },
+    CLEAR_DATASETS(state) {
+      state.entities.datasets = {};
     }
   },
   actions: {
+    clearDatasets(context) {
+      context.commit('CLEAR_DATASETS');
+    },
+
     searchDatasets(context, query) {
       context.commit('SET_SIMCORESEARCH_IS_FETCHING', true);
       fetch('/api/sim/search-dataset?query=' + query || '')
