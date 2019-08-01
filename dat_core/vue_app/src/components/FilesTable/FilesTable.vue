@@ -25,9 +25,23 @@
     </div>
 
     <div class="files-table-table">
+      <div
+        v-if="hasError"
+        class="error-wrap"
+      >
+        <p>Sorry, an error has occurred</p>
+        <el-button
+          type="primary"
+          @click="getFiles"
+        >
+          Try again
+        </el-button>
+      </div>
       <el-table
+        v-else
         :data="data"
         :default-sort = "{prop: 'name', order: 'ascending'}"
+        v-loading="isLoading"
       >
         <el-table-column
           fixed
@@ -134,7 +148,9 @@
     data: function() {
       return {
         path: '',
-        data: []
+        data: [],
+        isLoading: false,
+        hasError: false
       }
     },
 
@@ -177,12 +193,20 @@
     methods: {
       /**
        * Get contents of directory
-       * @param {String} path
        */
-      getFiles: function (path) {
+      getFiles: function () {
+        this.hasError = false
+        this.isLoading = true
+
         this.$http.get(this.getFilesurl)
           .then(response => {
             this.data = response.data
+          })
+          .catch(() => {
+            this.hasError = true
+          })
+          .finally(() => {
+            this.isLoading = false
           })
       },
 
@@ -287,5 +311,8 @@
   background: #fff;
   border: 1px solid rgb(228, 231, 237);
   padding: 16px;
+}
+.error-wrap {
+  text-align: center;
 }
 </style>
