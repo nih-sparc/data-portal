@@ -51,18 +51,30 @@
           sortable
         >
           <template slot-scope="scope">
-            <template v-if="scope.row.type === 'Directory'">
-              <a
-                href="#"
-                @click.prevent="path = scope.row.path"
-              >
-                {{ scope.row.name }}
-              </a>
-            </template>
+            <div class="file-name-wrap">
+              <template v-if="scope.row.type === 'Directory'">
+                <i class="file-icon el-icon-folder" />
+                <a
+                  class="file-name"
+                  href="#"
+                  @click.prevent="path = scope.row.path"
+                >
+                  {{ scope.row.name }}
+                </a>
+              </template>
 
-            <template v-else>
-              {{ scope.row.name }}
-            </template>
+              <template v-else>
+                <i
+                  v-if="isImage(scope.row.fileType)"
+                  class="file-icon el-icon-picture-outline"
+                />
+                <i
+                  v-else
+                  class="file-icon el-icon-document"
+                />
+                <span class="file-name">{{ scope.row.name }}</span>
+              </template>
+            </div>
           </template>
         </el-table-column>
         <el-table-column
@@ -286,6 +298,15 @@
         el.click()
 
         document.body.removeChild(el)
+      },
+
+      /**
+       * Compute if the file is an image
+       * @returns {Boolean}
+       */
+      isImage: function (fileType) {
+        const images = ['JPG', 'PNG', 'JPEG', 'TIFF', 'GIF']
+        return images.indexOf(fileType) >= 0
       }
     }
   }
@@ -314,5 +335,14 @@
 }
 .error-wrap {
   text-align: center;
+}
+.file-name-wrap {
+  display: flex;
+}
+.file-icon {
+  color: #000;
+  font-size: 16px;
+  flex-shrink: 0;
+  margin: 3px 8px 0 0;
 }
 </style>
