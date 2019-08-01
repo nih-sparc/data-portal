@@ -439,20 +439,22 @@ export default {
 }
 
 // Footer styles
-h2 {
-  color: #f9f2fc;
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 32px;
-  margin: 56px 0 24px;
-}
+.dataset-info {
+  h2 {
+    color: #f9f2fc;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 32px;
+    margin: 56px 0 24px;
+  }
 
-h3 {
-  color: #f9f2fc;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 16px;
-  margin: 0 0 16px;
+  h3 {
+    color: #f9f2fc;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 16px;
+    margin: 0 0 16px;
+  }
 }
 
 .info-publishing-history {
@@ -607,5 +609,8 @@ h3 {
       }
     }
   }
+}
+.files-table {
+  margin: 24px 0 32px;
 }
 </style>

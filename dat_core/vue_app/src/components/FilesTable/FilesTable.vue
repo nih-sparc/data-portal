@@ -4,7 +4,7 @@
       <a
         class="breadcrumb"
         href="#"
-        @click.prevent="getDirectory('/')"
+        @click.prevent="path = ''"
       >
         Root
       </a>
@@ -13,7 +13,7 @@
         v-for="(item, idx) in breadcrumbs"
         :key="idx"
       >
-        <span>/</span>
+        <span class="breadcrumb-separator">/</span>
         <a
           class="breadcrumb-link"
           href="#"
@@ -25,18 +25,22 @@
     </div>
 
     <div class="files-table-table">
-      <el-table :data="data">
+      <el-table
+        :data="data"
+        :default-sort = "{prop: 'name', order: 'ascending'}"
+      >
         <el-table-column
           fixed
           prop="name"
           label="Name"
           min-width="300"
+          sortable
         >
           <template slot-scope="scope">
             <template v-if="scope.row.type === 'Directory'">
               <a
                 href="#"
-                @click.prevent="getDirectory(`${path}${scope.row.name}/`)"
+                @click.prevent="path = scope.row.path"
               >
                 {{ scope.row.name }}
               </a>
@@ -120,101 +124,6 @@
   } from 'ramda'
   import FormatStorage from '../../mixins/bf-storage-metrics/index'
 
-  const dataDict = {
-    '/': [
-      {
-        "type": "File",
-        "name": "file name",
-        "fileType": "jpg",
-        "uri": "",
-        "size": 1341354523
-      },
-      {
-        "type": "File",
-        "name": "file name",
-        "fileType": "jpg",
-        "uri": "",
-        "size": 1341354523
-      },
-      {
-        "type": "File",
-        "name": "file name",
-        "fileType": "jpg",
-        "uri": "",
-        "size": 1341354523
-      },
-      {
-        "type": "File",
-        "name": "file name",
-        "fileType": "jpg",
-        "uri": "",
-        "size": 1341354523
-      },
-      {
-        "type": "File",
-        "name": "file name",
-        "fileType": "jpg",
-        "uri": "",
-        "size": 1341354523
-      },
-      {
-        "type": "File",
-        "name": "file name",
-        "fileType": "jpg",
-        "uri": "",
-        "size": 1341354523
-      },
-      {
-        "type": "File",
-        "name": "file name",
-        "fileType": "jpg",
-        "uri": "",
-        "size": 1341354523
-      },
-      {
-        "type": "Directory",
-        "name": "folder A"
-      }
-    ],
-
-    '/folder A/': [
-      {
-        "type": "File",
-        "name": "file name",
-        "fileType": "jpg",
-        "uri": "",
-        "size": 1341354523
-      },
-      {
-        "type": "File",
-        "name": "file name",
-        "fileType": "jpg",
-        "uri": "",
-        "size": 1341354523
-      },
-      {
-        "type": "Directory",
-        "name": "folder B"
-      }
-    ],
-
-    '/folder A/folder B/': [
-      {
-        "type": "File",
-        "name": "file name",
-        "fileType": "jpg",
-        "uri": "",
-        "size": 1341354523
-      },
-      {
-        "type": "Directory",
-        "name": "folder B"
-      }
-    ]
-
-
-  }
-
   export default {
     name: 'FilesTable',
 
@@ -224,7 +133,7 @@
 
     data: function() {
       return {
-        path: '/',
+        path: '',
         data: []
       }
     },
@@ -235,11 +144,34 @@
           reject(isEmpty),
           split('/')
         )(this.path)
+      },
+
+      /**
+       * Compute endpoint URL to get dataset's files
+       * @returns {String}
+       */
+      getFilesurl: function () {
+        const id = pathOr('', ['params', 'datasetId'], this.$route)
+        const version = propOr(1, 'version', this.datasetDetails)
+        const url = `https://api.blackfynn.io/discover/datasets/${id}/versions/${version}/files/browse`
+
+        return this.path
+          ? `${url}?path=${this.path}`
+          : url
+      }
+    },
+
+    watch: {
+      getFilesurl: {
+        handler: function () {
+          this.getFiles()
+        },
+        immediate: true
       }
     },
 
     mounted: function () {
-      this.getDirectory('/')
+      // this.getFiles()
     },
 
     methods: {
@@ -247,14 +179,11 @@
        * Get contents of directory
        * @param {String} path
        */
-      getDirectory: function (path) {
-        this.data = dataDict[path]
-        this.path = path
-
-        // this.$http.get(url)
-        //   .then(response => {
-        //     this.data = response
-        //   })
+      getFiles: function (path) {
+        this.$http.get(this.getFilesurl)
+          .then(response => {
+            this.data = response.data
+          })
       },
 
       /**
@@ -264,16 +193,10 @@
       breadcrumbNavigation: function (idx) {
         const itemIdx = idx + 1
 
-        const path = compose(
+        this.path = compose(
           join('/'),
           slice(0, itemIdx)
         )(this.breadcrumbs)
-
-        const fullPath = `/${path}/`
-
-        if (fullPath != this.path) {
-          this.getDirectory(fullPath)
-        }
       },
 
       /**
@@ -345,8 +268,20 @@
 </script>
 
 <style lang="scss" scoped>
+.breadcrumb {
+  display: flex;
+  margin-bottom: 8px;
+}
 .breadcrumb-list {
   display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.breadcrumb-link {
+  word-break: break-word;
+}
+.breadcrumb-separator {
+  margin: 0 4px;
 }
 .files-table-table {
   background: #fff;
