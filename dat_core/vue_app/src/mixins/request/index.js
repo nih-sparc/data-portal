@@ -48,7 +48,10 @@ export default {
           _trimValues(optsBody)
         }
         this.body = JSON.stringify(optsBody)
-        requestOpts = { requestOpts, ...{ body: this.body } }
+        requestOpts = {
+          requestOpts,
+          body: this.body
+        }
       }
 
       return fetch(url, requestOpts)
