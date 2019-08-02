@@ -157,6 +157,15 @@
       FormatStorage
     ],
 
+    props: {
+      datasetDetails: {
+        type: Object,
+        default: function() {
+          return {}
+        }
+      }
+    },
+
     data: function() {
       return {
         path: '',
