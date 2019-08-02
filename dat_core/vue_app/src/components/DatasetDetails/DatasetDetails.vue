@@ -32,7 +32,7 @@
     <el-row type="flex" justify="center">
       <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
         <h2>Files</h2>
-        <files-table />
+        <files-table :dataset-details="datasetDetails" />
       </el-col>
     </el-row>
 
