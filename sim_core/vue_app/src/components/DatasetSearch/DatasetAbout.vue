@@ -11,13 +11,12 @@
             Version: {{ dataset.version }}
           </p>
         </div>
+        <dataset-cite :dataset="dataset" />
         <div class="tags">
           <h4>Tags</h4>
-          <!-- <ul> -->
             <el-tag type="warning" :key="tag" v-for="tag in dataset.tags">
               {{ tag }}
             </el-tag>
-          <!-- </ul> -->
         </div>
       </el-col>
     </el-row>
@@ -25,9 +24,13 @@
 </template>
 
 <script>
+import DatasetCite from '../DatasetDetail/DatasetCite.vue';
 export default {
   name: 'dataset-about',
-  props: ['dataset']
+  props: ['dataset'],
+  components: {
+    DatasetCite
+  }
 }
 </script>
 
@@ -43,6 +46,9 @@ h3.dataset-about-header {
 }
 .el-tag {
   margin-right: 8px;
+  @media screen and (max-width: 768px) {
+    margin-top: 8px;
+  }
 }
 .information {
   font-size: 0.9em;
