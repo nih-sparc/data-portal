@@ -88,7 +88,7 @@ main = function()  {
 	
 	//Resize the required drawing area
 	var resizeMAPDrawingArea = function() {
-		var contentHeight = window.innerHeight - document.getElementById("maptab_contents").offsetTop;
+		var contentHeight = Math.ceil(window.innerHeight * 0.85);
 		mapContent.style.height = contentHeight + "px";
 	}
 	
