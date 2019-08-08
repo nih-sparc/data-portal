@@ -8,7 +8,7 @@
               <el-row>
                 <el-col :xs="24" :lg="12">
                   <h3>Analyses and Simulations</h3>
-                  <p>A powerful computing platform called o<sup>2</sup>S<sup>2</sup>PARCenables modeling, simulation, data analysis, and visualization directly within your web browser. o<sup>2</sup>S<sup>2</sup>PARC supports simulations that predict the effects of autonomic neuromodulation on organ function. A growing list of curated computational studies from various SPARC-funded teams is available for virtual experimentation on o<sup>2</sup>S<sup>2</sup>PARC.</p>
+                  <p>A powerful computing platform called o<sup>2</sup>S<sup>2</sup>PARC enables modeling, simulation, data analysis, and visualization directly within your web browser. o<sup>2</sup>S<sup>2</sup>PARC supports simulations that predict the effects of autonomic neuromodulation on organ function. A growing list of curated computational studies from various SPARC-funded teams is available for virtual experimentation on o<sup>2</sup>S<sup>2</sup>PARC.</p>
                 </el-col>
               </el-row>
             </div>
