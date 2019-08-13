@@ -27,6 +27,9 @@
               Contributors: <span v-for="(contributor, i) in dataset.contributors" :key="contributor">{{ contributor }}{{ i === dataset.contributors.length-1 ? "." : ", "}}</span>
             </p>
           </div>
+          <p>
+            <dataset-stats :dataset="dataset" />
+          </p>
           <div class="actions">
             <a v-if="dataset.study" :href="`${osparcUrl}/study/${dataset.study.uuid}`" target="_blank">
               <el-button type="warning">Run simulation</el-button>
@@ -51,6 +54,7 @@
 <script>
 import moment from 'moment';
 import Markdown from '../Markdown/Markdown.vue';
+import DatasetStats from './DatasetStats.vue';
 
 export default {
   name: 'dataset-detail',
@@ -66,7 +70,8 @@ export default {
     }
   },
   components: {
-    Markdown
+    Markdown,
+    DatasetStats
   }
 }
 </script>
