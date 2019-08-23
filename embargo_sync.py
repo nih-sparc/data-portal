@@ -34,7 +34,7 @@ def connect_mongo():
 def transform(ds):
     'Convert dataset JSON from Blackfynn to a database entry'
     content = ds['content']
-    models = bf.get_dataset(content['id']).models()
+    # models = bf.get_dataset(content['id']).models()
     doc = {
         '_id': content['intId'],
         'name': content['name'],
@@ -48,22 +48,22 @@ def transform(ds):
         'size': ds['storage'],
         'organization': org['organization']['name'],
         'organizationId': org['organization']['intId'],
-        'modelCount': {name: m.count for name,m in models.items()},
-        'fileCount': Counter(),
-        'recordCount': sum(m.count for m in models.values()),
+        # 'modelCount': {name: m.count for name,m in models.items()},
+        # 'fileCount': Counter(),
+        #'recordCount': sum(m.count for m in models.values()),
         'banner': api._get(api._uri('/datasets/{dsid}/banner', dsid=content['id'])).get('banner', None)
     }
 
     # Get file counts:
-    cursor = ''
-    while True:
-        resp = api._get(api._uri('/datasets/{dsid}/packages?cursor={cursor}', dsid=content['id'], cursor=cursor))
-        for p in resp['packages']:
-            ptype = p['content']['packageType']
-            doc['fileCount'][ptype] += 1
-        cursor = resp.get('cursor')
-        if cursor is None:
-            break
+    #cursor = ''
+    #while True:
+    #    resp = api._get(api._uri('/datasets/{dsid}/packages?cursor={cursor}', dsid=content['id'], cursor=cursor))
+    #    for p in resp['packages']:
+    #        ptype = p['content']['packageType']
+    #        doc['fileCount'][ptype] += 1
+    #    cursor = resp.get('cursor')
+    #    if cursor is None:
+    #        break
     
     return doc
 
