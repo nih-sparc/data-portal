@@ -7,7 +7,7 @@
             <div class="breadcrumb">
               <el-row>
                 <el-col :span="24">
-                  Data Core / {{ datasetName }}
+                  Browse Data / {{ datasetName }}
                 </el-col>
               </el-row>
             </div>
@@ -26,6 +26,13 @@
           class="col-xs-12 description-container"
           v-html="parsedMarkdown"
         />
+      </el-col>
+    </el-row>
+
+    <el-row type="flex" justify="center">
+      <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
+        <h2>Files</h2>
+        <files-table :dataset-details="datasetDetails" />
       </el-col>
     </el-row>
 
@@ -120,6 +127,7 @@ import {
 
 import DatasetHeader from '../DatasetHeader/DatasetHeader.vue'
 import TagList from '../TagList/TagList.vue'
+import FilesTable from '../FilesTable/FilesTable.vue'
 
 import Request from '../../mixins/request'
 import DateUtils from '../../mixins/format-date'
@@ -133,6 +141,7 @@ export default {
 
   components: {
     DatasetHeader,
+    FilesTable,
     TagList
   },
 
@@ -430,20 +439,22 @@ export default {
 }
 
 // Footer styles
-h2 {
-  color: #f9f2fc;
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 32px;
-  margin: 56px 0 24px;
-}
+.dataset-info {
+  h2 {
+    color: #f9f2fc;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 32px;
+    margin: 56px 0 24px;
+  }
 
-h3 {
-  color: #f9f2fc;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 16px;
-  margin: 0 0 16px;
+  h3 {
+    color: #f9f2fc;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 16px;
+    margin: 0 0 16px;
+  }
 }
 
 .info-publishing-history {
@@ -598,5 +609,8 @@ h3 {
       }
     }
   }
+}
+.files-table {
+  margin: 24px 0 32px;
 }
 </style>

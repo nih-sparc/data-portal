@@ -44,11 +44,9 @@ export default {
       return state.simcoreDetail.isFetching;
     }
   }),
-  methods: {
-    ...mapActions([
-      'fetchDataset'
-    ])
-  },
+  methods: mapActions([
+    'fetchDataset'
+  ]),
   created() {
     this.fetchDataset(this.id);
   }

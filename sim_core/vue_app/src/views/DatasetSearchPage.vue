@@ -7,8 +7,8 @@
             <div class="breadcrumb">
               <el-row>
                 <el-col :xs="24" :lg="12">
-                  <h3>Analyses and simulations</h3>
-                  <p>o<sup>2</sup>S<sup>2</sup>PARC, a powerful computing platform, enables modeling, simulation, data analysis, and visualization directly within your web browser. The o<sup>2</sup>S<sup>2</sup>PARC platform supports simulations that predict the effects of autonomic neuromodulation on organ function. A growing list of curated computational studies from various SPARC-funded teams is available for virtual experimentation on o<sup>2</sup>S<sup>2</sup>PARC.</p>
+                  <h3>Analyses and Simulations</h3>
+                  <p>A powerful computing platform called o<sup>2</sup>S<sup>2</sup>PARCenables modeling, simulation, data analysis, and visualization directly within your web browser. o<sup>2</sup>S<sup>2</sup>PARC supports simulations that predict the effects of autonomic neuromodulation on organ function. A growing list of curated computational studies from various SPARC-funded teams is available for virtual experimentation on o<sup>2</sup>S<sup>2</sup>PARC.</p>
                 </el-col>
               </el-row>
             </div>
@@ -20,7 +20,7 @@
       <el-row type="flex" justify="center">
         <el-col :sm="18">
           <el-row type="flex" justify="center">
-            <el-col :sm="12" :lg="10">
+            <el-col :sm="24" :lg="18" :xl="12">
               <search-form />
             </el-col>
           </el-row>
@@ -47,11 +47,9 @@ export default {
     SearchForm,
     DatasetList
   },
-  methods: {
-    ...mapActions([
-      'firstFetch'
-    ])
-  },
+  methods: mapActions([
+    'firstFetch'
+  ]),
   created() {
     this.firstFetch();
   }

@@ -7,8 +7,8 @@
             <div class="breadcrumb">
               <el-row>
                 <el-col :xs="24" :lg="12">
-                  <h3>Find SPARC data</h3>
-                  <p>A growing list of SPARC datasets provides insight into neural control of organ function and datasets are annotated with a common standard.</p>
+                  <h3>Data</h3>
+                  <p>A growing collection of SPARC data provides insight into neural control of organ function. Datasets are annotated with common standards, allowing users to perform cross-dataset comparisons and analyses.</p>
                 </el-col>
               </el-row>
             </div>
@@ -16,15 +16,6 @@
         </el-row>
       </div>
     </div>
-    <!-- <div class="top section">
-      <el-row type="flex" justify="center">
-        <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
-          <div class="header">
-            <h2>Browse the Meta Data</h2>
-          </div>
-        </el-col>
-      </el-row>
-    </div> -->
     <div class="search section">
       <el-row type="flex" justify="center">
         <el-col :xs="22" :sm="22" :md="12" :lg="8">
@@ -41,7 +32,7 @@
       <el-row type="flex" justify="center">
         <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
           <div class="tableMetadata">
-            <div class="number-of-records">Showing {{ totalCount }} records</div>
+            <div class="number-of-records">Showing {{ totalCount }} datasets</div>
           </div>
         </el-col>
       </el-row>
@@ -55,10 +46,15 @@
             :cards="results"
           />
 
+          <grid-embargo
+            v-if="searchType === 'embargo'"
+            v-loading="loading"
+            :cards="results"
+          />
+
           <div
             v-if="searchType === 'files'"
-            class="files-table"
-          >
+            class="files-table">
             <el-table :data="results">
               <el-table-column
                 fixed
@@ -137,11 +133,15 @@ import {
   propOr
 } from 'ramda'
 import Grid from "../grid/Grid.vue";
+import GridEmbargo from "../gridEmbargo/GridEmbargo.vue";
+
 import SearchControls from "../search-controls/SearchControls.vue";
 import Pagination from "../Pagination/Pagination.vue";
 import BfButton from '../shared/BfButton/BfButton.vue'
 
 import FormatStorage from '../../mixins/bf-storage-metrics/index'
+
+import "regenerator-runtime/runtime";
 
 export default {
   name: "browse",
@@ -150,7 +150,8 @@ export default {
     BfButton,
     Grid,
     SearchControls,
-    Pagination
+    Pagination,
+    GridEmbargo
   },
 
   mixins: [
@@ -224,7 +225,21 @@ export default {
       this.searchTerms = terms;
 
       const offset = (this.page - 1) * this.limit
-      const requestUrl = `https://api.blackfynn.io/discover/search/${type}?query=${terms || ""}&limit=${this.limit}&offset=${offset}&organization=SPARC%20Consortium`;
+      let requestUrl = ''
+
+      switch (type) {
+        case "datasets":
+          requestUrl = `https://api.blackfynn.io/discover/search/${type}?query=${terms || ""}&limit=${this.limit}&offset=${offset}&organization=SPARC%20Consortium`;
+          break;
+        case "files":
+          requestUrl = `https://api.blackfynn.io/discover/search/${type}?query=${terms || ""}&limit=${this.limit}&offset=${offset}&organization=SPARC%20Consortium`;
+          break;
+        case "embargo":
+          requestUrl = `/api/datasets/embargo`;
+          break;
+      }
+
+      // const requestUrl = `https://api.blackfynn.io/discover/search/${type}?query=${terms || ""}&limit=${this.limit}&offset=${offset}&organization=SPARC%20Consortium`;
 
       this.$http.get(requestUrl).then(
         function(response) {
@@ -244,6 +259,10 @@ export default {
                 fileType: response.fileType
               }));
               break;
+            case "embargo":
+              this.results = response.data
+              this.limit = response.data.length;
+              this.offset = 0;
           }
 
           this.loading = false;
