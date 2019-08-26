@@ -1,7 +1,7 @@
 var FlatmapsDialog = require('mapcoreintegratedwebapp').FlatmapsDialog;
 var FlatmapsModule = require('mapcoreintegratedwebapp').FlatmapsModule;
-var BFCSVExporterDialog = require('mapcoreintegratedwebapp').BFCSVExporterDialog;
-var BFCSVExporterModule = require('mapcoreintegratedwebapp').BFCSVExporterModule;
+var PlotsvyDialog = require('mapcoreintegratedwebapp').PlotsvyDialog;
+var PlotsvyModule = require('mapcoreintegratedwebapp').PlotsvyModule;
 var fdi_kb_query_module = require('fdikbquery').FDI_KB_Query_Module;
 var physiomeportal = require('mapcoreintegratedwebapp').physiomeportal;
 require('./css/mapcore.css');
@@ -59,19 +59,13 @@ main = function()  {
 	
 	var createDataViewer = function(organ,  annotation, url, channelNames) {
 		if (tabManager) {
-			var data = tabManager.createDialog("Data Viewer");
+			var options = {"url":url};
 			var title = annotation + "(Data)";
+			var data = tabManager.createDialog("Data Viewer", options)
 			if (organ)
 				title = organ + " " + title;
 			data.module.setName(title);
 			tabManager.setTitle(data, title);
-			data.module.plotManager.openCSV(url).then(function() {
-				if (channelNames) {
-					for (var i = 0; i < channelNames.length; i++) {
-						data.module.plotManager.plotByName(channelNames[i]);
-					}
-				}
-			});
 			return data;
 		}
 	}
@@ -163,7 +157,7 @@ main = function()  {
 			channel.onmessage = processMessage;
 			resizeMAPDrawingArea();
 			moduleManager.addConstructor("Flatmap", FlatmapsModule, FlatmapsDialog ); 
-			moduleManager.addConstructor("Data Viewer", BFCSVExporterModule, BFCSVExporterDialog );
+			moduleManager.addConstructor("Data Viewer", PlotsvyModule, PlotsvyDialog );
 			var tabContainment = document.getElementById("maptab_container");
 			tabManager = new (require('./tabmanager').TabManager)(tabContainment, moduleManager);
 			if (window.location.hash !== "") {
