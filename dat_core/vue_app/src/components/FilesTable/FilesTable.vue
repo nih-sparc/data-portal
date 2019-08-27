@@ -171,7 +171,8 @@
         path: '',
         data: [],
         isLoading: false,
-        hasError: false
+        hasError: false,
+        limit: 500
       }
     },
 
@@ -193,8 +194,8 @@
         const url = `https://api.blackfynn.io/discover/datasets/${id}/versions/${version}/files/browse`
 
         return this.path
-          ? `${url}?path=${this.path}`
-          : url
+          ? `${url}?path=${this.path}&limit=${this.limit}`
+          : `${url}?limit=${this.limit}`
       }
     },
 
@@ -221,7 +222,7 @@
 
         this.$http.get(this.getFilesurl)
           .then(response => {
-            this.data = response.data
+            this.data = response.data.files
           })
           .catch(() => {
             this.hasError = true
