@@ -12,6 +12,7 @@ main = function()  {
 	var UIIsReady = true;
 	var nav_bar = document.querySelector(".nav");
 	var parent = document.getElementById("MAPcorePortalArea");
+	var fullscreenButton = document.getElementById("fullscreen-button");
 	var mapContent = document.querySelector(".maptab-contents");
 	var mapContentPanel = document.querySelector("#mapcore_content_panel");
 	var fdikbquery = undefined;
@@ -135,14 +136,29 @@ main = function()  {
 	}
 
 	var fullscreenToggle = function() {
-		if (parent.requestFullscreen) {
-			parent.requestFullscreen();
-		} else if (parent.mozRequestFullScreen) { /* Firefox */
-			parent.mozRequestFullScreen();
-		} else if (parent.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-			parent.webkitRequestFullscreen();
-		} else if (parent.msRequestFullscreen) { /* IE/Edge */
-			parent.msRequestFullscreen();
+		if (document.fullscreenElement || document.webkitFullscreenElement ||
+			document.mozFullScreenElement || document.msFullscreenElement ) {
+			if (document.exitFullscreen) {
+				document.exitFullscreen();
+			} else if (document.mozCancelFullScreen) { /* Firefox */
+				document.mozCancelFullScreen();
+			} else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+				document.webkitExitFullscreen();
+			} else if (document.msExitFullscreen) { /* IE/Edge */
+				document.msExitFullscreen();
+			}
+			fullscreenButton.innerHTML = "Fullscreen";
+		} else {
+			if (parent.requestFullscreen) {
+				parent.requestFullscreen();
+			} else if (parent.mozRequestFullScreen) { /* Firefox */
+				parent.mozRequestFullScreen();
+			} else if (parent.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+				parent.webkitRequestFullscreen();
+			} else if (parent.msRequestFullscreen) { /* IE/Edge */
+				parent.msRequestFullscreen();
+			}
+			fullscreenButton.innerHTML = "Exit Fullscreen";
 		}
 	}
 
