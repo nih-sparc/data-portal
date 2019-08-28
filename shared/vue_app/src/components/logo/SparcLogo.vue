@@ -1,5 +1,5 @@
 <template>
-    <img class="logo" alt="SPARC logo" :src="logo"/>
+    <a href="https://data.sparc.science"><img class="logo" alt="SPARC logo" :src="logo"/></a>
 </template>
 
 <script>
