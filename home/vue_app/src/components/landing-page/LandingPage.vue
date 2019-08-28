@@ -19,6 +19,7 @@
                 <el-col :xs="22" :sm="22" :md="12" :lg="12">
                   <h1 class="hero-header">Advancing bioelectronic medicine through open science.</h1>
                   <a href=/browse><el-button type="primary" class="explore-the-data">Explore the data</el-button></a>
+                  <a href="https://sparc.science"><el-button type="primary" class="learn-more">Learn More</el-button></a>
                 </el-col>
               </el-row>
             </el-col>
@@ -395,7 +396,7 @@ export default {
   padding: 5rem 0;
 }
 
-.explore-the-data {
+.explore-the-data, .learn-more {
   background: #8300bf;
   text-transform: uppercase;
   border: 0px;
