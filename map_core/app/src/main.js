@@ -12,7 +12,9 @@ main = function()  {
 	var UIIsReady = true;
 	var nav_bar = document.querySelector(".nav");
 	var parent = document.getElementById("MAPcorePortalArea");
+	var fullscreenButton = document.getElementById("fullscreen-button");
 	var mapContent = document.querySelector(".maptab-contents");
+	var mapContentPanel = document.querySelector("#mapcore_content_panel");
 	var fdikbquery = undefined;
 	var flatmapsDialog = undefined;
 	var channel = undefined;
@@ -82,7 +84,16 @@ main = function()  {
 	
 	//Resize the required drawing area
 	var resizeMAPDrawingArea = function() {
-		var contentHeight = window.innerHeight - document.getElementById("maptab_contents").offsetTop;
+		var height = Math.ceil(window.innerHeight * 0.9);
+		var searchContainer = document.querySelector("#mapcore_search_results_container");
+		var searchContainerOptimalHeight = 860;
+		var searchHeight = searchContainerOptimalHeight + (searchContainer.offsetTop - parent.offsetTop);
+		if (searchHeight > height)
+			height = searchHeight;
+		parent.style.height = height + "px";
+		var height = parent.clientHeight;
+		var top = mapContent.offsetTop - parent.offsetTop;
+		var contentHeight = height - top;
 		mapContent.style.height = contentHeight + "px";
 	}
 	
@@ -122,7 +133,33 @@ main = function()  {
 		default:
 			break;
 		}
+	}
 
+	var fullscreenToggle = function() {
+		if (document.fullscreenElement || document.webkitFullscreenElement ||
+			document.mozFullScreenElement || document.msFullscreenElement ) {
+			if (document.exitFullscreen) {
+				document.exitFullscreen();
+			} else if (document.mozCancelFullScreen) { /* Firefox */
+				document.mozCancelFullScreen();
+			} else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+				document.webkitExitFullscreen();
+			} else if (document.msExitFullscreen) { /* IE/Edge */
+				document.msExitFullscreen();
+			}
+			fullscreenButton.innerHTML = "Fullscreen";
+		} else {
+			if (parent.requestFullscreen) {
+				parent.requestFullscreen();
+			} else if (parent.mozRequestFullScreen) { /* Firefox */
+				parent.mozRequestFullScreen();
+			} else if (parent.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+				parent.webkitRequestFullscreen();
+			} else if (parent.msRequestFullscreen) { /* IE/Edge */
+				parent.msRequestFullscreen();
+			}
+			fullscreenButton.innerHTML = "Exit Fullscreen";
+		}
 	}
 
 	/**
@@ -155,6 +192,8 @@ main = function()  {
 	    moduleManager.allowStateChange = true;  
 		fdikbquery = new fdi_kb_query_module(parent);
 		initialiseMain();
+		document.getElementById("fullscreen-button").onclick = fullscreenToggle;
+		resizeMAPDrawingArea();
 	}	
 
 	initialise();
