@@ -85,7 +85,8 @@ main = function()  {
 	var resizeMAPDrawingArea = function() {
 		var height = Math.ceil(window.innerHeight * 0.9);
 		var searchContainer = document.querySelector("#mapcore_search_results_container");
-		var searchHeight = searchContainer.offsetHeight + (searchContainer.offsetTop - parent.offsetTop);
+		var searchContainerOptimalHeight = 860;
+		var searchHeight = searchContainerOptimalHeight + (searchContainer.offsetTop - parent.offsetTop);
 		if (searchHeight > height)
 			height = searchHeight;
 		parent.style.height = height + "px";
