@@ -40,7 +40,7 @@
       </div>
       <div class="section content">
         <el-row type="flex" justify="center">
-          <el-col :xs="22" :sm="22" :md="14" :lg="14">
+          <!-- <el-col :xs="22" :sm="22" :md="14" :lg="14">
             <div class="options">
               <span class="option">
                 <a :class="{ active: activeTextBlock === 'goal' }" href="#" @click.prevent="toggleText('goal')">Goal</a>
@@ -57,7 +57,8 @@
             <p>
               {{ activeText }}
             </p>
-          </el-col>
+          </el-col> -->
+          <overview-carousel />
         </el-row>
       </div>
     </div>
@@ -113,6 +114,7 @@ import dataCore from "../../assets/images/datcore-card-image.svg";
 import datasetAbstractImage from "../../assets/images/dataset-abstract-image.png";
 import SparcFooter from "../../../../../shared/vue_app/src/components/footer/Footer.vue";
 import FeaturedDatasets from "../featured-datasets-carousel/FeaturedDatasetsCarousel.vue";
+import OverviewCarousel from '../OverviewCarousel/OverviewCarousel.vue'
 import SearchControls from "../../../../../dat_core/vue_app/src/components/search-controls/SearchControls.vue";
 
 const cores = [
@@ -143,7 +145,8 @@ export default {
   name: "landing-page",
   components: {
     FeaturedDatasets,
-    SearchControls
+    SearchControls,
+    OverviewCarousel
   },
 
   data: () => ({
