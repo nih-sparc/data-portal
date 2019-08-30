@@ -4,54 +4,30 @@
             <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
                 <div class="footer-content">
                     <el-row>
-                        <el-col class="contact" :md="8">
+                        <el-col class="contact" :md="4">
                             <sparc-logo class="logo"></sparc-logo>
-                            <p class="address">
-                                {{ footerAddress.name }}<br/>
-                                {{ footerAddress.street }}, {{ footerAddress.city }}, {{ footerAddress.state }}
-                            </p>
-                            <p class="email-address">
-                                {{ footerEmailAddress }}
-                            </p>
-                            <p class="phone-number">
-                                {{ footerPhoneNumber.join("-") }}
-                            </p>
-                            <div class="social">
-                                <p>Twitter</p>
-                                <p>Facebook</p>
-                            </div>
-                            <div class="external-link uppercase">
-                                <a href="#" @click.prevent="isContactModalVisible = true">Contact Us</a>
-                            </div>
-                            <div class="external-link uppercase">
-                                <a href="https://list.nih.gov/cgi-bin/wa.exe?SUBED1=NIH-SPARC-INFO&A=1" target="_blank">Subscribe to mailing list</a>
-                            </div>
-                            <div class="external-link uppercase">
-                                <a href="https://nih.gov">Visit the NIH site ></a>
-                            </div>
                         </el-col>
-                        <!-- <el-col :md="16">
-                            <el-row type="flex" class="link-sections">
-                                <el-col :key="section.title" :sm="12" :lg="8" class="link-section" v-for="section in footerLinks">
-                                    <p class="link-header">{{ section.title }}</p>
-                                    <ul>
-                                        <li :key="link.title" v-for="link in section.items">
-                                            <a :href="link.href">{{ link.title }}</a>
-                                        </li>
-                                    </ul>
-                                </el-col>
-                            </el-row>
-                        </el-col> -->
+                        <el-col class="contact" :md="5">
+                            <h4>Contact</h4>
+                            <a href="mailto:info@sparc.science"><p>info@sparc.science</p></a>
+                        </el-col>
+                        <el-col class="contact" :md="5">
+                            <h4>learn More</h4>
+                            <a href="https://sparc.science"><p>SPARC Portal</p></a>
+                            <a href="https://commonfund.nih.gov/Sparc/"><p>SPARC NIH</p></a>
+                            <a href="https://twitter.com/sparc_science"><p>Twitter</p></a>
+                            <a href="https://www.youtube.com/results?search_query=sparc+nih"><p>Youtube</p></a>
+                            <a href="https://www.sparc-science.org/Privacy_policy/"><p>Privacy Policy</p></a>
+                        </el-col>
+                        <el-col class="contact" :md="5">
+                            <h4>Help Us Improve</h4>
+                            <a href="https://www.sparc-science.org/feedback/">Website feedback</a>
+                        </el-col>
+                        <el-col class="contact" :md="5">
+                            <h4>Stay Up-To-Date: Subscribe</h4>
+                            <a href="https://list.nih.gov/cgi-bin/wa.exe?SUBED1=NIH-SPARC-INFO&A=1">SPARC mailing list</a>
+                        </el-col>
                     </el-row>
-                </div>
-            </el-col>
-        </el-row>
-        <el-row type="flex" justify="center">
-            <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
-                <div class="legal">
-                    <p>NIH Stimulating Peripheral Activity to Relieve Conditions</p>
-                    <p>&copy; 2019 All Rights Reserved. <a href="https://blackfynn.com/privacy">Privacy Policy</a>
-                    </p>
                 </div>
             </el-col>
         </el-row>
@@ -192,17 +168,7 @@
     @import '../../../../../static/css/_variables.scss';
 
     .footer-content {
-        font-size: 10pt;
         size: 10pt;
-    }
-
-    .address {
-        margin-bottom: 3em;
-    }
-
-    .uppercase {
-        text-transform: uppercase;
-        margin-bottom: 1em;
     }
 
 
@@ -212,8 +178,6 @@
 
         color: #5D6478;
         text-transform: uppercase;
-        font-size: 10pt;
-        font-weight: 500;
 
         .link-header {
             color: #000;
@@ -222,12 +186,42 @@
         .footer-content {
 
             .contact {
-                margin-bottom: 2em;
+              margin-bottom: 2em;
+
+              a {
+                color: #5D6478;
+                font-weight: lighter;
+                font-size: 15px;
+                text-decoration: none;
+                text-transform: none;
+                &:hover {
+                  text-decoration: none;
+                  font-size: 15px;
+                  color: #5D6478;
+                }
             }
 
+              p {
+                 font-weight: lighter;
+                 text-transform: none;
+                 font-size: 15px;
+              }
+
+              h4 {
+                 margin-top: 0;
+                 font-weight: bold;
+                 text-transform: uppercase;
+                 font-size: 15px;
+                 color: #5D6478;
+              }
+
+           }
+
             .logo {
-                height: 30px;
+                height: 74px;
+                width: 120px;
                 margin-bottom: 3em;
+                margin-top: -9px;
             }
         }
 
@@ -261,4 +255,7 @@
             }
         }
     }
+
+    .contact {
+            }
 </style>
