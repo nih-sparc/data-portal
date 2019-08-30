@@ -256,6 +256,4 @@
         }
     }
 
-    .contact {
-            }
 </style>
