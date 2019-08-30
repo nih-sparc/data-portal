@@ -5,7 +5,7 @@
                 <div class="footer-content">
                     <el-row>
                         <el-col class="contact" :md="8">
-                            <sparc-logo class="logo"></sparc-logo>
+                            <sparc-logo></sparc-logo>
                             <p class="address">
                                 {{ footerAddress.name }}<br/>
                                 {{ footerAddress.street }}, {{ footerAddress.city }}, {{ footerAddress.state }}
