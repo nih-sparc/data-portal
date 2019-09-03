@@ -42,14 +42,20 @@ main = function()  {
 		}
 		return undefined;
 	}
+
+	var upperCaseFirstLetter = function(source) {
+		var firstLetter = source.charAt(0).toUpperCase();
+		return firstLetter + source.slice(1);
+	}
 	
 	var createOrganViewer = function(species, organ, annotation, url) {
 		if (tabManager) {
 			var data = tabManager.createDialog("Organ Viewer");
 			data.module.loadOrgansFromURL(url, species, organ, annotation);
-			var title = annotation + "(Scaffold)";
+			var title = upperCaseFirstLetter(annotation) + "(Scaffold)";
 			if (organ)
 				title = organ + " " + title;
+			title = upperCaseFirstLetter(title);
 			data.module.setName(title);
 			tabManager.setTitle(data, title);
 
@@ -65,6 +71,7 @@ main = function()  {
 			var data = tabManager.createDialog("Data Viewer", options)
 			if (organ)
 				title = organ + " " + title;
+			title = upperCaseFirstLetter(title);
 			data.module.setName(title);
 			tabManager.setTitle(data, title);
 			return data;

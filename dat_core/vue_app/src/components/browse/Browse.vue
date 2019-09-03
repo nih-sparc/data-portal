@@ -229,17 +229,17 @@ export default {
 
       switch (type) {
         case "datasets":
-          requestUrl = `https://api.blackfynn.io/discover/search/${type}?query=${terms || ""}&limit=${this.limit}&offset=${offset}&organization=SPARC%20Consortium`;
-          break;
         case "files":
-          requestUrl = `https://api.blackfynn.io/discover/search/${type}?query=${terms || ""}&limit=${this.limit}&offset=${offset}&organization=SPARC%20Consortium`;
+          requestUrl = `https://api.blackfynn.io/discover/search/${type}?limit=${this.limit}&offset=${offset}&organization=SPARC%20Consortium`;
+
+          if (terms) {
+            requestUrl += `&query=${terms}`
+          }
           break;
         case "embargo":
           requestUrl = `/api/datasets/embargo`;
           break;
       }
-
-      // const requestUrl = `https://api.blackfynn.io/discover/search/${type}?query=${terms || ""}&limit=${this.limit}&offset=${offset}&organization=SPARC%20Consortium`;
 
       this.$http.get(requestUrl).then(
         function(response) {
