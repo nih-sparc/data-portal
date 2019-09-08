@@ -1,10 +1,10 @@
-var TabData = function() {
+let TabData = function() {
 	this.buttonElem = undefined;
 	this.contentElem = undefined;
 	this.textElem = undefined;
 	this.module = undefined;
 	this.dialog = undefined;
-} 
+};
 
 exports.TabManager = function(parentIn, moduleManagerIn ) {
 	const maptab = parentIn.querySelector(".maptab-tabbar");
@@ -12,8 +12,8 @@ exports.TabManager = function(parentIn, moduleManagerIn ) {
 	const moduleManager = moduleManagerIn;
 	const tabData = [];
 	const _this = this;
-	
-	
+
+
 	const toggleActiveElement = function(targetData) {
 		for (let i = 0; i < tabData.length; i++) {
 			let data = tabData[i];
@@ -22,17 +22,18 @@ exports.TabManager = function(parentIn, moduleManagerIn ) {
 		}
 		targetData.contentElem.className += " active";
 		targetData.buttonElem.className += " active";
-	}
-	
+	};
+
 	const destroyElement = function(targetData) {
 		if (targetData) {
 			targetData.buttonElem.onclick = undefined;
 			targetData.dialog.close();
 		}
-	}
-	
+	};
+
 	const addDialog = function(module) {
 		let data = new TabData();
+		data.module = module;
 		data.contentElem = document.createElement("div");
 		data.contentElem.className = "maptab-tab-content active";
 		data.buttonElem = document.createElement("div");
@@ -45,7 +46,7 @@ exports.TabManager = function(parentIn, moduleManagerIn ) {
 		data.buttonElem.appendChild(closeButton);
 		data.buttonElem.onclick = function() {toggleActiveElement(data)};
 		return data;
-	}
+	};
 	
 	const dialogDestroyed = function(data) {
 		return function(myInstance) {
@@ -56,7 +57,7 @@ exports.TabManager = function(parentIn, moduleManagerIn ) {
 				if (index > -1) {
 					tabData.splice(index, 1);
 					if (tabData.length > 0) {
-						if (index == 0)
+						if (index === 0)
 							toggleActiveElement(tabData[0]);
 						else
 							toggleActiveElement(tabData[index - 1]);
@@ -64,7 +65,7 @@ exports.TabManager = function(parentIn, moduleManagerIn ) {
 				}
 			}
 		}
-	}
+	};
 	
 	this.processHash = function(hash) {
 		const parser = new (require('mapcoreintegratedwebapp').physiomeportal.FragmentParser)();
@@ -78,25 +79,27 @@ exports.TabManager = function(parentIn, moduleManagerIn ) {
 			}
 		}
 		
-	}
+	};
 	
 	this.setTitle = function(data, title) {
 		if (data && data.textElem) {
 			data.textElem.innerHTML = title;
 		}
-	}
+	};
 	
 	this.createDialog = function(type, options) {
 		let newModule = moduleManager.createModule(type);
 		if (newModule) {
 			let data = addDialog(newModule);
-			data.module = newModule;
-			let newDialog =  moduleManager.createDialog(newModule, data.contentElem, options)
+			let newDialog = moduleManager.createDialog(newModule, data.contentElem, options);
 			if (newDialog) {
-				newDialog.setTitle(type);
-				newDialog.destroyModuleOnClose = true;
+				// newDialog.setTitle(type);
+				console.log("create dialog");
+				console.log(type);
+				console.log(contents);
 				contents.appendChild(data.contentElem);
 				maptab.appendChild(data.buttonElem);
+				newDialog.destroyModuleOnClose = true;
 				newDialog.dock();
 				newDialog.showCloseButton();
 				newDialog.beforeCloseCallbacks.push(dialogDestroyed(data));
@@ -105,7 +108,7 @@ exports.TabManager = function(parentIn, moduleManagerIn ) {
 				data.textElem.innerHTML = type;
 				tabData.push(data);
 				toggleActiveElement(data);
-				if (type == "Organ Viewer") {
+				if (type === "Organ Viewer") {
 					data.module.addBroadcastChannels("sparc-mapcore-channel");
 				}
 				return data;
@@ -113,6 +116,5 @@ exports.TabManager = function(parentIn, moduleManagerIn ) {
 		}
 		return undefined;
 	}
-
-}
+};
 
