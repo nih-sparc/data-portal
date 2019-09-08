@@ -12,6 +12,7 @@ main = function () {
   let tabManager = undefined;
   let moduleManager = undefined;
   let parent = document.getElementById("MAPcorePortalArea");
+	let fullscreenButton = document.getElementById("fullscreen-button");
   let mapContent = document.querySelector(".maptab-contents");
   let fdikbquery = undefined;
   let channelName = "sparc-mapcore-channel";
@@ -38,13 +39,19 @@ main = function () {
     return undefined;
   };
 
-  let createOrganViewer = function (species, organ, annotation, url) {
+	let upperCaseFirstLetter = function(source) {
+		let firstLetter = source.charAt(0).toUpperCase();
+		return firstLetter + source.slice(1);
+	};
+
+	let createOrganViewer = function (species, organ, annotation, url) {
     if (tabManager) {
       let data = tabManager.createDialog("Organ Viewer");
       data.module.loadOrgansFromURL(url, species, organ, annotation);
       let title = annotation + "(Scaffold)";
       if (organ)
         title = organ + " " + title;
+			title = upperCaseFirstLetter(title);
       data.module.setName(title);
       tabManager.setTitle(data, title);
 
@@ -59,15 +66,9 @@ main = function () {
       let title = annotation + "(Data)";
       if (organ)
         title = organ + " " + title;
-      data.module.setName(title);
-      tabManager.setTitle(data, title);
-      data.module.plotManager.openCSV(url).then(function () {
-        if (channelNames) {
-          for (let i = 0; i < channelNames.length; i++) {
-            data.module.plotManager.plotByName(channelNames[i]);
-          }
-        }
-      });
+			title = upperCaseFirstLetter(title);
+			data.module.setName(title);
+			tabManager.setTitle(data, title);
       return data;
     }
   };
@@ -93,12 +94,21 @@ main = function () {
   };
 
   //Resize the required drawing area
-  let resizeMAPDrawingArea = function () {
-    let contentHeight = window.innerHeight - document.getElementById("maptab_contents").offsetTop;
-    mapContent.style.height = contentHeight + "px";
-  };
+	let resizeMAPDrawingArea = function() {
+		let height = Math.ceil(window.innerHeight * 0.9);
+		let searchContainer = document.querySelector("#mapcore_search_results_container");
+		let searchContainerOptimalHeight = 860;
+		let searchHeight = searchContainerOptimalHeight + (searchContainer.offsetTop - parent.offsetTop);
+		if (searchHeight > height)
+			height = searchHeight;
+		parent.style.height = height + "px";
+		height = parent.clientHeight;
+		let top = mapContent.offsetTop - parent.offsetTop;
+		let contentHeight = height - top;
+		mapContent.style.height = contentHeight + "px";
+	};
 
-  //Messages come in from letious module, this method determine what to do with them
+	//Messages come in from letious module, this method determine what to do with them
   let processMessage = function (message) {
     switch (message.action) {
       case "query-data":
@@ -144,7 +154,34 @@ main = function () {
 
   };
 
-  /**
+	let fullscreenToggle = function() {
+		if (document.fullscreenElement || document.webkitFullscreenElement ||
+			document.mozFullScreenElement || document.msFullscreenElement ) {
+			if (document.exitFullscreen) {
+				document.exitFullscreen();
+			} else if (document.mozCancelFullScreen) { /* Firefox */
+				document.mozCancelFullScreen();
+			} else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+				document.webkitExitFullscreen();
+			} else if (document.msExitFullscreen) { /* IE/Edge */
+				document.msExitFullscreen();
+			}
+			fullscreenButton.innerHTML = "Fullscreen";
+		} else {
+			if (parent.requestFullscreen) {
+				parent.requestFullscreen();
+			} else if (parent.mozRequestFullScreen) { /* Firefox */
+				parent.mozRequestFullScreen();
+			} else if (parent.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+				parent.webkitRequestFullscreen();
+			} else if (parent.msRequestFullscreen) { /* IE/Edge */
+				parent.msRequestFullscreen();
+			}
+			fullscreenButton.innerHTML = "Exit Fullscreen";
+		}
+	};
+
+	/**
    * Initialise all the panels required for PJP to function correctly.
    * Modules used include - {@link PJP.ModelsLoader}, {@link PJP.BodyViewer},
    * {@link PJP.OrgansViewer}, {@link PJP.TissueViewer}, {@link PJP.CellPanel}
@@ -175,7 +212,9 @@ main = function () {
     moduleManager.allowStateChange = true;
     fdikbquery = new fdi_kb_query_module(parent);
     initialiseMain()
-  };
+		document.getElementById("fullscreen-button").onclick = fullscreenToggle;
+		resizeMAPDrawingArea();
+	};
 
   initialise();
 

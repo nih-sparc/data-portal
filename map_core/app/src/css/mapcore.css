@@ -68,6 +68,7 @@
   margin-right: 1px;
   border-color: black;
   border-width: 4px;
+  white-space: nowrap;
 }
 
 /* Change background color of buttons on hover */
@@ -123,19 +124,29 @@ ui-widget-content {
 	border: none;
 }
 
+.header-button {
+  border-radius: 5px 5px 5px 5px;
+  color: #8300BF;
+  position: absolute;
+  right: 20px;
+  font-size: 15px;
+  cursor: pointer;
+  text-decoration: none;
+  background: white;
+  padding: 2px;
+  border: white;
+  border-color: rgb(247, 250, 255);
+  border-bottom-color: rgb(250, 0, 64);
+  background-color: rgb(247, 250, 255);
+  border-style: solid;
+}
+
 #help-button {
-border-radius: 5px 5px 5px 5px;
-    color: #8300BF;
-    position: absolute;
-    right: 20px;
-    font-size: 15px;
-    cursor: pointer;
-    text-decoration: none;
-    background: white;
-    padding: 2px;
-    border: white;
-    border-bottom-color: rgb(250, 0, 64);
-    border-style: solid;
+  right: 20px;
+}
+
+#fullscreen-button {
+  right: 80px;
 }
 
 #mapcore_content_panel {
@@ -143,4 +154,16 @@ border-radius: 5px 5px 5px 5px;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+}
+
+#MAPcorePortalArea {
+  height: 90%;
+}
+
+#MAPcorePortalArea::backdrop{
+  background-color: rgba(247, 250, 255,1);
+}
+
+#MAPcorePortalArea::-ms-backdrop {
+  background-color: rgba(247, 250, 255,1);
 }
