@@ -58,10 +58,18 @@
             <el-table :data="results">
               <el-table-column
                 fixed
-                prop="name"
                 label="Name"
                 min-width="300"
-              />
+              >
+                <template slot-scope="scope">
+                  <div v-if="scope.row.fileType === 'MSWord' || scope.row.fileType === 'MSExcel' || scope.row.fileType === 'PowerPoint'">
+                    <a href="#" @click.prevent="openFile(scope)">  {{ scope.row.name }} </a>
+                  </div>
+                  <div v-else>
+                    {{ scope.row.name }}
+                  </div>
+                </template>
+              </el-table-column>
               <el-table-column
                 prop="fileType"
                 label="File type"

@@ -72,7 +72,12 @@
                   v-else
                   class="file-icon el-icon-document"
                 />
-                <span class="file-name">{{ scope.row.name }}</span>
+                  <div v-if="scope.row.fileType === 'MSWord' || scope.row.fileType === 'MSExcel' || scope.row.fileType === 'PowerPoint'">
+                    <a href="#" @click.prevent="openFile(scope)">  {{ scope.row.name }} </a>
+                  </div>
+                  <div v-else>
+                    {{ scope.row.name }}
+                  </div>
               </template>
             </div>
           </template>
