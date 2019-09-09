@@ -99,7 +99,7 @@
                         Download
                       </el-dropdown-item>
                       <el-dropdown-item
-                        v-if="scope.row.fileType === 'MSWord'"
+                        v-if="scope.row.fileType === 'MSWord' || scope.row.fileType === 'MSExcel' || scope.row.fileType === 'PowerPoint'"
                         :command="{
                           type: 'openFile',
                           scope

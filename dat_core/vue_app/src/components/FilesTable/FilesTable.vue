@@ -126,6 +126,15 @@
                 >
                   Download
                 </el-dropdown-item>
+              <el-dropdown-item
+                v-if="scope.row.fileType === 'MSWord' || scope.row.fileType === 'MSExcel' || scope.row.fileType === 'PowerPoint'"
+                :command="{
+                  type: 'openFile',
+                  scope
+                }"
+              >
+                Open File
+              </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </template>
@@ -291,6 +300,34 @@
           }
         )
       },
+
+    /**
+      * Opens a file in a new tab
+      * This is currently for MS Word files only
+      * @param {Object} scope
+    */
+    openFile: function(scope) {
+      const filePath = compose(
+        last,
+        defaultTo([]),
+        split('s3://blackfynn-discover-use1/'),
+        pathOr('', ['row', 'uri']),
+      )(scope)
+
+      const fileName = pathOr('', ['row', 'name'], scope)
+
+      const requestUrl = `/api/download?key=${filePath}`
+
+      this.$http.get(requestUrl).then(
+        response => {
+          const url = response.data
+          const encodedUrl = encodeURIComponent(url)
+          const finalURL = `https://view.officeapps.live.com/op/view.aspx?src=${encodedUrl}`
+          window.open(finalURL, '_blank')
+        }
+      )
+
+    },
 
       /**
        * Create an `a` tag to trigger downloading file
