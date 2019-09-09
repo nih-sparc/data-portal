@@ -304,7 +304,7 @@ export default {
 
     /**
      * Opens a file in a new tab
-     * This is currently for MS Word files only
+     * This is currently for MS Word, MS Excel, and Powerpoint files only
      * @param {Object} scope
      */
     openFile: function(scope) {
