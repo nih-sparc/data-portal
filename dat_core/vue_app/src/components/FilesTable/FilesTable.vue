@@ -133,7 +133,7 @@
                   scope
                 }"
               >
-                Open File
+                Open
               </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
