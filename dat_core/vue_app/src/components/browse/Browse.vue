@@ -98,6 +98,15 @@
                       >
                         Download
                       </el-dropdown-item>
+                      <el-dropdown-item
+                        v-if="scope.row.fileType === 'MSWord'"
+                        :command="{
+                          type: 'openFile',
+                          scope
+                        }"
+                      >
+                        Open File
+                      </el-dropdown-item>
                     </el-dropdown-menu>
                   </el-dropdown>
                 </template>
@@ -290,6 +299,15 @@ export default {
           this.downloadFile(fileName, response.data)
         }
       )
+    },
+
+    /**
+     * Opens a file in a new tab
+     * This is currently for MS Word files only
+     * @param {Object} scope
+     */
+    openFile: function(scope) {
+      
     },
 
     /**
