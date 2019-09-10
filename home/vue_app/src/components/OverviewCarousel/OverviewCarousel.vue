@@ -53,18 +53,21 @@ export default {
     };
   },
 
-  created() {
+  mounted() {
     setInterval(this.next, 5000);
   },
 
   methods: {
     next: function () {
       const first = this.slides.shift();
-      if (first.id === 2) {
-        this.activeTextBlock = "current";
-      } else {
-        this.activeTextBlock = "future";
-      }
+      console.log ("first one ", first)
+      // if (first.id === 1) {
+      //   this.activeTextBlock = "goal"
+      // } else if (first.id === 2) {
+      //   this.activeTextBlock = "current";
+      // } else {
+      //   this.activeTextBlock = "future";
+      // }
       this.slides = this.slides.concat(first);
     },
     previous: function () {
