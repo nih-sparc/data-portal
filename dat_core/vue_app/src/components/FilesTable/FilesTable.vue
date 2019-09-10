@@ -72,7 +72,7 @@
                   v-else
                   class="file-icon el-icon-document"
                 />
-                  <div v-if="scope.row.fileType === 'MSWord' || scope.row.fileType === 'MSExcel' || scope.row.fileType === 'PowerPoint'">
+                  <div v-if="isMicrosoftFileType(scope)">
                     <a href="#" @click.prevent="openFile(scope)">  {{ scope.row.name }} </a>
                   </div>
                   <div v-else>
@@ -132,7 +132,7 @@
                   Download
                 </el-dropdown-item>
               <el-dropdown-item
-                v-if="scope.row.fileType === 'MSWord' || scope.row.fileType === 'MSExcel' || scope.row.fileType === 'PowerPoint'"
+                v-if="isMicrosoftFileType(scope)"
                 :command="{
                   type: 'openFile',
                   scope
@@ -198,6 +198,7 @@
         )(this.path)
       },
 
+
       /**
        * Compute endpoint URL to get dataset's files
        * @returns {String}
@@ -227,6 +228,14 @@
     },
 
     methods: {
+
+      /**
+       * Checks if file is MS Word, MS Excel, or MS Powerpoint
+       * @param {Object} scope
+       */
+      isMicrosoftFileType: function(scope) {
+        return scope.row.fileType === 'MSWord' || scope.row.fileType === 'MSExcel' || scope.row.fileType === 'PowerPoint'
+      },
       /**
        * Get contents of directory
        */
