@@ -72,7 +72,12 @@
                   v-else
                   class="file-icon el-icon-document"
                 />
-                <span class="file-name">{{ scope.row.name }}</span>
+                  <div v-if="isMicrosoftFileType(scope)">
+                    <a href="#" @click.prevent="openFile(scope)">  {{ scope.row.name }} </a>
+                  </div>
+                  <div v-else>
+                    {{ scope.row.name }}
+                  </div>
               </template>
             </div>
           </template>
@@ -126,6 +131,15 @@
                 >
                   Download
                 </el-dropdown-item>
+              <el-dropdown-item
+                v-if="isMicrosoftFileType(scope)"
+                :command="{
+                  type: 'openFile',
+                  scope
+                }"
+              >
+                Open
+              </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </template>
@@ -184,6 +198,7 @@
         )(this.path)
       },
 
+
       /**
        * Compute endpoint URL to get dataset's files
        * @returns {String}
@@ -213,6 +228,14 @@
     },
 
     methods: {
+
+      /**
+       * Checks if file is MS Word, MS Excel, or MS Powerpoint
+       * @param {Object} scope
+       */
+      isMicrosoftFileType: function(scope) {
+        return scope.row.fileType === 'MSWord' || scope.row.fileType === 'MSExcel' || scope.row.fileType === 'PowerPoint'
+      },
       /**
        * Get contents of directory
        */
@@ -291,6 +314,34 @@
           }
         )
       },
+
+    /**
+      * Opens a file in a new tab
+      * This is currently for MS Word, MS Excel, and Powerpoint files only
+      * @param {Object} scope
+    */
+    openFile: function(scope) {
+      const filePath = compose(
+        last,
+        defaultTo([]),
+        split('s3://blackfynn-discover-use1/'),
+        pathOr('', ['row', 'uri']),
+      )(scope)
+
+      const fileName = pathOr('', ['row', 'name'], scope)
+
+      const requestUrl = `/api/download?key=${filePath}`
+
+      this.$http.get(requestUrl).then(
+        response => {
+          const url = response.data
+          const encodedUrl = encodeURIComponent(url)
+          const finalURL = `https://view.officeapps.live.com/op/view.aspx?src=${encodedUrl}`
+          window.open(finalURL, '_blank')
+        }
+      )
+
+    },
 
       /**
        * Create an `a` tag to trigger downloading file

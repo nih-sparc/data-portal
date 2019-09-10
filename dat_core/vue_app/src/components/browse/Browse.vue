@@ -58,10 +58,18 @@
             <el-table :data="results">
               <el-table-column
                 fixed
-                prop="name"
                 label="Name"
                 min-width="300"
-              />
+              >
+                <template slot-scope="scope">
+                  <div v-if="isMicrosoftFileType(scope)">
+                    <a href="#" @click.prevent="openFile(scope)">  {{ scope.row.name }} </a>
+                  </div>
+                  <div v-else>
+                    {{ scope.row.name }}
+                  </div>
+                </template>
+              </el-table-column>
               <el-table-column
                 prop="fileType"
                 label="File type"
@@ -97,6 +105,15 @@
                         }"
                       >
                         Download
+                      </el-dropdown-item>
+                      <el-dropdown-item
+                        v-if="isMicrosoftFileType(scope)"
+                        :command="{
+                          type: 'openFile',
+                          scope
+                        }"
+                      >
+                        Open
                       </el-dropdown-item>
                     </el-dropdown-menu>
                   </el-dropdown>
@@ -183,6 +200,14 @@ export default {
   },
 
   methods: {
+
+    /**
+       * Checks if file is MS Word, MS Excel, or MS Powerpoint
+       * @param {Object} scope
+       */
+      isMicrosoftFileType: function(scope) {
+        return scope.row.fileType === 'MSWord' || scope.row.fileType === 'MSExcel' || scope.row.fileType === 'PowerPoint'
+      },
     /**
      * Format storage column
      * @param {Object} row
@@ -285,11 +310,40 @@ export default {
       const fileName = pathOr('', ['row', 'name'], scope)
 
       const requestUrl = `/api/download?key=${filePath}`
+
       this.$http.get(requestUrl).then(
         response => {
           this.downloadFile(fileName, response.data)
         }
       )
+    },
+
+    /**
+     * Opens a file in a new tab
+     * This is currently for MS Word, MS Excel, and Powerpoint files only
+     * @param {Object} scope
+     */
+    openFile: function(scope) {
+      const filePath = compose(
+        last,
+        defaultTo([]),
+        split('s3://blackfynn-discover-use1/'),
+        pathOr('', ['row', 'uri']),
+      )(scope)
+
+      const fileName = pathOr('', ['row', 'name'], scope)
+
+      const requestUrl = `/api/download?key=${filePath}`
+
+      this.$http.get(requestUrl).then(
+        response => {
+          const url = response.data
+          const encodedUrl = encodeURIComponent(url)
+          const finalURL = `https://view.officeapps.live.com/op/view.aspx?src=${encodedUrl}`
+          window.open(finalURL, '_blank')
+        }
+      )
+
     },
 
     /**
