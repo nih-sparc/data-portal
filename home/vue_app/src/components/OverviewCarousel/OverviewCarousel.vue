@@ -56,7 +56,7 @@ export default {
   },
 
   created() {
-    setInterval(this.next, 5000);
+    setInterval(this.next, 10000);
   },
 
 
