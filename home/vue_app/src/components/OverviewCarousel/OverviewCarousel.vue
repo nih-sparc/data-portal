@@ -34,45 +34,47 @@ export default {
     return {
       slides: [
         {
+          title: "The SPARC Portal will enable users to run advanced analytics and computational studies to predict the effects of neuromodulation on organ function.",
+          id: 3,
+          heading: 'future'
+        },
+        {
           title:
             "Catalyze the development of next-generation bioelectronic medicines by providing access to high-value datasets, maps, and predictive simuatations",
-          id: 1
+          id: 1,
+          heading: 'goal'
         },
         {
           title:
             "Launched in July 2019, the SPARC Portal is an open-source web application that provides access to a growing collection of interactive autonomic neuroscience resources",
-          id: 2
-        },
-        {
-          title:
-            "The SPARC Portal will enable users to run advanced analytics and computational studies to predict the effects of neuromodulation on organ function.",
-          id: 3
+          id: 2,
+          heading: 'current'
         }
       ],
-      activeTextBlock: "goal"
+      activeTextBlock: 'goal'
     };
   },
 
-  mounted() {
+  created() {
     setInterval(this.next, 5000);
   },
 
+
   methods: {
+    /**
+     * Function to iterate to the next slide and change the
+     * navigation ticker
+     */
     next: function () {
       const first = this.slides.shift();
-      console.log ("first one ", first)
-      // if (first.id === 1) {
-      //   this.activeTextBlock = "goal"
-      // } else if (first.id === 2) {
-      //   this.activeTextBlock = "current";
-      // } else {
-      //   this.activeTextBlock = "future";
-      // }
+      if (this.activeTextBlock === 'goal'){
+        this.activeTextBlock = 'current'
+      } else if (this.activeTextBlock === 'current') {
+        this.activeTextBlock = 'future'
+      } else {
+        this.activeTextBlock = 'goal'
+      }
       this.slides = this.slides.concat(first);
-    },
-    previous: function () {
-      const last = this.slides.pop();
-      this.slides = [last].concat(this.slides);
     }
   }
 };
