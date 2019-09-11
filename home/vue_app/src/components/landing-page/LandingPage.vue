@@ -40,24 +40,6 @@
       </div>
       <div class="section content">
         <el-row type="flex" justify="center">
-          <!-- <el-col :xs="22" :sm="22" :md="14" :lg="14">
-            <div class="options">
-              <span class="option">
-                <a :class="{ active: activeTextBlock === 'goal' }" href="#" @click.prevent="toggleText('goal')">Goal</a>
-              </span>
-              <span>•</span>
-              <span class="option">
-                <a :class="{ active: activeTextBlock === 'current' }" href="#" @click.prevent="toggleText('current')">Current</a>
-              </span>
-              <span>•</span>
-              <span class="option">
-                <a :class="{ active: activeTextBlock === 'future' }" href="#" @click.prevent="toggleText('future')">Future</a>
-              </span>
-            </div>
-            <p>
-              {{ activeText }}
-            </p>
-          </el-col> -->
           <overview-carousel />
         </el-row>
       </div>
