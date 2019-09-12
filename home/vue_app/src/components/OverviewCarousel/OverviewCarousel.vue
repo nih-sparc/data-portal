@@ -3,27 +3,29 @@
     <div class="carousel-controls">
       <div class="options">
         <span class="option">
-          <a :class="{ active: activeTextBlock === 'goal' }" href="#" @click.prevent="next">Goal</a>
+          <a :class="{ active: activeTextBlock === 'Goal' }" href="#" @click.prevent="next">Goal</a>
         </span>
         <span>•</span>
         <span class="option">
           <a
-            :class="{ active: activeTextBlock === 'current' }"
+            :class="{ active: activeTextBlock === 'Current' }"
             href="#"
             @click.prevent="next"
           >Current</a>
         </span>
         <span>•</span>
         <span class="option">
-          <a :class="{ active: activeTextBlock === 'future' }" href="#" @click.prevent="next">Future</a>
+          <a :class="{ active: activeTextBlock === 'Future' }" href="#" @click.prevent="next">Future</a>
         </span>
       </div>
     </div>
-    <transition-group class="carousel" tag="div">
+  <el-row type="flex" justify="center">
+    <transition-group tag="div">
       <div v-for="slide in slides" class="slide" :key="slide.id">
         <h4>{{ slide.title }}</h4>
       </div>
     </transition-group>
+    </el-row>
   </div>
 </template>
 
@@ -36,22 +38,22 @@ export default {
         {
           title: "The SPARC Portal will enable users to run advanced analytics and computational studies to predict the effects of neuromodulation on organ function.",
           id: 3,
-          heading: 'future'
+          heading: 'Future'
         },
         {
           title:
             "Catalyze the development of next-generation bioelectronic medicines by providing access to high-value datasets, maps, and predictive simuatations",
           id: 1,
-          heading: 'goal'
+          heading: 'Goal'
         },
         {
           title:
             "Launched in July 2019, the SPARC Portal is an open-source web application that provides access to a growing collection of interactive autonomic neuroscience resources",
           id: 2,
-          heading: 'current'
+          heading: 'Current'
         }
       ],
-      activeTextBlock: 'goal'
+      activeTextBlock: 'Goal'
     };
   },
 
@@ -67,12 +69,12 @@ export default {
      */
     next: function () {
       const first = this.slides.shift();
-      if (this.activeTextBlock === 'goal'){
-        this.activeTextBlock = 'current'
-      } else if (this.activeTextBlock === 'current') {
-        this.activeTextBlock = 'future'
+      if (this.activeTextBlock === 'Goal'){
+        this.activeTextBlock = 'Current'
+      } else if (this.activeTextBlock === 'Current') {
+        this.activeTextBlock = 'Future'
       } else {
-        this.activeTextBlock = 'goal'
+        this.activeTextBlock = 'Goal'
       }
       this.slides = this.slides.concat(first);
     }
@@ -98,7 +100,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 0.3s ease-in-out;
+  transition: visibility 0s, opacity 0s linear;
   font-weight: normal;
 }
 .slide:first-of-type {
