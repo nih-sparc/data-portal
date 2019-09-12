@@ -40,11 +40,9 @@
       </div>
       <div class="section content">
         <el-row type="flex" justify="center">
-        <el-row type="flex" justify="center">
           <el-col :xs="22" :sm="22" :md="14" :lg="14">
             <overview-carousel />
           </el-col>
-        </el-row>
         </el-row>
       </div>
     </div>
