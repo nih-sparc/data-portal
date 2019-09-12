@@ -38,7 +38,7 @@
               </div>
               <div class="dataset-owners">
                 <template v-if="!isContributorListVisible">
-                  {{ firstContributor }}
+                  <contributor-item :contributor="firstContributor" />
                   <button
                     class="contributors-button"
                     href="#"
@@ -46,12 +46,20 @@
                   >
                     <span class="button-text">...</span>
                   </button>
-                  <strong>{{ lastContributor }}</strong>
                 </template>
 
-                <template v-else>
-                  {{ datasetContributors.join(", ") }}
-                </template>
+                <div
+                  v-for="(contributor, idx) in datasetContributorsList"
+                  :key="contributor.id"
+                  class="contributor-item-wrap"
+                >
+                  <contributor-item
+                    :contributor="contributor"
+                  />
+                  <template v-if="idx < datasetContributorsList.length - 1">
+                    ,
+                  </template>
+                </div>
               </div>
             </div>
 
@@ -153,6 +161,7 @@ import BfButton from '../shared/BfButton/BfButton.vue'
 
 import DatasetBannerImage from '../DatasetBannerImage/DatasetBannerImage.vue'
 import DownloadDataset from '../DownloadDataset/DownloadDataset.vue'
+import ContributorItem from '../ContributorItem/ContributorItem.vue'
 
 import FormatDate from '../../mixins/format-date'
 
@@ -162,6 +171,7 @@ import {
   compose,
   head,
   split,
+  last,
   propOr
 } from 'ramda'
 export default {
@@ -169,6 +179,7 @@ export default {
 
   components: {
     BfButton,
+    ContributorItem,
     DatasetBannerImage,
     DownloadDataset
   },
@@ -186,11 +197,22 @@ export default {
     return {
       isDownloadModalVisible: false,
       isVersionModalVisible: false,
-      isContributorListVisible: false
+      isContributorListVisible: true
     }
   },
 
   computed: {
+    /**
+     * Compute contributors list based
+     * on expanded list being show
+     * @returns {Array}
+     */
+    datasetContributorsList: function () {
+      return this.isContributorListVisible
+        ? this.datasetContributors
+        : [last(this.datasetContributors)]
+    },
+
     /**
      * Compute URL for dataset on Blackfynn Discover
      * @returns {String}
@@ -371,8 +393,8 @@ export default {
 
   watch: {
     datasetContributors: function (val) {
-      if (val.length <= 5) {
-        this.isContributorListVisible = true
+      if (val.length > 5) {
+        this.isContributorListVisible = false
       }
     }
   },
@@ -549,6 +571,10 @@ export default {
   font-size: 14px;
   line-height: 24px;
   margin-bottom: 40px;
+  .contributor-item-wrap {
+    display: inline-flex;
+    margin-right: 4px;
+  }
 }
 
 .dataset-updated-date {
