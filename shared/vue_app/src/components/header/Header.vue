@@ -47,11 +47,7 @@
     const path = () => window.location.pathname || "";
     const hash = () => window.location.hash || "";
 
-  //  const pathOrHashContainsString = (query) => (path().indexOf(query) > -1) || (hash().indexOf(query) > -1);
-    const pathOrHashContainsString = function(query) {
-        // console.log("window object ", window)
-        return path().indexOf(query) > -1 || hash().indexOf(query) > -1
-    }
+    const pathOrHashContainsString = (query) => (path().indexOf(query) > -1) || (hash().indexOf(query) > -1);
 
     const links = [
         {
