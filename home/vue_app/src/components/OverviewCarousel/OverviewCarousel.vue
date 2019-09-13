@@ -2,29 +2,26 @@
   <div class="carousel-view">
     <div class="carousel-controls">
       <div class="options">
-        <span class="option">
-          <a :class="{ active: activeTextBlock === 'Goal' }" href="#" @click.prevent="next">Goal</a>
-        </span>
-        <span>•</span>
-        <span class="option">
-          <a
-            :class="{ active: activeTextBlock === 'Current' }"
-            href="#"
-            @click.prevent="next"
-          >Current</a>
-        </span>
-        <span>•</span>
-        <span class="option">
-          <a :class="{ active: activeTextBlock === 'Future' }" href="#" @click.prevent="next">Future</a>
+        <span
+          v-for="slide in slides"
+          :key="slide.id"
+          class="option"
+       >
+          <a :class="{ active: slide.heading === activeTextBlock }" href="#" @click.prevent="toggleSlide(slide.heading)"> {{ slide.heading }}</a>
+          <span v-if="slide.id !== slides.length" class="dot">•</span>
         </span>
       </div>
     </div>
-  <el-row type="flex" justify="center">
-    <transition-group tag="div">
-      <div v-for="slide in slides" class="slide" :key="slide.id">
-        <h4>{{ slide.title }}</h4>
-      </div>
-    </transition-group>
+    <el-row type="flex" justify="center">
+      <template v-for="slide in slides">
+        <div
+          v-if="slide.heading === activeTextBlock"
+          class="slide"
+          :key="slide.id"
+        >
+          <p>{{ slide.title }}</p>
+        </div>
+      </template>
     </el-row>
   </div>
 </template>
@@ -35,12 +32,7 @@ export default {
   data() {
     return {
       slides: [
-        {
-          title: "The SPARC Portal will enable users to run advanced analytics and computational studies to predict the effects of neuromodulation on organ function.",
-          id: 3,
-          heading: 'Future'
-        },
-        {
+         {
           title:
             "Catalyze the development of next-generation bioelectronic medicines by providing access to high-value datasets, maps, and predictive simuatations",
           id: 1,
@@ -51,24 +43,37 @@ export default {
             "Launched in July 2019, the SPARC Portal is an open-source web application that provides access to a growing collection of interactive autonomic neuroscience resources",
           id: 2,
           heading: 'Current'
-        }
+        },
+        {
+          title: "The SPARC Portal will enable users to run advanced analytics and computational studies to predict the effects of neuromodulation on organ function.",
+          id: 3,
+          heading: 'Future'
+        },
       ],
-      activeTextBlock: 'Goal'
+      activeTextBlock: 'Goal',
+      timer: 0,
+      autoplayTimeout: () => {}
     };
   },
 
   created() {
-    setInterval(this.next, 10000);
+    this.startAutoplay()
   },
 
 
   methods: {
     /**
+     * Start autoplay for slides
+     */
+    startAutoplay: function () {
+      this.timer = setInterval(this.next, 10000);
+    },
+
+    /**
      * Function to iterate to the next slide and change the
      * navigation ticker
      */
     next: function () {
-      const first = this.slides.shift();
       if (this.activeTextBlock === 'Goal'){
         this.activeTextBlock = 'Current'
       } else if (this.activeTextBlock === 'Current') {
@@ -76,7 +81,20 @@ export default {
       } else {
         this.activeTextBlock = 'Goal'
       }
-      this.slides = this.slides.concat(first);
+    },
+
+    /**
+     * Toggle slide based on heading selection
+     * @param {Object} slide
+     */
+    toggleSlide: function(slide) {
+      clearInterval(this.timer)
+      this.activeTextBlock = slide
+
+      clearTimeout(this.autoplayTimeout);
+      this.autoplayTimeout = setTimeout(() => {
+        this.startAutoplay()
+      }, 5000);
     }
   }
 };
@@ -95,19 +113,12 @@ export default {
   overflow: hidden;
 }
 .slide {
-  flex: 0 0 50em;
   margin: 1em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: visibility 0s, opacity 0s linear;
   font-weight: normal;
 }
-.slide:first-of-type {
-  opacity: 0;
-}
-.slide:last-of-type {
-  opacity: 0;
+
+.dot {
+  margin-left: 18px;
 }
 
 .option {
