@@ -31,7 +31,7 @@
                         </div>
                         <ul>
                             <li :key="link.href" v-for="link in links">
-                                <a v-bind:class="{active: link.active}" :href="link.href">{{ link.title }}</a>
+                                <a v-bind:class="{active: link.active}" :href="link.href" @click="changeActiveValue(link.href)">{{ link.title }}</a>
                             </li>
                         </ul>
                     </div>
@@ -89,7 +89,16 @@
         data: () => ({
             links,
             menuOpen: false
-        })
+        }),
+        methods: {
+            changeActiveValue: function(link) {
+                if (link === '/#/about') {
+                    this.links[0].active = false
+                    this.links[1].active = true
+                }
+                return link
+            }
+        },
     }
 </script>
 

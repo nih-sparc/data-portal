@@ -66,7 +66,7 @@ export default {
      * Start autoplay for slides
      */
     startAutoplay: function () {
-      this.timer = setInterval(this.next, 10000);
+      this.timer = setInterval(this.next, 7000);
     },
 
     /**
