@@ -104,16 +104,16 @@
 .maptab-tab-content {
   display: none;
   padding: 0px 0px;
-  border: 1px solid #ccc;
   border-top: none;
   height: 100%;
   position: absolute;
   width: 100%;
+  top: 0px;
 }
 
 /* Style the tab content */
 .maptab-tab-content.active {
-  display: inline-block;
+  display: block;
 }
 
 .ui-widget.ui-widget-content {
@@ -166,4 +166,29 @@ ui-widget-content {
 
 #MAPcorePortalArea::-ms-backdrop {
   background-color: rgba(247, 250, 255,1);
+}
+
+.background-message {
+  padding: 0px 0px;
+  height: 80%;
+  position: absolute;
+  width: 60%;
+  top: 20%;
+  left: 20%;
+  font-size: 20px;
+  text-align: center;
+}
+
+#reopen {
+  border-radius: 5px 5px 5px 5px;
+  color: #8300BF;
+  cursor: pointer;
+  text-decoration: none;
+  background: white;
+  padding: 2px;
+  border: white;
+  border-color: rgb(247, 250, 255);
+  border-bottom-color: rgb(250, 0, 64);
+  background-color: rgb(247, 250, 255);
+  border-style: solid;
 }
