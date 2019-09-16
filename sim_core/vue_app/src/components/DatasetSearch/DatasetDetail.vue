@@ -24,7 +24,7 @@
               Owner: {{ dataset.ownerName }}<br>
             </p>
             <p v-if="dataset.contributors.length">
-              Contributors: <span v-for="(contributor, i) in dataset.contributors" :key="contributor">{{ contributor }}{{ i === dataset.contributors.length-1 ? "." : ", "}}</span>
+              Contributors: <span v-for="(contributor, i) in dataset.contributors" :key="contributor.id">{{ contributor.firstName }} {{ contributor.lastName }}{{ i === dataset.contributors.length-1 ? "." : ", "}}</span>
             </p>
           </div>
           <p>
