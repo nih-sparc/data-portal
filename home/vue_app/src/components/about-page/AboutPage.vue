@@ -20,10 +20,7 @@
 
 <script>
     export default {
-        name: 'about-page',
-        components: {
-
-        }
+        name: 'about-page'
     }
 </script>
 
