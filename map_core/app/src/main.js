@@ -181,6 +181,10 @@ main = function () {
 		}
 	};
 
+	const reopenDefaultDialog = function() {
+		createFlatmap("Human", "NCBITaxon:9606");
+	};
+
 	/**
    * Initialise all the panels required for PJP to function correctly.
    * Modules used include - {@link PJP.ModelsLoader}, {@link PJP.BodyViewer},
@@ -200,7 +204,7 @@ main = function () {
       if (window.location.hash !== "") {
         tabManager.processHash(window.location.hash);
       } else {
-        createFlatmap("Human", "NCBITaxon:9606");
+        reopenDefaultDialog();
       }
     }
   };
@@ -213,6 +217,7 @@ main = function () {
     fdikbquery = new fdi_kb_query_module(parent);
     initialiseMain()
 		document.getElementById("fullscreen-button").onclick = fullscreenToggle;
+		document.getElementById("reopen").onclick = reopenDefaultDialog;
 		resizeMAPDrawingArea();
 	};
 
