@@ -4,6 +4,8 @@ let BFCSVExporterDialog = require('mapcoreintegratedwebapp').BFCSVExporterDialog
 let BFCSVExporterModule = require('mapcoreintegratedwebapp').BFCSVExporterModule;
 let SimulationDialog = require('mapcoreintegratedwebapp').SimulationDialog;
 let SimulationModule = require('mapcoreintegratedwebapp').SimulationModule;
+let BiolucidaDialog = require('mapcoreintegratedwebapp').BiolucidaDialog;
+let BiolucidaModule = require('mapcoreintegratedwebapp').BiolucidaModule;
 let fdi_kb_query_module = require('fdikbquery').FDI_KB_Query_Module;
 let physiomeportal = require('mapcoreintegratedwebapp').physiomeportal;
 require('./css/mapcore.css');
@@ -82,6 +84,16 @@ main = function () {
     }
   };
 
+  let createBiolucidaViewer = function (tab_name, options) {
+    if (tabManager) {
+      let data = tabManager.createDialog("Biolucida Interface", options);
+      let truncated_tab_name = (tab_name.length > 21) ? tab_name.substr(0, 17) + '&hellip;': tab_name;
+      let title = truncated_tab_name + "(Image)";
+      tabManager.setTitle(data, title);
+      return data;
+    }
+  };
+
   let createFlatmap = function (species, entry) {
     if (tabManager) {
       let data = tabManager.createDialog("Flatmap", {flatmapEntry: entry});
@@ -138,13 +150,12 @@ main = function () {
         break;
       case "image-show":
         if (message.resource) {
-          window.open(message.resource, '_blank');
+          createBiolucidaViewer(message.data['Title'], message.resource)
+          // window.open(message.resource, '_blank');
         }
         break;
       case "simulation-show":
         if (message.resource) {
-          console.log(message.resource);
-          console.log(message.data);
           createSimulationViewer(message.data['simulation_name'], message.resource)
         }
         break;
@@ -199,6 +210,7 @@ main = function () {
       moduleManager.addConstructor("Flatmap", FlatmapsModule, FlatmapsDialog);
       moduleManager.addConstructor("Data Viewer", BFCSVExporterModule, BFCSVExporterDialog);
       moduleManager.addConstructor("Simulation Interface", SimulationModule, SimulationDialog);
+      moduleManager.addConstructor("Biolucida Interface", BiolucidaModule, BiolucidaDialog);
       let tabContainment = document.getElementById("maptab_container");
       tabManager = new (require('./tabmanager').TabManager)(tabContainment, moduleManager);
       if (window.location.hash !== "") {

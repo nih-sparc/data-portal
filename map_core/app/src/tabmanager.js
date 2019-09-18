@@ -94,9 +94,6 @@ exports.TabManager = function(parentIn, moduleManagerIn ) {
 			let newDialog = moduleManager.createDialog(newModule, data.contentElem, options);
 			if (newDialog) {
 				// newDialog.setTitle(type);
-				console.log("create dialog");
-				console.log(type);
-				console.log(contents);
 				contents.appendChild(data.contentElem);
 				maptab.appendChild(data.buttonElem);
 				newDialog.destroyModuleOnClose = true;
