@@ -1,7 +1,7 @@
 var FlatmapsDialog = require('mapcoreintegratedwebapp').FlatmapsDialog;
 var FlatmapsModule = require('mapcoreintegratedwebapp').FlatmapsModule;
-var BFCSVExporterDialog = require('mapcoreintegratedwebapp').BFCSVExporterDialog;
-var BFCSVExporterModule = require('mapcoreintegratedwebapp').BFCSVExporterModule;
+var PlotsvyDialog = require('mapcoreintegratedwebapp').PlotsvyDialog;
+var PlotsvyModule = require('mapcoreintegratedwebapp').PlotsvyModule;
 var fdi_kb_query_module = require('fdikbquery').FDI_KB_Query_Module;
 var physiomeportal = require('mapcoreintegratedwebapp').physiomeportal;
 require('./css/mapcore.css');
@@ -12,7 +12,9 @@ main = function()  {
 	var UIIsReady = true;
 	var nav_bar = document.querySelector(".nav");
 	var parent = document.getElementById("MAPcorePortalArea");
+	var fullscreenButton = document.getElementById("fullscreen-button");
 	var mapContent = document.querySelector(".maptab-contents");
+	var mapContentPanel = document.querySelector("#mapcore_content_panel");
 	var fdikbquery = undefined;
 	var flatmapsDialog = undefined;
 	var channel = undefined;
@@ -40,14 +42,20 @@ main = function()  {
 		}
 		return undefined;
 	}
+
+	var upperCaseFirstLetter = function(source) {
+		var firstLetter = source.charAt(0).toUpperCase();
+		return firstLetter + source.slice(1);
+	}
 	
 	var createOrganViewer = function(species, organ, annotation, url) {
 		if (tabManager) {
 			var data = tabManager.createDialog("Organ Viewer");
 			data.module.loadOrgansFromURL(url, species, organ, annotation);
-			var title = annotation + "(Scaffold)";
+			var title = upperCaseFirstLetter(annotation) + "(Scaffold)";
 			if (organ)
 				title = organ + " " + title;
+			title = upperCaseFirstLetter(title);
 			data.module.setName(title);
 			tabManager.setTitle(data, title);
 
@@ -58,19 +66,14 @@ main = function()  {
 	
 	var createDataViewer = function(organ,  annotation, url, channelNames) {
 		if (tabManager) {
-			var data = tabManager.createDialog("Data Viewer");
+			var options = {"url":url};
 			var title = annotation + "(Data)";
+			var data = tabManager.createDialog("Data Viewer", options)
 			if (organ)
 				title = organ + " " + title;
+			title = upperCaseFirstLetter(title);
 			data.module.setName(title);
 			tabManager.setTitle(data, title);
-			data.module.plotManager.openCSV(url).then(function() {
-				if (channelNames) {
-					for (var i = 0; i < channelNames.length; i++) {
-						data.module.plotManager.plotByName(channelNames[i]);
-					}
-				}
-			});
 			return data;
 		}
 	}
@@ -88,7 +91,16 @@ main = function()  {
 	
 	//Resize the required drawing area
 	var resizeMAPDrawingArea = function() {
-		var contentHeight = window.innerHeight - document.getElementById("maptab_contents").offsetTop;
+		var height = Math.ceil(window.innerHeight * 0.9);
+		var searchContainer = document.querySelector("#mapcore_search_results_container");
+		var searchContainerOptimalHeight = 860;
+		var searchHeight = searchContainerOptimalHeight + (searchContainer.offsetTop - parent.offsetTop);
+		if (searchHeight > height)
+			height = searchHeight;
+		parent.style.height = height + "px";
+		var height = parent.clientHeight;
+		var top = mapContent.offsetTop - parent.offsetTop;
+		var contentHeight = height - top;
 		mapContent.style.height = contentHeight + "px";
 	}
 	
@@ -128,7 +140,37 @@ main = function()  {
 		default:
 			break;
 		}
+	}
 
+	var fullscreenToggle = function() {
+		if (document.fullscreenElement || document.webkitFullscreenElement ||
+			document.mozFullScreenElement || document.msFullscreenElement ) {
+			if (document.exitFullscreen) {
+				document.exitFullscreen();
+			} else if (document.mozCancelFullScreen) { /* Firefox */
+				document.mozCancelFullScreen();
+			} else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+				document.webkitExitFullscreen();
+			} else if (document.msExitFullscreen) { /* IE/Edge */
+				document.msExitFullscreen();
+			}
+			fullscreenButton.innerHTML = "Fullscreen";
+		} else {
+			if (parent.requestFullscreen) {
+				parent.requestFullscreen();
+			} else if (parent.mozRequestFullScreen) { /* Firefox */
+				parent.mozRequestFullScreen();
+			} else if (parent.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+				parent.webkitRequestFullscreen();
+			} else if (parent.msRequestFullscreen) { /* IE/Edge */
+				parent.msRequestFullscreen();
+			}
+			fullscreenButton.innerHTML = "Exit Fullscreen";
+		}
+	}
+
+	var reopenDefaultDialog = function() {
+		createFlatmap("Human", "NCBITaxon:9606");
 	}
 
 	/**
@@ -143,13 +185,13 @@ main = function()  {
 			channel.onmessage = processMessage;
 			resizeMAPDrawingArea();
 			moduleManager.addConstructor("Flatmap", FlatmapsModule, FlatmapsDialog ); 
-			moduleManager.addConstructor("Data Viewer", BFCSVExporterModule, BFCSVExporterDialog );
+			moduleManager.addConstructor("Data Viewer", PlotsvyModule, PlotsvyDialog );
 			var tabContainment = document.getElementById("maptab_container");
 			tabManager = new (require('./tabmanager').TabManager)(tabContainment, moduleManager);
 			if (window.location.hash !== "") {
 				tabManager.processHash(window.location.hash);
 			} else {
-				createFlatmap("Human", "NCBITaxon:9606");
+				reopenDefaultDialog();
 			}
 		}
 	}
@@ -161,6 +203,9 @@ main = function()  {
 	    moduleManager.allowStateChange = true;  
 		fdikbquery = new fdi_kb_query_module(parent);
 		initialiseMain();
+		document.getElementById("fullscreen-button").onclick = fullscreenToggle;
+		document.getElementById("reopen").onclick = reopenDefaultDialog;
+		resizeMAPDrawingArea();
 	}	
 
 	initialise();
