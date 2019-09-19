@@ -1,7 +1,7 @@
 let FlatmapsDialog = require('mapcoreintegratedwebapp').FlatmapsDialog;
 let FlatmapsModule = require('mapcoreintegratedwebapp').FlatmapsModule;
-let BFCSVExporterDialog = require('mapcoreintegratedwebapp').BFCSVExporterDialog;
-let BFCSVExporterModule = require('mapcoreintegratedwebapp').BFCSVExporterModule;
+let PlotsvyDialog = require('mapcoreintegratedwebapp').PlotsvyDialog;
+let PlotsvyModule = require('mapcoreintegratedwebapp').PlotsvyModule;
 let SimulationDialog = require('mapcoreintegratedwebapp').SimulationDialog;
 let SimulationModule = require('mapcoreintegratedwebapp').SimulationModule;
 let BiolucidaDialog = require('mapcoreintegratedwebapp').BiolucidaDialog;
@@ -64,7 +64,8 @@ main = function () {
 
   let createDataViewer = function (organ, annotation, url, channelNames) {
     if (tabManager) {
-      let data = tabManager.createDialog("Data Viewer");
+      let options = {"url":url};
+      let data = tabManager.createDialog("Data Viewer", options);
       let title = annotation + "(Data)";
       if (organ)
         title = organ + " " + title;
@@ -208,7 +209,7 @@ main = function () {
       channel.onmessage = processMessage;
       resizeMAPDrawingArea();
       moduleManager.addConstructor("Flatmap", FlatmapsModule, FlatmapsDialog);
-      moduleManager.addConstructor("Data Viewer", BFCSVExporterModule, BFCSVExporterDialog);
+      moduleManager.addConstructor("Data Viewer", PlotsvyModule, PlotsvyDialog);
       moduleManager.addConstructor("Simulation Interface", SimulationModule, SimulationDialog);
       moduleManager.addConstructor("Biolucida Interface", BiolucidaModule, BiolucidaDialog);
       let tabContainment = document.getElementById("maptab_container");
