@@ -186,7 +186,14 @@ let main = function () {
 
 	const reopenDefaultDialog = function() {
 		createFlatmap("Human", "NCBITaxon:9606");
-	};
+  };
+  
+  const switchBackgroundContent = function() {
+    let target = document.querySelector(".overlay-page");
+    target.style.display = "none";
+    target = document.querySelector("#background-message");
+    target.style.display = "block";
+  }
 
 	/**
    * Initialise all the panels required for PJP to function correctly.
@@ -214,6 +221,7 @@ let main = function () {
       } else {
         reopenDefaultDialog();
       }
+      switchBackgroundContent();
     }
   };
 

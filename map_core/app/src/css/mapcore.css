@@ -192,3 +192,28 @@ ui-widget-content {
   background-color: rgb(247, 250, 255);
   border-style: solid;
 }
+
+#loading-icon {
+  position:relative;
+  top:30%;
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #3498db;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  margin: auto;
+  animation: spin 2s linear infinite;
+}
+
+.overlay-page {
+  position: fixed; /* Sit on top of the page content */
+  display: block; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.8); /* Black background with opacity */
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+}
