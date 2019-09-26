@@ -326,6 +326,9 @@ export default {
       immediate: true
     },
 
+    /**
+     * Watcher for getSearchRecordsUrl
+     */
     getSearchRecordsUrl : {
       handler: function (val) {
         if (val) {
