@@ -25,7 +25,7 @@ module.exports = {
   },
   optimization: {
     splitChunks: {
-      maxSize: 400000,
+      maxSize: 244000,
       cacheGroups: {
         maps: {
           test: /[\\/]node_modules[\\/]/,
