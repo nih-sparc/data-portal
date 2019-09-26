@@ -33,6 +33,6 @@
 	</div>
 {% endblock %}
 {% block javascript %}
-	<script type="text/javascript" src="_build/bundle_map.js"></script>
+	<script type="text/javascript" src="<%= webpack.assets[0]['name'] %>"></script>
 {% endblock %}
 

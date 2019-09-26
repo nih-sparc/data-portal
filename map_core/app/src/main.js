@@ -1,16 +1,7 @@
-let FlatmapsDialog = require('mapcoreintegratedwebapp').FlatmapsDialog;
-let FlatmapsModule = require('mapcoreintegratedwebapp').FlatmapsModule;
-let PlotsvyDialog = require('mapcoreintegratedwebapp').PlotsvyDialog;
-let PlotsvyModule = require('mapcoreintegratedwebapp').PlotsvyModule;
-let SimulationDialog = require('mapcoreintegratedwebapp').SimulationDialog;
-let SimulationModule = require('mapcoreintegratedwebapp').SimulationModule;
-let BiolucidaDialog = require('mapcoreintegratedwebapp').BiolucidaDialog;
-let BiolucidaModule = require('mapcoreintegratedwebapp').BiolucidaModule;
-let fdi_kb_query_module = require('fdikbquery').FDI_KB_Query_Module;
-let physiomeportal = require('mapcoreintegratedwebapp').physiomeportal;
+const mapapp = undefined;
 require('./css/mapcore.css');
 
-main = function () {
+let main = function () {
   let tabManager = undefined;
   let moduleManager = undefined;
   let parent = document.getElementById("MAPcorePortalArea");
@@ -203,15 +194,19 @@ main = function () {
    * {@link PJP.OrgansViewer}, {@link PJP.TissueViewer}, {@link PJP.CellPanel}
    * and {@link PJP.ModelPanel}.
    */
-  let initialiseMain = function () {
+  let initialiseMain = function (maplibIn) {
+    maplib = maplibIn;
+    moduleManager = new maplib.physiomeportal.ModuleManager();
+    moduleManager.serialiseDiv = false;
+    moduleManager.allowStateChange = true;
     if (moduleManager) {
       let channel = new (require('broadcast-channel')).default(channelName);
       channel.onmessage = processMessage;
       resizeMAPDrawingArea();
-      moduleManager.addConstructor("Flatmap", FlatmapsModule, FlatmapsDialog);
-      moduleManager.addConstructor("Data Viewer", PlotsvyModule, PlotsvyDialog);
-      moduleManager.addConstructor("Simulation Interface", SimulationModule, SimulationDialog);
-      moduleManager.addConstructor("Biolucida Interface", BiolucidaModule, BiolucidaDialog);
+      moduleManager.addConstructor("Flatmap", maplib.FlatmapsModule, maplib.FlatmapsDialog);
+      moduleManager.addConstructor("Data Viewer", maplib.PlotsvyModule, maplib.PlotsvyDialog);
+      moduleManager.addConstructor("Simulation Interface", maplib.SimulationModule, maplib.SimulationDialog);
+      moduleManager.addConstructor("Biolucida Interface", maplib.BiolucidaModule, maplib.BiolucidaDialog);
       let tabContainment = document.getElementById("maptab_container");
       tabManager = new (require('./tabmanager').TabManager)(tabContainment, moduleManager);
       if (window.location.hash !== "") {
@@ -222,16 +217,34 @@ main = function () {
     }
   };
 
+  let preloadQuery = function() {
+    return import(/* webpackPreload: true */
+      /* webpackChunkName: "fdikbquery" */
+      'fdikbquery').then(({ default: fdi_kb_query_module }) => {
+      fdikbquery = new fdi_kb_query_module.FDI_KB_Query_Module(parent);
+      return;
+    });
+  }
+
+  let preloadMAP = function() {
+    return import(/* webpackPreload: true */
+      /* webpackChunkName: "map" */
+      'mapcoreintegratedwebapp').then(({ default: maplib }) => {
+      return maplib;
+    });
+  }
+
   //initialise all required elements/objects
   let initialise = function () {
-    moduleManager = new physiomeportal.ModuleManager();
-    moduleManager.serialiseDiv = false;
-    moduleManager.allowStateChange = true;
-    fdikbquery = new fdi_kb_query_module(parent);
-    initialiseMain()
-		document.getElementById("fullscreen-button").onclick = fullscreenToggle;
-		document.getElementById("reopen").onclick = reopenDefaultDialog;
-		resizeMAPDrawingArea();
+    preloadQuery().then(() => {
+      preloadMAP().then(maplibIn => {
+        initialiseMain(maplibIn);
+        document.getElementById("fullscreen-button").onclick = fullscreenToggle;
+        document.getElementById("reopen").onclick = reopenDefaultDialog;
+        resizeMAPDrawingArea();
+      });
+    });
+    
 	};
 
   initialise();
