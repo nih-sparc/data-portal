@@ -49,14 +49,13 @@
             </el-row>
             <el-row class="mb-16">
               <el-col
-                class="info-publishing-history"
                 :span="24"
               >
+                <h3>
+                  Last Updated
+                </h3>
                 <div class="info-text">
                   {{ lastUpdatedDate }}
-                  <div class="info-text-caps">
-                    Last Updated
-                  </div>
                 </div>
               </el-col>
             </el-row>
