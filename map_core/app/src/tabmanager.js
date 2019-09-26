@@ -68,7 +68,7 @@ exports.TabManager = function(parentIn, moduleManagerIn ) {
 	};
 	
 	this.processHash = function(hash) {
-		const parser = new (require('mapcoreintegratedwebapp').physiomeportal.FragmentParser)();
+		const parser = new maplib.physiomeportal.FragmentParser();
 		const settings = parser.parseString(hash);
 		for (let i = 0; i < settings.length; i++) {
 			let setting = settings[i];
