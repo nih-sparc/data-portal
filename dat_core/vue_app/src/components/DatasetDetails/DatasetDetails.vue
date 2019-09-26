@@ -47,7 +47,7 @@
                 </h2>
               </el-col>
             </el-row>
-            <el-row class="mb-24">
+            <el-row class="mb-16">
               <el-col
                 class="info-publishing-history"
                 :span="24"
@@ -58,6 +58,38 @@
                     Last Updated
                   </div>
                 </div>
+              </el-col>
+            </el-row>
+            <el-row
+              type="flex"
+              justify="center"
+              class="doi-block"
+            >
+              <el-col :span="24">
+                <h3>
+                  Dataset DOI
+                </h3>
+                <a :href="datasetDOI" class="info-text">{{ datasetDOI }}</a>
+              </el-col>
+            </el-row>
+            <el-row
+              v-if="datasetRecords.length !== 0"
+              type="flex"
+              justify="center"
+              class="protocol-block"
+            >
+               <el-col :span="24">
+                <h3>
+                  Protocol DOIs
+                </h3>
+                <a
+                  v-for="(record, index) in datasetRecords"
+                  :key="`${record}-${index}`"
+                  :href="record.properties.url"
+                  class="info-text"
+                >
+                  {{ record.properties.url }}
+                </a>
               </el-col>
             </el-row>
             <el-row type="flex" justify="center">
@@ -172,16 +204,34 @@ export default {
       datasetDetails: {},
       errorLoading: false,
       loadingMarkdown: false,
-      markdown: ''
+      markdown: '',
+      datasetRecords: []
     }
   },
 
   computed: {
+
     /**
+     * Returns the records in the protocol model for this dataset
+     * @returns {String}
+     */
+    getSearchRecordsUrl: function () {
+      return `https://api.blackfynn.io/discover/search/records?datasetId=${this.datasetId}&model=protocol`
+    },
+     /**
      * Parses the markdown text
      */
     parsedMarkdown: function () {
       return marked(this.markdown)
+    },
+
+    /**
+     * Get the dataset DOI and return the url
+     * @returns {String}
+     */
+    datasetDOI: function () {
+      const doi = propOr('', 'doi', this.datasetDetails)
+      return `https://doi.org/${doi}`
     },
 
     /**
@@ -276,6 +326,15 @@ export default {
       immediate: true
     },
 
+    getSearchRecordsUrl : {
+      handler: function (val) {
+        if (val) {
+          this.getProtocolRecords()
+        }
+      },
+      immediate: true
+    },
+
     datasetDetails: {
       handler: function () {
         this.getMarkdown()
@@ -285,6 +344,25 @@ export default {
   },
 
   methods: {
+
+    /**
+     * Returns protocol records in a dataset's model if they exist
+     */
+    getProtocolRecords: function () {
+      this.axios.get(this.getSearchRecordsUrl)
+        .then(response => {
+          const records = propOr([], 'records', response.data)
+          if (records.length !== 0){
+            // that means protocol records exist
+            this.datasetRecords = records
+          }
+
+        })
+        .catch(error => {
+          // handle error
+          this.errorLoading = true
+        })
+    },
 
     getDataset: function () {
       this.isLoadingDataset = true
@@ -453,8 +531,16 @@ export default {
     font-size: 16px;
     font-weight: 600;
     line-height: 16px;
-    margin: 0 0 16px;
+    margin: 5px 16px 7px 0px;
   }
+}
+
+.protocol-block {
+  margin-bottom: 15px;
+}
+
+.doi-block {
+  margin-bottom: 15px;
 }
 
 .info-publishing-history {
