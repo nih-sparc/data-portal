@@ -216,12 +216,12 @@ let main = function () {
       moduleManager.addConstructor("Biolucida Interface", maplib.BiolucidaModule, maplib.BiolucidaDialog);
       let tabContainment = document.getElementById("maptab_container");
       tabManager = new (require('./tabmanager').TabManager)(tabContainment, moduleManager);
+      switchBackgroundContent();
       if (window.location.hash !== "") {
         tabManager.processHash(window.location.hash);
       } else {
         reopenDefaultDialog();
       }
-      switchBackgroundContent();
     }
   };
 
@@ -245,6 +245,8 @@ let main = function () {
   //initialise all required elements/objects
   let initialise = function () {
     preloadQuery().then(() => {
+      let target = document.querySelector("#loading-message");
+      target.innerHTML = "Search engine loaded successfully...";
       preloadMAP().then(maplibIn => {
         initialiseMain(maplibIn);
         document.getElementById("fullscreen-button").onclick = fullscreenToggle;
