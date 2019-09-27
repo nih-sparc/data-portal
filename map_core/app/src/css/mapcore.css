@@ -193,6 +193,11 @@ ui-widget-content {
   border-style: solid;
 }
 
+@keyframes rotate {
+  from {transform: rotate(0deg);}
+  to {transform: rotate(360deg);}
+}
+
 #loading-icon {
   position:relative;
   top:30%;
@@ -202,7 +207,7 @@ ui-widget-content {
   width: 120px;
   height: 120px;
   margin: auto;
-  animation: spin 2s linear infinite;
+  animation: 2s rotate linear infinite;
 }
 
 .overlay-page {
