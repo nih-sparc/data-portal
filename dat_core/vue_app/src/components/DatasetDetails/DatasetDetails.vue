@@ -36,6 +36,13 @@
       </el-col>
     </el-row>
 
+    <el-row type="flex" justify="center">
+      <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
+        <h2>Metadata</h2>
+        <metadata-table :dataset-details="datasetDetails" />
+      </el-col>
+    </el-row>
+
     <div class="dataset-info">
       <div class="discover-content container-fluid dataset-info-container">
         <el-row type="flex" justify="center">
@@ -159,6 +166,7 @@ import {
 import DatasetHeader from '../DatasetHeader/DatasetHeader.vue'
 import TagList from '../TagList/TagList.vue'
 import FilesTable from '../FilesTable/FilesTable.vue'
+import MetadataTable from '../MetadataTable/MetadataTable.vue'
 
 import Request from '../../mixins/request'
 import DateUtils from '../../mixins/format-date'
@@ -173,6 +181,7 @@ export default {
   components: {
     DatasetHeader,
     FilesTable,
+    MetadataTable,
     TagList
   },
 
