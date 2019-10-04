@@ -111,6 +111,7 @@ import Pagination from '../Pagination/Pagination.vue'
 
         methods: {
             getMetadataRecords: function(model = '') {
+                this.isLoading = true
                 if (model !== '') {
                     this.dropdownSelection = true
                     this.defaultModel = model
@@ -118,6 +119,7 @@ import Pagination from '../Pagination/Pagination.vue'
                 this.offset = (this.page - 1) * this.limit
                 this.axios.get(`${this.getRecordsUrl}&limit=${this.limit}&offset=${this.offset}`)
         .then(response => {
+           this.isLoading = false
            this.headings = []
            this.properties = []
            this.totalCount = response.data.totalCount
