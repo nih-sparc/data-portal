@@ -37,13 +37,26 @@
         />
       </el-table>
     </div>
+    <div class="metadata-table-pagination">
+        <pagination
+            :selected="page"
+            :page-size="limit"
+            :total-count="totalCount"
+            @select-page="selectPage"
+          />
+    </div>
+
     </div>
 </template>
 
 <script>
 import { propOr, head } from 'ramda'
+import Pagination from '../Pagination/Pagination.vue'
     export default {
         name: 'MetadataTable',
+        components: {
+            Pagination,
+        },
         data() {
             return {
                 isLoading: false,
@@ -52,7 +65,11 @@ import { propOr, head } from 'ramda'
                 properties: [],
                 headings: [],
                 defaultModel: '',
-                dropdownSelection: false
+                dropdownSelection: false,
+                limit: 3,
+                offset: 0,
+                totalCount: 0,
+                page: 1
             }
         },
 
@@ -98,10 +115,12 @@ import { propOr, head } from 'ramda'
                     this.dropdownSelection = true
                     this.defaultModel = model
                 }
-                this.axios.get(this.getRecordsUrl)
+                this.offset = (this.page - 1) * this.limit
+                this.axios.get(`${this.getRecordsUrl}&limit=${this.limit}&offset=${this.offset}`)
         .then(response => {
            this.headings = []
            this.properties = []
+           this.totalCount = response.data.totalCount
            this.records = propOr([], 'records', response.data)
            const properties = propOr({}, 'properties', head(this.records))
            // just to get the property names for the table since they're all
@@ -122,6 +141,11 @@ import { propOr, head } from 'ramda'
           this.errorLoading = true
         })
             },
+
+            selectPage: function(index) {
+                this.page = index
+                this.getMetadataRecords()
+            }
         },
     }
 </script>
@@ -132,6 +156,15 @@ import { propOr, head } from 'ramda'
       border: 1px solid rgb(228, 231, 237);
       padding: 16px;
       margin-top: 20px;
-      margin-bottom: 30px;
+      margin-bottom: 10px;
+    }
+
+    .metadata-table-dropdown {
+        margin-top: 8px;
+        margin-bottom: 5px;
+    }
+
+    .metadata-table-pagination {
+        margin-bottom: 10px;
     }
 </style>
