@@ -66,7 +66,7 @@ import Pagination from '../Pagination/Pagination.vue'
                 headings: [],
                 defaultModel: '',
                 dropdownSelection: false,
-                limit: 3,
+                limit: 10,
                 offset: 0,
                 totalCount: 0,
                 page: 1
