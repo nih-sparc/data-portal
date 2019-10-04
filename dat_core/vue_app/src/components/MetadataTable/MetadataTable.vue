@@ -30,44 +30,18 @@
         v-loading="isLoading"
       >
         <el-table-column
-          v-for="prop in properties"
-          :key="prop.label"
-          :prop="prop.value"
-          :label="prop.label"
-          :formatter="formatColumn"
-        >
-        </el-table-column>
-          <!-- <template
-            v-if="scope.row.type === 'File'"
-            slot-scope="scope"
-          >
-            <el-dropdown
-              trigger="click"
-              @command="onCommandClick"
-            >
-              <el-button
-                icon="el-icon-more"
-                size="small"
-              />
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item
-                  :command="{
-                    type: 'requestDownloadFile',
-                    scope
-                  }"
-                >
-                  Download
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </template> -->
+          v-for="heading in headings"
+          :key="heading"
+          :prop="heading"
+          :label="heading"
+        />
       </el-table>
     </div>
     </div>
 </template>
 
 <script>
-import { propOr, head, find, propEq } from 'ramda'
+import { propOr, head } from 'ramda'
     export default {
         name: 'MetadataTable',
         data() {
@@ -75,7 +49,10 @@ import { propOr, head, find, propEq } from 'ramda'
                 isLoading: false,
                 models: [],
                 records: [],
-                properties: []
+                properties: [],
+                headings: [],
+                defaultModel: '',
+                dropdownSelection: false
             }
         },
 
@@ -88,9 +65,11 @@ import { propOr, head, find, propEq } from 'ramda'
 
         computed: {
             getRecordsUrl: function() {
-                const model = propOr('', 'modelName', head(this.models))
+                if (!this.dropdownSelection) {
+                   this.defaultModel = propOr('', 'modelName', head(this.models))
+                }
                 const datasetId = propOr('', 'id', this.datasetDetails)
-                return `https://api.blackfynn.io/discover/search/records?datasetId=${datasetId}&model=${model}`
+                return `https://api.blackfynn.io/discover/search/records?datasetId=${datasetId}&model=${this.defaultModel}`
             }
         },
 
@@ -114,24 +93,27 @@ import { propOr, head, find, propEq } from 'ramda'
         },
 
         methods: {
-            getMetadataRecords: function() {
+            getMetadataRecords: function(model = '') {
+                if (model !== '') {
+                    this.dropdownSelection = true
+                    this.defaultModel = model
+                }
                 this.axios.get(this.getRecordsUrl)
         .then(response => {
+           this.headings = []
+           this.properties = []
            this.records = propOr([], 'records', response.data)
+           const properties = propOr({}, 'properties', head(this.records))
+           // just to get the property names for the table since they're all
+           // the same across records
+           for (let key in properties) {
+             this.headings.push(key)
+           }
+
+           // now to get the properties
            this.records.forEach(record => {
-              const properties = propOr({}, 'properties', record)
-
-
-              for (let key in properties) {
-                  const keyExists = find(propEq('label', key), this.properties)
-                  if (keyExists) {
-                      // find the object with that key and push to the array
-                  }
-                this.properties.push({
-                    label: key,
-                    value: properties[key]
-                })
-              }
+               const properties = propOr({}, 'properties', record)
+               this.properties.push(properties)
            })
 
         })
@@ -140,14 +122,16 @@ import { propOr, head, find, propEq } from 'ramda'
           this.errorLoading = true
         })
             },
-
-        formatColumn: function(row) {
-            return row.value
-        }
         },
     }
 </script>
 
 <style lang="scss" scoped>
-
+    .metadata-table-content {
+      background: #fff;
+      border: 1px solid rgb(228, 231, 237);
+      padding: 16px;
+      margin-top: 20px;
+      margin-bottom: 30px;
+    }
 </style>
