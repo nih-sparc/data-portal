@@ -1,16 +1,16 @@
 <template>
-    <div class="metadata-table">
-        <div class="metadata-table-dropdown">
-             <el-select v-model="value" placeholder="Select Model" @change="getMetadataRecords">
-    <el-option
-      v-for="(model, index) in models"
-      :key="`${model}-${index}`"
-      :label="model.modelName"
-      :value="model.modelName">
-    </el-option>
-  </el-select>
-        </div>
-         <div class="metadata-table-content">
+<div class="metadata-table">
+    <div class="metadata-table-dropdown">
+        <el-select v-model="value" placeholder="Select Model" @change="getMetadataRecords">
+            <el-option
+            v-for="(model, index) in models"
+            :key="`${model}-${index}`"
+            :label="model.modelName"
+            :value="model.modelName">
+            </el-option>
+         </el-select>
+    </div>
+    <div class="metadata-table-content">
       <div
         v-if="hasError"
         class="error-wrap"
@@ -36,88 +36,86 @@
           :label="heading"
         />
       </el-table>
-    </div>
-    <div class="metadata-table-pagination">
-        <pagination
-            :selected="page"
-            :page-size="limit"
-            :total-count="totalCount"
-            @select-page="selectPage"
-          />
-    </div>
-
-    </div>
+  </div>
+  <div class="metadata-table-pagination">
+    <pagination
+        :selected="page"
+        :page-size="limit"
+        :total-count="totalCount"
+        @select-page="selectPage"
+    />
+   </div>
+</div>
 </template>
 
 <script>
 import { propOr, head } from 'ramda'
 import Pagination from '../Pagination/Pagination.vue'
-    export default {
-        name: 'MetadataTable',
-        components: {
-            Pagination,
-        },
-        data() {
-            return {
-                isLoading: false,
-                models: [],
-                records: [],
-                properties: [],
-                headings: [],
-                defaultModel: '',
-                dropdownSelection: false,
-                limit: 10,
-                offset: 0,
-                totalCount: 0,
-                page: 1
-            }
-        },
+  export default {
+    name: 'MetadataTable',
+    components: {
+      Pagination,
+    },
+    data() {
+      return {
+        isLoading: false,
+        models: [],
+        records: [],
+        properties: [],
+        headings: [],
+        defaultModel: '',
+        dropdownSelection: false,
+        limit: 10,
+        offset: 0,
+        totalCount: 0,
+        page: 1
+      }
+    },
+    props: {
+      datasetDetails: {
+        type: Object,
+        default: () => {}
+      },
+    },
 
-        props: {
-            datasetDetails: {
-                type: Object,
-                default: () => {}
-            },
-        },
+    computed: {
+      getRecordsUrl: function() {
+        if (!this.dropdownSelection) {
+          this.defaultModel = propOr('', 'modelName', head(this.models))
+        }
+        const datasetId = propOr('', 'id', this.datasetDetails)
+        return `https://api.blackfynn.io/discover/search/records?datasetId=${datasetId}&model=${this.defaultModel}`
+     }
+    },
 
-        computed: {
-            getRecordsUrl: function() {
-                if (!this.dropdownSelection) {
-                   this.defaultModel = propOr('', 'modelName', head(this.models))
-                }
-                const datasetId = propOr('', 'id', this.datasetDetails)
-                return `https://api.blackfynn.io/discover/search/records?datasetId=${datasetId}&model=${this.defaultModel}`
-            }
+    watch: {
+      getRecordsUrl:{
+       handler: function(val) {
+         if (val) {
+            this.getMetadataRecords()
+         }
+       },
+       immediate: true
+    },
+      datasetDetails: {
+        handler: function(val){
+          if (val) {
+           this.models = propOr([], 'modelCount', this.datasetDetails)
+          }
         },
+        immediate: true
+      }
+    },
 
-        watch: {
-            getRecordsUrl:{
-                handler: function(val) {
-                    if (val) {
-                        this.getMetadataRecords()
-                    }
-                },
-                immediate: true
-            },
-            datasetDetails: {
-                handler: function(val){
-                    if (val) {
-                      this.models = propOr([], 'modelCount', this.datasetDetails)
-                    }
-                },
-                immediate: true
-            }
-        },
-
-        methods: {
-            getMetadataRecords: function(model = '') {
-                this.isLoading = true
-                if (model !== '') {
-                    this.dropdownSelection = true
-                    this.defaultModel = model
-                }
-                this.offset = (this.page - 1) * this.limit
-                this.axios.get(`${this.getRecordsUrl}&limit=${this.limit}&offset=${this.offset}`)
+    methods: {
+      getMetadataRecords: function(model = '') {
+        this.isLoading = true
+        if (model !== '') {
+          this.dropdownSelection = true
+          this.defaultModel = model
+        }
+        this.offset = (this.page - 1) * this.limit
+        this.axios.get(`${this.getRecordsUrl}&limit=${this.limit}&offset=${this.offset}`)
         .then(response => {
            this.isLoading = false
            this.headings = []
@@ -142,31 +140,31 @@ import Pagination from '../Pagination/Pagination.vue'
           // handle error
           this.errorLoading = true
         })
-            },
+      },
 
-            selectPage: function(index) {
-                this.page = index
-                this.getMetadataRecords()
-            }
-        },
-    }
+      selectPage: function(index) {
+        this.page = index
+        this.getMetadataRecords()
+      }
+    },
+}
 </script>
 
 <style lang="scss" scoped>
-    .metadata-table-content {
-      background: #fff;
-      border: 1px solid rgb(228, 231, 237);
-      padding: 16px;
-      margin-top: 20px;
-      margin-bottom: 10px;
-    }
+.metadata-table-content {
+  background: #fff;
+  border: 1px solid rgb(228, 231, 237);
+  padding: 16px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
 
-    .metadata-table-dropdown {
-        margin-top: 8px;
-        margin-bottom: 5px;
-    }
+.metadata-table-dropdown {
+  margin-top: 8px;
+  margin-bottom: 5px;
+}
 
-    .metadata-table-pagination {
-        margin-bottom: 10px;
-    }
+.metadata-table-pagination {
+  margin-bottom: 10px;
+}
 </style>
