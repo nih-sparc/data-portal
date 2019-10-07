@@ -1,7 +1,7 @@
 <template>
 <div class="metadata-table">
     <div class="metadata-table-dropdown">
-        <el-select v-model="value" placeholder="Select Model" @change="getMetadataRecords">
+        <el-select v-model="value" @change="getMetadataRecords">
             <el-option
             v-for="(model, index) in models"
             :key="`${model}-${index}`"
@@ -34,6 +34,7 @@
           :key="heading"
           :prop="heading"
           :label="heading"
+          min-width="300"
         />
       </el-table>
   </div>
@@ -58,7 +59,7 @@ import Pagination from '../Pagination/Pagination.vue'
     },
     data() {
       return {
-        isLoading: false,
+        isLoading: true,
         models: [],
         records: [],
         properties: [],
@@ -68,7 +69,8 @@ import Pagination from '../Pagination/Pagination.vue'
         limit: 10,
         offset: 0,
         totalCount: 0,
-        page: 1
+        page: 1,
+        value: ''
       }
     },
     props: {
@@ -82,6 +84,7 @@ import Pagination from '../Pagination/Pagination.vue'
       getRecordsUrl: function() {
         if (!this.dropdownSelection) {
           this.defaultModel = propOr('', 'modelName', head(this.models))
+          this.value = this.defaultModel
         }
         const datasetId = propOr('', 'id', this.datasetDetails)
         return `https://api.blackfynn.io/discover/search/records?datasetId=${datasetId}&model=${this.defaultModel}`
@@ -109,7 +112,6 @@ import Pagination from '../Pagination/Pagination.vue'
 
     methods: {
       getMetadataRecords: function(model = '') {
-        this.isLoading = true
         if (model !== '') {
           this.dropdownSelection = true
           this.defaultModel = model
