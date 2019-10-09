@@ -4,7 +4,7 @@
   "private": true,
   "description": "MAPcore Integrated Webapp At Data Portal",
   "scripts": {
-    "build": "webpack --mode=none",
+    "build": "webpack --mode=production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -18,14 +18,15 @@
     "flatmaps"
   ],
   "devDependencies": {
-    "html-webpack-plugin": "^3.2.0",
     "css-loader": "^2.1.1",
-    "style-loader": "^0.21.0"
+    "html-webpack-plugin": "^3.2.0",
+    "style-loader": "^0.21.0",
+    "url-loader": "^2.1.0"
   },
   "dependencies": {
     "broadcast-channel": "^2.1.12",
-    "fdikbquery": "^0.1.5",
-    "mapcoreintegratedwebapp": "^0.2.6",
+    "fdikbquery": "^0.1.11",
+    "mapcoreintegratedwebapp": "^0.2.8",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3"
   }

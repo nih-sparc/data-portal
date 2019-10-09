@@ -11,6 +11,10 @@
 {% endblock %}
 {% block app %}
 	<div id="map-app">
+		<div class="overlay-page">
+			<div id="loading-icon" style="display:block;"></div>
+			<div id="loading-message" style="display:block;color:white;" class="background-message">Loading assets...</div>
+		</div>
 		<div id="MAPcore_Banner" class="mapcore-gradient-background">
 			<div id="mapcore_banner_text">
 				<h3>Maps</h3>
@@ -26,13 +30,15 @@
 			<div id="mapcore_content_panel">
 				<div id="maptab_container">
 					<div id="maptab_tabbar" class="maptab-tabbar mapcore-gradient-background"></div>
-					<div id="maptab_contents" class="maptab-contents"><div class="background-message">Looks like there is no active tab. You can reopen the default flatmap tab <button id="reopen">here</button>. Alternatively, you can open new dialog from the search results.</div></div>
+					<div id="maptab_contents" class="maptab-contents">
+						<div id="background-message" style="display:none;" class="background-message">Looks like there is no active tab. You can reopen the default flatmap tab <button id="reopen">here</button>. Alternatively, you can open new dialog from the search results.</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 {% endblock %}
 {% block javascript %}
-	<script type="text/javascript" src="_build/bundle_map.js"></script>
+	<script type="text/javascript" src="<%= webpack.assets[0]['name'] %>"></script>
 {% endblock %}
 
