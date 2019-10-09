@@ -238,7 +238,6 @@ export default {
         handler(scope)
       }
     },
-
     selectPage(index) {
       this.page = index;
       this.fetchResults(this.searchType, this.searchTerms);
