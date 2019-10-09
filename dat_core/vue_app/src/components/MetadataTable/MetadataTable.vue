@@ -81,6 +81,10 @@ import Pagination from '../Pagination/Pagination.vue'
     },
 
     computed: {
+      /**
+       * Url to get records for model
+       * @returns {String}
+       */
       getRecordsUrl: function() {
         if (!this.dropdownSelection) {
           this.defaultModel = propOr('', 'modelName', head(this.models))
@@ -92,6 +96,9 @@ import Pagination from '../Pagination/Pagination.vue'
     },
 
     watch: {
+      /**
+       * Watches getRecordsUrl before making endpoint call
+       */
       getRecordsUrl:{
        handler: function(val) {
          if (val) {
@@ -100,6 +107,9 @@ import Pagination from '../Pagination/Pagination.vue'
        },
        immediate: true
     },
+    /**
+     * Watches datasetDetails object before assigning models array
+     */
       datasetDetails: {
         handler: function(val){
           if (val) {
@@ -111,6 +121,10 @@ import Pagination from '../Pagination/Pagination.vue'
     },
 
     methods: {
+      /**
+       * Gets the metadata records for a dataset
+       * @param {String} model
+       */
       getMetadataRecords: function(model = '') {
         if (model !== '') {
           this.dropdownSelection = true
@@ -138,12 +152,15 @@ import Pagination from '../Pagination/Pagination.vue'
            })
 
         })
-        .catch(error => {
+        .catch(
           // handle error
           this.errorLoading = true
-        })
+        )
       },
 
+      /**
+       * Selects a page for pagination
+       */
       selectPage: function(index) {
         this.page = index
         this.getMetadataRecords()
