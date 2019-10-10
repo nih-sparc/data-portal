@@ -54,11 +54,6 @@ def biolucida_client_proxy(api_method=''):
 
     if request.method == 'POST':
         request_data = json.loads(ensure_string(request.data))
-
-        if api_method == 'authenticate/':
-            request_data['username'] = Config.BIOLUCIDA_USERNAME
-            request_data['password'] = Config.BIOLUCIDA_PASSWORD
-
         return post_response_from_remote(url, data=request_data)
     else:
         return get_response_from_remote(url, headers={'token': request.headers['token']})
