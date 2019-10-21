@@ -242,6 +242,20 @@ let main = function () {
     });
   }
 
+	var hasVisted = function () {
+		return localStorage.getItem('hasVisitedMaps');
+	}
+
+  // startTutorial imports tutorial.js then runs the chariot.js tutorial
+	var startTutorial = function () {
+    import(/* webpackPreload: true */
+      /* webpackChunkName: "tutorial" */
+      './tutorial').then(({ default: tut }) => {
+        tut.tutorial.startTutorial('mapcore_tutorial');
+        localStorage.setItem('hasVisitedMaps', true);
+      })
+	}
+
   //initialise all required elements/objects
   let initialise = function () {
     preloadQuery().then(() => {
@@ -254,7 +268,9 @@ let main = function () {
         resizeMAPDrawingArea();
       });
     });
-    
+    if (hasVisted() === null || hasVisted() === false){
+      startTutorial()
+    }
 	};
 
   initialise();
