@@ -216,7 +216,7 @@ let main = function () {
       moduleManager.addConstructor("Biolucida Interface", maplib.BiolucidaModule, maplib.BiolucidaDialog);
       let tabContainment = document.getElementById("maptab_container");
       tabManager = new (require('./tabmanager').TabManager)(tabContainment, moduleManager);
-      switchBackgroundContent();
+
       if (window.location.hash !== "") {
         tabManager.processHash(window.location.hash);
       } else {
@@ -253,6 +253,7 @@ let main = function () {
       './tutorial').then(({ default: tut }) => {
         tut.tutorial.startTutorial('mapcore_tutorial');
         localStorage.setItem('hasVisitedMaps', true);
+        switchBackgroundContent();
       })
 	}
 
@@ -266,11 +267,15 @@ let main = function () {
         document.getElementById("fullscreen-button").onclick = fullscreenToggle;
         document.getElementById("reopen").onclick = reopenDefaultDialog;
         resizeMAPDrawingArea();
+        if (hasVisted() === null || hasVisted() === false){
+          target.innerHTML = "First Time Vist: Loading Tutorial..."
+          startTutorial()
+        } else {
+          switchBackgroundContent();
+        }
       });
     });
-    if (hasVisted() === null || hasVisted() === false){
-      startTutorial()
-    }
+    
 	};
 
   initialise();
