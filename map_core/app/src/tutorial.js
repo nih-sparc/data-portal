@@ -1,5 +1,5 @@
-const chariot = require('chariot-tooltips/release/chariot')
-require('chariot-tooltips/release/chariot.css')
+const chariot = require('@tehsurfer/chariot-tooltips/release/chariot')
+require('@tehsurfer/chariot-tooltips/release/chariot.css')
 require('./css/tutorial.css')
 
 

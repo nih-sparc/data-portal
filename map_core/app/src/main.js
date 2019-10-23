@@ -254,6 +254,12 @@ let main = function () {
         tut.tutorial.startTutorial('mapcore_tutorial');
         localStorage.setItem('hasVisitedMaps', true);
         switchBackgroundContent();
+        setTimeout( _ =>{
+          document.querySelector('#chariot-exit').onclick = _=>{
+            console.log('click registered, ending tutorial')
+            tut.tutorial.endTutorial()
+          }
+        }, 200)
       })
 	}
 
