@@ -9,8 +9,9 @@ exports.tutorial = new chariot({
             selectors: 'div#MAPcore_Banner',
             tooltip : {
                 position: 'bottom',
-                title: 'Visualise Maps tutorial',
-                text: 'This 20s tutorial will show how to navigate and view mapped data'
+                arrowLength: 0,
+                title: 'Visualise Mapped Data tutorial',
+                text: 'This 20s tutorial will show you how to navigate and view mapped data from the SPARC project'
             }
         },
 
@@ -19,7 +20,7 @@ exports.tutorial = new chariot({
         tooltip: {
           position: 'left',
           title: 'Search Field',
-          text: 'Search terms in all Blackfynn data plus some extra curated data. Try searching for "heart".'
+          text: 'Search here across all Blackfynn data plus some extra curated data. Try searching for "heart".'
         }
       },
       {
@@ -27,8 +28,8 @@ exports.tutorial = new chariot({
         tooltip: {
           position: 'right',
           title: 'Navigate Results',
-          text: "Resuslts from the the search are displayed here. Click on a card to see an \
-          extended description of the data, or hover over an icon to see "
+          text: "Resuslts from the search are displayed here. Click on a card to see an \
+          extended description of the data, or hover over an icon to see how you can visualise the data"
         }
       }
     ]

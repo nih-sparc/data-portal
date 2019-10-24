@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "broadcast-channel": "^2.1.12",
-    "@tehsurfer/chariot-tooltips": "^1.0.5",
+    "@tehsurfer/chariot-tooltips": "^1.0.6",
     "jquery": "^3.4.1",
     "fdikbquery": "^0.1.13",
     "mapcoreintegratedwebapp": "^0.2.8",
