@@ -31,7 +31,7 @@ module.exports = {
           test: /[\\/]node_modules[\\/]/,
           // cacheGroupKey here is `commons` as the key of the cacheGroup
           name(module, chunks, cacheGroupKey) {
-            const moduleFileName = module.identifier().split('/').reduceRight(item => item);
+            const moduleFileName = module.identifier().split(path.sep).reduceRight(item => item);
             const allChunksNames = chunks.map((item) => item.name).join('~');
             return `${cacheGroupKey}-${allChunksNames}-${moduleFileName}`;
           },
@@ -45,6 +45,10 @@ module.exports = {
         'template': 'templates/map_core.html',
          'filename': 'maps.html',
          'chunks': ['maps'],
-         'inject': false})
+         'inject': false}),
+         new webpack.ProvidePlugin({
+          $: "jquery",
+          jQuery: "jquery"
+      })
   ]
 };
