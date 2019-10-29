@@ -59,6 +59,14 @@ const router = new VueRouter({
   }
 })
 
+// Send google analytics tracking
+router.afterEach((to) => {
+  if (window.ga) {
+    window.ga('set', 'page', to.fullPath)
+    window.ga('send', 'pageview')
+  }
+})
+
 new Vue({
   router,
   render: h => h(BrowseApp)
