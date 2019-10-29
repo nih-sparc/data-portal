@@ -265,6 +265,14 @@ export default {
           break;
       }
 
+      // Update URL to reflect the search
+      this.$router.push({
+        query: {
+          searchType: type,
+          searchTerms: terms
+        }
+      })
+
       this.$http.get(requestUrl).then(
         function(response) {
           this.totalCount = response.data.totalCount;
