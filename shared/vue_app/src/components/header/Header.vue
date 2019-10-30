@@ -4,7 +4,7 @@
             <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
                 <div class="header">
                     <div class="logo">
-                        <a href="https://data.sparc.science"><sparc-logo/></a>
+                        <a href="/"><sparc-logo/></a>
                         <!-- <span class="data-portal-title">Data Portal</span> -->
                     </div>
                     <button
