@@ -60,11 +60,14 @@ const router = new VueRouter({
 })
 
 // Send google analytics tracking
-router.afterEach((to) => {
-  if (window.ga) {
-    window.ga('set', 'page', to.fullPath)
-    window.ga('send', 'pageview')
+router.beforeEach((to, from, next) => {
+  if (window.gtag) {
+    window.gtag('config', 'UA-143804703-1', {
+      'page_title' : to.name,
+      'page_path': '/browse/#' + to.fullPath
+    })
   }
+  next()
 })
 
 new Vue({
