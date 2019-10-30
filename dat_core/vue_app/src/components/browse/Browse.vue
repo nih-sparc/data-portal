@@ -199,6 +199,16 @@ export default {
     },
   },
 
+  created: function () {
+    if (window.gtag) {
+      const routerBase = pathOr('', ['options', 'base'], this.$router)
+      window.gtag('config', 'UA-143804703-1', {
+        'page_title' : this.$route.name,
+        'page_path': `${routerBase}/#${this.$route.fullPath}`
+      })
+    }
+  },
+
   methods: {
 
     /**
