@@ -4,7 +4,7 @@
   "private": true,
   "description": "MAPcore Integrated Webapp At Data Portal",
   "scripts": {
-    "build": "webpack --mode=production",
+    "build": "webpack --mode=production --progress",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -24,8 +24,10 @@
     "url-loader": "^2.1.0"
   },
   "dependencies": {
+    "@tehsurfer/chariot-tooltips": "^1.0.7",
     "broadcast-channel": "^2.1.12",
-    "fdikbquery": "^0.1.12",
+    "fdikbquery": "^0.1.13",
+    "jquery": "^3.4.1",
     "mapcoreintegratedwebapp": "^0.2.8",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3"

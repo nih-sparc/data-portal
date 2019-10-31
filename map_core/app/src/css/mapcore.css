@@ -19,7 +19,7 @@
 
 #maptab_container {
   display: inline-block;
-  width:72%;
+  width:100%;
 }
 
 /* Style the tab */
@@ -220,5 +220,11 @@ ui-widget-content {
   right: 0;
   bottom: 0;
   background-color: rgba(0,0,0,0.8); /* Black background with opacity */
-  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  z-index: 102; /* Specify a stack order in case you're using a different order for other elements */
 }
+
+.container-collapsed-mode + #maptab_container {
+  position: absolute;
+  left:0%;
+}
+

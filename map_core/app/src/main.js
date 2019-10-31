@@ -216,7 +216,7 @@ let main = function () {
       moduleManager.addConstructor("Biolucida Interface", maplib.BiolucidaModule, maplib.BiolucidaDialog);
       let tabContainment = document.getElementById("maptab_container");
       tabManager = new (require('./tabmanager').TabManager)(tabContainment, moduleManager);
-      switchBackgroundContent();
+
       if (window.location.hash !== "") {
         tabManager.processHash(window.location.hash);
       } else {
@@ -242,6 +242,27 @@ let main = function () {
     });
   }
 
+	var hasVisted = function () {
+		return localStorage.getItem('hasVisitedMaps');
+	}
+
+  // startTutorial imports tutorial.js then runs the chariot.js tutorial
+	var startTutorial = function () {
+    import(/* webpackPreload: true */
+      /* webpackChunkName: "tutorial" */
+      './tutorial').then(({ default: tut }) => {
+        tut.tutorial.startTutorial('mapcore_tutorial');
+        localStorage.setItem('hasVisitedMaps', true);
+        switchBackgroundContent();
+        setTimeout( _ =>{
+          document.querySelector('#chariot-exit').onclick = _=>{
+            console.log('click registered, ending tutorial')
+            tut.tutorial.endTutorial()
+          }
+        }, 200)
+      })
+	}
+
   //initialise all required elements/objects
   let initialise = function () {
     preloadQuery().then(() => {
@@ -252,6 +273,12 @@ let main = function () {
         document.getElementById("fullscreen-button").onclick = fullscreenToggle;
         document.getElementById("reopen").onclick = reopenDefaultDialog;
         resizeMAPDrawingArea();
+        if (hasVisted() === null || hasVisted() === false){
+          target.innerHTML = "First Time Vist: Loading Tutorial..."
+          startTutorial()
+        } else {
+          switchBackgroundContent();
+        }
       });
     });
     
