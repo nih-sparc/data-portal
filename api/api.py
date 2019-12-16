@@ -221,14 +221,14 @@ def inject_template_data(resp):
 
     try:
         response = s3.get_object(Bucket='blackfynn-discover-use1',
-                                 Key='{}/{}/packages/template.json'.format(id, version),
+                                 Key='{}/{}/files/template.json'.format(id, version),
                                  RequestPayer='requester')
     except ClientError as e:
-        # If the file is not under folder 'packages', check under folder 'files'
-        logging.warning('Required file template.json was not found under /packages folder, trying under /files...')
+        # If the file is not under folder 'files', check under folder 'packages'
+        logging.warning('Required file template.json was not found under /files folder, trying under /packages...')
         try:
             response = s3.get_object(Bucket='blackfynn-discover-use1',
-                                     Key='{}/{}/files/template.json'.format(id, version),
+                                     Key='{}/{}/packages/template.json'.format(id, version),
                                      RequestPayer='requester')
         except ClientError as e2:
             logging.error(e2)
