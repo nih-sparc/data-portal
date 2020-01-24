@@ -1,43 +1,49 @@
 <template>
-    <div class="nav">
-        <el-row type="flex" justify="center">
-            <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
-                <div class="header">
-                    <div class="logo">
-                        <a href="/"><sparc-logo/></a>
-                        <!-- <span class="data-portal-title">Data Portal</span> -->
-                    </div>
-                    <button
-                        class="btn-menu"
-                        @click="menuOpen = true"
-                    >
-                        <i class="el-icon-s-fold"></i>
-                    </button>
-                    <div
-                        class="navigation"
-                        :class="{ 'open': menuOpen }"
-                    >
-                        <div class="mobile-navigation-header">
-                            <sparc-logo
-                                aria-hidden=”true”
-                                role="presentation"
-                            />
-                            <button
-                                class="btn-menu"
-                                @click="menuOpen = false"
-                            >
-                                <i class="el-icon-close"></i>
-                            </button>
+    <div class="header-wrap">
+        <div class="new-site-notice">
+            <p class="heading"><strong>Coming Soon!</strong></p>
+            <p>We are launching a new and improved version of the SPARC Portal featuring an updated user interface, user-friendly documentation, and approximately double the number of datasets.</p>
+        </div>
+        <div class="nav">
+            <el-row type="flex" justify="center">
+                <el-col :xs="22" :sm="22" :md="22" :lg="18" :xl="16">
+                    <div class="header">
+                        <div class="logo">
+                            <a href="/"><sparc-logo/></a>
+                            <!-- <span class="data-portal-title">Data Portal</span> -->
                         </div>
-                        <ul>
-                            <li :key="link.href" v-for="link in links">
-                                <a v-bind:class="{active: link.active}" :href="link.href" @click="changeActiveValue(link.href)">{{ link.title }}</a>
-                            </li>
-                        </ul>
+                        <button
+                            class="btn-menu"
+                            @click="menuOpen = true"
+                        >
+                            <i class="el-icon-s-fold"></i>
+                        </button>
+                        <div
+                            class="navigation"
+                            :class="{ 'open': menuOpen }"
+                        >
+                            <div class="mobile-navigation-header">
+                                <sparc-logo
+                                    aria-hidden=”true”
+                                    role="presentation"
+                                />
+                                <button
+                                    class="btn-menu"
+                                    @click="menuOpen = false"
+                                >
+                                    <i class="el-icon-close"></i>
+                                </button>
+                            </div>
+                            <ul>
+                                <li :key="link.href" v-for="link in links">
+                                    <a v-bind:class="{active: link.active}" :href="link.href" @click="changeActiveValue(link.href)">{{ link.title }}</a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            </el-col>
-        </el-row>
+                </el-col>
+            </el-row>
+        </div>
     </div>
 </template>
 
@@ -223,5 +229,22 @@
         bottom: 5px;
         margin-left: 5px;
         user-select: none;
+    }
+    .new-site-notice {
+        background: #8300bf;
+        color: #fff;
+        font-size: 14px;
+        line-height: 18px;
+        padding: 8px;
+        text-align: center;
+        p {
+            margin: 0;
+        }
+        .heading {
+            margin-bottom: 8px;
+            @media (min-width: 48em) {
+                margin-bottom: 4px;
+            }
+        }
     }
 </style>
